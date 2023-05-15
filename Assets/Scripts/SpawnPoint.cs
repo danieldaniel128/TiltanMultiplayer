@@ -8,7 +8,7 @@ public class SpawnPoint : MonoBehaviour, IPunObservable
 {
     public int ID;
     public bool taken = false;
-
+ 
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(transform.position, 0.5f);

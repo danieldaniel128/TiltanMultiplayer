@@ -11,12 +11,13 @@ using Random = UnityEngine.Random;
 public class OnlineGameManager : MonoBehaviourPunCallbacks
 {
     public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";
-
+ 
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string COUNTDOWN_STARTED_RPC = nameof(CountdownStarted);
     private const string ASK_FOR_RANDOM_SPAWN_POINT_RPC = nameof(AskForRandomSpawnPoint);
     private const string SPAWN_PLAYER_CLIENT_RPC = nameof(SpawnPlayer);
-    
+
+    private int someVariable;
     public bool hasGameStarted = false;
 
     [SerializeField] private TextMeshProUGUI currentSpawnPointsInfoText;
