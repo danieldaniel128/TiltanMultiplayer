@@ -19,10 +19,11 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     
     public bool hasGameStarted = false;
 
+    [SerializeField] private TextMeshProUGUI currentSpawnPointsInfoText;
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private Button startGameButtonUI;
     [SerializeField] private SpawnPoint[] spawnPoints;
-
+    
     private PlayerController localPlayerController;
 
     private bool isCountingForStartGame;
@@ -140,6 +141,15 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        string spawnPointsText = string.Empty;
+
+        foreach (SpawnPoint spawnPoint in spawnPoints)
+        {
+            spawnPointsText += spawnPoint.ID + " " + spawnPoint.taken + Environment.NewLine;
+        }
+
+        currentSpawnPointsInfoText.text = spawnPointsText;
     }
 
     private void OnValidate()
