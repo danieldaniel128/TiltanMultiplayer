@@ -20,6 +20,7 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     private int someVariable;
     public bool hasGameStarted = false;
 
+    [SerializeField] private TextMeshProUGUI playersScoreText;
     [SerializeField] private TextMeshProUGUI currentSpawnPointsInfoText;
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private Button startGameButtonUI;
@@ -123,6 +124,17 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 startGameButtonUI.interactable = true;
+            }
+
+            foreach (KeyValuePair<int, Player>
+                         player in PhotonNetwork.CurrentRoom.Players)
+            {
+                if (player.Value.CustomProperties.ContainsKey(MultiplayerManager.PLAYER_STRENGTH_SCORE_PROPERTY_KEY))
+                {
+                    playersScoreText.text +=
+                        player.Value.CustomProperties[MultiplayerManager.PLAYER_STRENGTH_SCORE_PROPERTY_KEY]
+                            += Environment.NewLine;
+                }
             }
         }
     }

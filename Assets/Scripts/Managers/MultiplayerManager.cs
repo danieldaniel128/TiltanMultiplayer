@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,9 +11,11 @@ using UnityEngine.UI;
 
 public class MultiplayerManager : MonoBehaviourPunCallbacks
 {
+    public const string PLAYER_STRENGTH_SCORE_PROPERTY_KEY = "PlayerStrengthScore";
     private const string CURRENT_ROOM_PLAYERS_PATTERN = "{0}/{1}";
     private const string NO_STRING = "No!";
     private const string YES_STRING = "Yes!";
+   
 
     [SerializeField] private TMP_InputField nicknameInputField;
     
@@ -29,6 +32,8 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
     [SerializeField] private TextMeshProUGUI playerListText;
     [SerializeField] private TextMeshProUGUI roomsListText;
+
+    [SerializeField] private TMP_InputField scoreInputField;
     
     public void LoginToPhoton()
     {
@@ -129,6 +134,21 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         base.OnCreateRoomFailed(returnCode, message);
         Debug.LogError("Create failed..." + Environment.NewLine + message);
         createRoomButton.interactable = true;
+    }
+
+    public void SetUserScore(string scoreString)
+    {
+        if (!PhotonNetwork.IsConnectedAndReady)
+        {
+            Debug.LogError(
+                "We tried to set the user score while not connected!");
+            return;
+        }
+        int score = int.Parse(scoreString);
+        ExitGames.Client.Photon.Hashtable hashtable 
+            = new ExitGames.Client.Photon.Hashtable();
+        hashtable.Add(PLAYER_STRENGTH_SCORE_PROPERTY_KEY, score);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
 
     public void StartGame()
