@@ -8,15 +8,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class MultiplayerManager : MonoBehaviourPunCallbacks
 {
-    public const string PLAYER_STRENGTH_SCORE_PROPERTY_KEY = "PlayerStrengthScore";
-    private const string CURRENT_ROOM_PLAYERS_PATTERN = "{0}/{1}";
-    private const string NO_STRING = "No!";
-    private const string YES_STRING = "Yes!";
-   
-
     [SerializeField] private TMP_InputField nicknameInputField;
     
     [Header("Room Controls")]
@@ -69,7 +64,18 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         createRoomButton.interactable = false;
-        PhotonNetwork.JoinOrCreateRoom(roomNameToCreate, new RoomOptions(){MaxPlayers = 20, EmptyRoomTtl = 0},
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add(Constants.MIN_LEVEL, 6);
+        hashtable.Add(Constants.MAX_LEVEL, 666);
+        hashtable.Add(Constants.GAME_MODE, "FreeForAll");
+        RoomOptions roomOptions =
+            new RoomOptions
+            {
+                MaxPlayers = 4, EmptyRoomTtl = 30000, PlayerTtl = 25000,
+                CustomRoomProperties = hashtable
+            };
+        PhotonNetwork.JoinOrCreateRoom(roomNameToCreate,
+            roomOptions,
             null );
     }
 
@@ -90,7 +96,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("Joined Room!");
-        isConnectedToRoomDebugTextUI.text = YES_STRING;
+        isConnectedToRoomDebugTextUI.text = Constants.YES_STRING;
         RefreshCurrentRoomInfoUI();
         leaveRoomButton.interactable = true;
     }
@@ -99,7 +105,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     {
         base.OnLeftRoom();
         RefreshCurrentRoomInfoUI();
-        isConnectedToRoomDebugTextUI.text = NO_STRING;
+        isConnectedToRoomDebugTextUI.text = Constants.NO_STRING;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -147,7 +153,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         int score = int.Parse(scoreString);
         ExitGames.Client.Photon.Hashtable hashtable 
             = new ExitGames.Client.Photon.Hashtable();
-        hashtable.Add(PLAYER_STRENGTH_SCORE_PROPERTY_KEY, score);
+        hashtable.Add(Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY, score);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
 
@@ -162,10 +168,10 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        isConnectedToRoomDebugTextUI.text = NO_STRING;
+        isConnectedToRoomDebugTextUI.text = Constants.NO_STRING;
         currentRoomNameDebugTextUI.text = string.Empty;
         createRoomButton.interactable = false;
-        currentRoomPlayersCountTextUI.text = string.Format(CURRENT_ROOM_PLAYERS_PATTERN,
+        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
             0,0);
         leaveRoomButton.interactable = false;
         startGameButton.interactable = false;
@@ -185,7 +191,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom != null)
         {
             currentRoomNameDebugTextUI.text = PhotonNetwork.CurrentRoom.Name;
-            currentRoomPlayersCountTextUI.text = string.Format(CURRENT_ROOM_PLAYERS_PATTERN,
+            currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
                 PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
             foreach (Player photonPlayer in PhotonNetwork.PlayerList)
             {
