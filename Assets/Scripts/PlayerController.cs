@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
 {
     public bool canControl = false;
     [SerializeField] private int speed;
@@ -29,5 +29,11 @@ public class PlayerController : MonoBehaviourPun
             if (Input.GetKey(KeyCode.D))
                 transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if(info.photonView.IsMine)
+            OnlineGameManager.Instance.SetPlayerController(this);
     }
 }

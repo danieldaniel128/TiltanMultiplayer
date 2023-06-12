@@ -13,12 +13,12 @@ public class DebugManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             lastRoomName = PhotonNetwork.CurrentRoom.Name;
-            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Disconnect();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            PhotonNetwork.RejoinRoom(lastRoomName);
+            PhotonNetwork.ReconnectAndRejoin();
         }
     }
 }

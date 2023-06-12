@@ -12,6 +12,8 @@ using Random = UnityEngine.Random;
 
 public class OnlineGameManager : MonoBehaviourPunCallbacks
 {
+    public static OnlineGameManager Instance { get; private set; }
+    
     public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";
  
     private const string GAME_STARTED_RPC = nameof(GameStarted);
@@ -63,6 +65,10 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SetPlayerController(PlayerController newLocalController)
+    {
+        localPlayerController = newLocalController;
+    }
     #region RPCS
 
     [PunRPC]
@@ -110,8 +116,7 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     void SpawnPlayer(int spawnPointID, bool[] takenSpawnPoints)
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
-        localPlayerController =
-            PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME, 
+        PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME, 
                     spawnPoint.transform.position, 
                     spawnPoint.transform.rotation)
                 .GetComponent<PlayerController>();
@@ -123,7 +128,13 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
         
     }
     
+
     #endregion
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {

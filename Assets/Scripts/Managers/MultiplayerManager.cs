@@ -179,7 +179,6 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         LoginToPhoton();
     }
     
-
     private void Update()
     {
         serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
