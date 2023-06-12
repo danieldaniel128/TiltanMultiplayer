@@ -12,4 +12,5 @@ public static class Constants
     public const string MIN_LEVEL = "MinLevel";
     public const string MAX_LEVEL = "MaxLevel";
     public const string GAME_MODE = "GameMode";
+    public const string MATCH_STARTED = "MatchStarted";
 }

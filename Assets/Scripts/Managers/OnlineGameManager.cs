@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
 
 public class OnlineGameManager : MonoBehaviourPunCallbacks
@@ -49,7 +51,18 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
         Debug.Log("Masterclient has been switched!" + Environment.NewLine
         + "Masterclient is now actor number " + newMasterClient.ActorNumber);
     }
-    
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        if(otherPlayer.IsInactive)
+            Debug.Log("Player " + otherPlayer.NickName + " Left the room, he has 10 seconds to come back.");
+        else
+        {
+            Debug.Log("Player " + otherPlayer.NickName +" Will not comeback");
+        }
+    }
+
     #region RPCS
 
     [PunRPC]
@@ -112,7 +125,7 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     
     #endregion
 
-    void Start()
+    private void Start()
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
@@ -124,6 +137,10 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
             photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
             if (PhotonNetwork.IsMasterClient)
             {
+                Hashtable hashtable = new Hashtable();
+                hashtable.Add(Constants.MATCH_STARTED, false);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(
+                    hashtable);
                 startGameButtonUI.interactable = true;
             }
 
@@ -153,6 +170,10 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
                 isCountingForStartGame = false;
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    Hashtable hashtable = new Hashtable();
+                    hashtable.Add(Constants.MATCH_STARTED, true);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(
+                        hashtable);
                     photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
                 }
             }

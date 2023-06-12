@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -7,7 +8,13 @@ public class PlayerController : MonoBehaviourPun
 {
     public bool canControl = false;
     [SerializeField] private int speed;
-    
+
+    private void Start()
+    {
+        if(PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
+            canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
+    }
+
     // Update is called once per frame
     void Update()
     {
