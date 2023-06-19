@@ -15,4 +15,5 @@ public static class Constants
     public const string MATCH_STARTED = "MatchStarted";
 
     public const string USER_UNIQUE_ID = "UserID";
+    public const string PLAYER_INITIALIZED = "PlayerInitialized";
 }
