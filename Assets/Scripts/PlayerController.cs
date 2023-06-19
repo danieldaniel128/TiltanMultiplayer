@@ -35,5 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunInstantiateMagicC
     {
         if(info.photonView.IsMine)
             OnlineGameManager.Instance.SetPlayerController(this);
+        
+        Debug.Log("Instad!");
     }
 }

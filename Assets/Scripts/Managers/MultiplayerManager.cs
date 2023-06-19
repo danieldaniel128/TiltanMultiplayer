@@ -43,6 +43,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         Debug.Log("<color=#00ff00>We are connected!</color>");
         createRoomButton.interactable = true;
         PhotonNetwork.JoinLobby();
+        SetUsersUniqueID();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -71,7 +72,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions =
             new RoomOptions
             {
-                MaxPlayers = 4, EmptyRoomTtl = 30000, PlayerTtl = 25000,
+                MaxPlayers = 4, EmptyRoomTtl = 30000, PlayerTtl = 35000,
                 CustomRoomProperties = hashtable
             };
         PhotonNetwork.JoinOrCreateRoom(roomNameToCreate,
@@ -205,5 +206,11 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
 
 
     }
-    
+
+    private void SetUsersUniqueID()
+    {
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add(Constants.USER_UNIQUE_ID, SystemInfo.deviceUniqueIdentifier);
+        PhotonNetwork.SetPlayerCustomProperties(hashtable);
+    }
 }

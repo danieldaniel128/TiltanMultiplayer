@@ -13,4 +13,6 @@ public static class Constants
     public const string MAX_LEVEL = "MaxLevel";
     public const string GAME_MODE = "GameMode";
     public const string MATCH_STARTED = "MatchStarted";
+
+    public const string USER_UNIQUE_ID = "UserID";
 }

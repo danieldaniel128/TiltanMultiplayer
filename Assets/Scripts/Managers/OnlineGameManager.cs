@@ -54,6 +54,41 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
         + "Masterclient is now actor number " + newMasterClient.ActorNumber);
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            base.OnPlayerEnteredRoom(newPlayer);
+
+            bool isReturningPlayer = false;
+            Player oldPlayer = null;
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (player.ActorNumber == newPlayer.ActorNumber || !player.IsInactive)
+                    continue;
+                if (player.CustomProperties[Constants.USER_UNIQUE_ID]
+                    .Equals(newPlayer.CustomProperties[Constants.USER_UNIQUE_ID]))
+                {
+                    oldPlayer = player;
+                    isReturningPlayer = true;
+                    break;
+                }
+            }
+
+            Debug.Log("A player has joined, and he is " + isReturningPlayer + " for returning");
+            if (isReturningPlayer)
+            {
+                foreach (PhotonView photonView in PhotonNetwork.PhotonViewCollection)
+                {
+                    if (photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
+                    {
+                        photonView.TransferOwnership(newPlayer);
+                    }
+                }
+            }
+        }
+    }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
