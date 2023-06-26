@@ -16,4 +16,5 @@ public static class Constants
 
     public const string USER_UNIQUE_ID = "UserID";
     public const string PLAYER_INITIALIZED = "PlayerInitialized";
+    public const string DESTROYABLE_TAG = "Destroyable";
 }
