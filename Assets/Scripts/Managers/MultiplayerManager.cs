@@ -73,7 +73,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
             new RoomOptions
             {
                 MaxPlayers = 4, EmptyRoomTtl = 30000, PlayerTtl = 35000,
-                CustomRoomProperties = hashtable
+                CustomRoomProperties = hashtable, CleanupCacheOnLeave = false
             };
         PhotonNetwork.JoinOrCreateRoom(roomNameToCreate,
             roomOptions,

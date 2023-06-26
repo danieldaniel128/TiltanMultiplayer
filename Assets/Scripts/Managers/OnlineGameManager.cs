@@ -30,7 +30,8 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private Button startGameButtonUI;
     [SerializeField] private SpawnPoint[] spawnPoints;
-    
+
+    private List<PlayerController> playerControllers = new List<PlayerController>();
     private PlayerController localPlayerController;
 
     private bool isCountingForStartGame;
@@ -53,12 +54,7 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
         Debug.Log("Masterclient has been switched!" + Environment.NewLine
         + "Masterclient is now actor number " + newMasterClient.ActorNumber);
     }
-
-    // public override void OnPlayerEnteredRoom(Player newPlayer)
-    // {
-    //
-    // }
-
+    
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
@@ -74,6 +70,12 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     {
         localPlayerController = newLocalController;
     }
+
+    public void AddPlayerController(PlayerController playerController)
+    {
+        playerControllers.Add(playerController);
+    }
+
     #region RPCS
 
     [PunRPC]
@@ -103,6 +105,7 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
 
             bool isReturningPlayer = false;
             Player oldPlayer = null;
+            
             foreach (Player player in PhotonNetwork.PlayerList)
             {
                 if (!player.CustomProperties.ContainsKey(Constants.PLAYER_INITIALIZED) ||
@@ -127,6 +130,15 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
                         photonView.TransferOwnership(newPlayer);
                     }
                 }
+
+                foreach (PlayerController playerController in playerControllers)
+                {
+                    if (playerController.photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
+                    {
+                        Debug.Log("Old position is " + playerController.transform.position);
+                    }
+                }
+                photonView.RPC("SetPlayerController", newPlayer);
             }
             else
             {
@@ -170,8 +182,20 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
         }
         
     }
-    
 
+    [PunRPC]
+    void SetPlayerController()
+    {
+        foreach (PlayerController playerController in playerControllers)
+        {
+            if (playerController.photonView.Controller.ActorNumber
+                == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                localPlayerController = playerController;
+                break;
+            }
+        }
+    }
     #endregion
 
     private void Awake()
