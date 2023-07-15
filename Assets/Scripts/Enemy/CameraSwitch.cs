@@ -5,53 +5,38 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviourPun
 {
     [SerializeField] private GameObject[] Cameras;
-    private GameObject mainCamera;
+    private int currentCameraIndex = 0;
+
     private void Start()
     {
-        mainCamera = Cameras[0];
-        mainCamera.SetActive(true);
-
         for (int i = 0; i < Cameras.Length; i++)
         {
-            if (Cameras[i] != Cameras[0])
-            {
-                Cameras[i].SetActive(false);
-            }
+            Cameras[i].SetActive(i == 0);
         }
     }
+
     private void Update()
     {
         ChangeCamera();
     }
+
     private void ChangeCamera()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            for (int i = 0; i < Cameras.Length; i++)
-            {
-                GameObject currentCamera = Cameras[i--];
+            Cameras[currentCameraIndex].SetActive(false);
 
-                currentCamera.SetActive(false);
+            currentCameraIndex = (currentCameraIndex + 1) % Cameras.Length;
 
-                GameObject nextCamera = Cameras[i];
-
-                nextCamera.SetActive(true);
-            }
+            Cameras[currentCameraIndex].SetActive(true);
         }
-
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            for (int i = 0; i < Cameras.Length; i++)
-            {
-                GameObject currentCamera = Cameras[i--];
+            Cameras[currentCameraIndex].SetActive(false);
 
-                currentCamera.SetActive(false);
+            currentCameraIndex = (currentCameraIndex - 1 + Cameras.Length) % Cameras.Length;
 
-                GameObject nextCamera = Cameras[i];
-
-                nextCamera.SetActive(true);
-            }
+            Cameras[currentCameraIndex].SetActive(true);
         }
-
     }
 }
