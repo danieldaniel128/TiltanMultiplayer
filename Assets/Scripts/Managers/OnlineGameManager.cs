@@ -29,7 +29,7 @@ public class OnlineGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI currentSpawnPointsInfoText;
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private Button startGameButtonUI;
-    [SerializeField] private SpawnPoint[] spawnPoints;
+    public SpawnPoint[] spawnPoints;
 
     private List<PlayerController> playerControllers = new List<PlayerController>();
     private PlayerController localPlayerController;
