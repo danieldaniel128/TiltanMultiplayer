@@ -8,7 +8,7 @@ public class PlayerEscaperController : MonoBehaviourPunCallbacks, IPunInstantiat
 {
     [SerializeField] private float speed = 5;
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private GameObject mainCamera;
+   // [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject escaperCamera;
     private float obfuscatedSpeed = 0;
     readonly ObfuscateAlgoritm obfuscateAlgorithm = new ObfuscateAlgoritm();
@@ -22,12 +22,12 @@ public class PlayerEscaperController : MonoBehaviourPunCallbacks, IPunInstantiat
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
-            canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
+        //if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
+        //    canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
     }
     public void startTest()
     {
-        mainCamera.SetActive(false);
+      //  mainCamera.SetActive(false);
         escaperCamera.SetActive(true);
     }
 
