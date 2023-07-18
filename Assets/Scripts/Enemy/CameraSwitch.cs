@@ -39,4 +39,28 @@ public class CameraSwitch : MonoBehaviourPun
             Cameras[currentCameraIndex].SetActive(true);
         }
     }
+    public void ChangeCamera(int cameraIndex)
+    {
+        
+    }
+
+    public void MoveCameraRight()
+    {
+        Cameras[currentCameraIndex].SetActive(false);
+
+        currentCameraIndex = (currentCameraIndex + 1) % Cameras.Length;
+
+        Cameras[currentCameraIndex].SetActive(true);
+        Debug.Log("move right");
+    }
+    public void MoveCameraLeft()
+    {
+        Cameras[currentCameraIndex].SetActive(false);
+
+        currentCameraIndex = (currentCameraIndex - 1 + Cameras.Length) % Cameras.Length;
+
+        Cameras[currentCameraIndex].SetActive(true);
+        Debug.Log("move left");
+    }
+
 }
