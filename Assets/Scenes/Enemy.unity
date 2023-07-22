@@ -365,7 +365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204688123}
   m_Layer: 0
-  m_Name: Room (2)
+  m_Name: Room 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,7 +379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204688122}
   m_LocalRotation: {x: -0, y: -0.9939124, z: -0, w: 0.110173546}
-  m_LocalPosition: {x: -42.9, y: 24.639454, z: 11}
+  m_LocalPosition: {x: 0.729187, y: 9.788671, z: 11.289654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -387,9 +387,8 @@ Transform:
   - {fileID: 719103847}
   - {fileID: 1376897649}
   - {fileID: 1951438682}
-  - {fileID: 1780245525}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 1592814346}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -167.349, z: 0}
 --- !u!1 &255762178
 GameObject:
@@ -569,7 +568,7 @@ GameObject:
   - component: {fileID: 361283257}
   - component: {fileID: 361283256}
   m_Layer: 0
-  m_Name: SecurityCamera
+  m_Name: Room 2 Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,14 +581,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361283254}
-  m_LocalRotation: {x: 0.0017412842, y: -0.5155962, z: 0.0028936903, w: 0.856825}
-  m_LocalPosition: {x: 28.969347, y: -14.369453, z: 2.0430236}
+  m_LocalRotation: {x: 0.00047743382, y: -0.8084778, z: 0.0033432879, w: 0.588517}
+  m_LocalPosition: {x: 34.174614, y: 2.3909187, z: 47.943356}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 601930306}
-  m_Father: {fileID: 1244701308}
-  m_RootOrder: 4
+  m_Father: {fileID: 1377582041}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0.342, y: -62.074, z: 0.181}
 --- !u!135 &361283256
 SphereCollider:
@@ -664,7 +663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 398596006}
   m_Layer: 0
-  m_Name: Room
+  m_Name: Room 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,7 +677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398596005}
   m_LocalRotation: {x: -0, y: 0.41963676, z: -0, w: 0.9076922}
-  m_LocalPosition: {x: -16.92474, y: 24.639454, z: -48.521156}
+  m_LocalPosition: {x: 26.704449, y: 9.788671, z: -48.231503}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -686,9 +685,8 @@ Transform:
   - {fileID: 679145625}
   - {fileID: 1798483573}
   - {fileID: 615397996}
-  - {fileID: 882586066}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1592814346}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 49.623, z: 0}
 --- !u!1 &442145904
 GameObject:
@@ -1260,37 +1258,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583701209}
   m_CullTransparentMesh: 1
---- !u!1 &594079151
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 594079152}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &594079152
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594079151}
-  m_LocalRotation: {x: -0.5067045, y: 0.4969753, z: 0.5156604, w: 0.47995892}
-  m_LocalPosition: {x: 10.34, y: 6.69, z: -0.67}
-  m_LocalScale: {x: 15.036253, y: 1, z: 15.513485}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &601930305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,7 +1355,7 @@ GameObject:
   - component: {fileID: 615397994}
   - component: {fileID: 615397993}
   m_Layer: 0
-  m_Name: Floor (1)
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1900,7 +1867,7 @@ GameObject:
   - component: {fileID: 882586064}
   - component: {fileID: 882586063}
   m_Layer: 0
-  m_Name: SecurityCamera
+  m_Name: Room 1 Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1976,14 +1943,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882586062}
-  m_LocalRotation: {x: 0.0017412842, y: -0.5155962, z: 0.0028936903, w: 0.856825}
-  m_LocalPosition: {x: 28.969347, y: -14.369453, z: 2.0430236}
+  m_LocalRotation: {x: 0.0027948488, y: -0.10844737, z: 0.0018958731, w: 0.9940965}
+  m_LocalPosition: {x: 34.349205, y: 2.3909187, z: -57.222782}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 783159467}
-  m_Father: {fileID: 398596006}
-  m_RootOrder: 4
+  m_Father: {fileID: 1377582041}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0.342, y: -62.074, z: 0.181}
 --- !u!1 &912990317
 GameObject:
@@ -2029,7 +1996,7 @@ GameObject:
   - component: {fileID: 963465273}
   - component: {fileID: 963465272}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: MainCameraFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2111,7 +2078,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &973311127
 GameObject:
@@ -2274,11 +2241,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999397561}
   m_LocalRotation: {x: -0, y: 0.69850904, z: -0, w: 0.71560127}
-  m_LocalPosition: {x: -50, y: 7.7, z: 0.4}
+  m_LocalPosition: {x: -19.049067, y: -0.17908192, z: 12.443789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1377582041}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 88.615, z: 0}
 --- !u!1 &1068396273
@@ -2428,7 +2395,7 @@ GameObject:
   - component: {fileID: 1079171047}
   - component: {fileID: 1079171046}
   m_Layer: 0
-  m_Name: Floor (1)
+  m_Name: 'Floor '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2740,7 +2707,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1244701307
 GameObject:
@@ -2752,7 +2719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1244701308}
   m_Layer: 0
-  m_Name: Room (1)
+  m_Name: Room 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2766,7 +2733,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244701307}
   m_LocalRotation: {x: -0, y: -0.38929138, z: -0, w: 0.92111474}
-  m_LocalPosition: {x: -15.5, y: 24.639454, z: 13.7}
+  m_LocalPosition: {x: 28.129189, y: 9.788671, z: 13.989654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2774,9 +2741,8 @@ Transform:
   - {fileID: 1305902894}
   - {fileID: 1715883806}
   - {fileID: 1079171045}
-  - {fileID: 361283255}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1592814346}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -45.821, z: 0}
 --- !u!1 &1305902893
 GameObject:
@@ -3071,6 +3037,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376897648}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1377582040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1377582041}
+  m_Layer: 0
+  m_Name: Cameras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1377582041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377582040}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.67139053, y: -12.747204, z: -9.906528}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 999397564}
+  - {fileID: 882586066}
+  - {fileID: 361283255}
+  - {fileID: 1780245525}
+  m_Father: {fileID: 1483675442}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1379105632
 GameObject:
   m_ObjectHideFlags: 0
@@ -3149,11 +3150,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483675440}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.279543, y: 20.626286, z: -2.13726}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -30.279543, y: 20.626286, z: -2.1372604}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1377582041}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3252,7 +3254,7 @@ RectTransform:
   - {fileID: 1379105633}
   - {fileID: 278411206}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3351,6 +3353,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 719103847}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1592814345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1592814346}
+  m_Layer: 0
+  m_Name: Rooms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1592814346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592814345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -43.62919, y: 14.850783, z: -0.28965402}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 398596006}
+  - {fileID: 1244701308}
+  - {fileID: 204688123}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1619731792
 GameObject:
@@ -3516,7 +3552,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646421373
 GameObject:
@@ -3794,7 +3830,7 @@ GameObject:
   - component: {fileID: 1780245527}
   - component: {fileID: 1780245526}
   m_Layer: 0
-  m_Name: SecurityCamera
+  m_Name: Room 3 Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3807,14 +3843,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780245524}
-  m_LocalRotation: {x: 0.0017412842, y: -0.5155962, z: 0.0028936903, w: 0.856825}
-  m_LocalPosition: {x: 28.969347, y: -14.369453, z: 2.0430236}
+  m_LocalRotation: {x: -0.0026842311, y: -0.90841407, z: 0.002049492, w: -0.41805804}
+  m_LocalPosition: {x: -40.662582, y: 2.3909187, z: 27.394814}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 973311128}
-  m_Father: {fileID: 204688123}
-  m_RootOrder: 4
+  m_Father: {fileID: 1377582041}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0.342, y: -62.074, z: 0.181}
 --- !u!135 &1780245526
 SphereCollider:
@@ -4257,7 +4293,7 @@ GameObject:
   - component: {fileID: 1951438684}
   - component: {fileID: 1951438683}
   m_Layer: 0
-  m_Name: Floor (1)
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
