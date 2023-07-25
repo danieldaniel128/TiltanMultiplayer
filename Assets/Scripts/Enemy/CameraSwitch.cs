@@ -1,11 +1,21 @@
 
 using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraSwitch : MonoBehaviourPun
 {
     [SerializeField] private GameObject[] Cameras;
-    private int currentCamersIndex = 0;
+
+    [SerializeField] private CameraState[] cameraState;
+
+    [SerializeField] private GameObject objectToTurnOff;
+
+    private int currentCameraIndex = 0;
+
+    private const string EFFECT_WORLD_RPC = nameof(EffectWorldRPC);
+
 
     private void Start()
     {
@@ -15,11 +25,13 @@ public class CameraSwitch : MonoBehaviourPun
             camera.GetComponent<AudioListener>().gameObject.SetActive(false);
         }
 
-        if (currentCamersIndex == 0)
+        if (currentCameraIndex == 0)
         {
-            Cameras[currentCamersIndex].SetActive(true);
-            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+            Cameras[currentCameraIndex].SetActive(true);
+            Cameras[currentCameraIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
         }
+
+        UpdateCameraButtons();
     }
 
     private void Update()
@@ -28,8 +40,14 @@ public class CameraSwitch : MonoBehaviourPun
         leftArrow();
     }
 
+    public void effectWorld()
+    {
+        photonView.RPC(EFFECT_WORLD_RPC, RpcTarget.AllViaServer);
+    }
     public void ChangeCameraWithButtons(int cameraIndex)
     {
+        currentCameraIndex = cameraIndex;
+
         foreach (GameObject camera in Cameras)
         {
             camera.SetActive(false);
@@ -39,21 +57,25 @@ public class CameraSwitch : MonoBehaviourPun
         Cameras[cameraIndex].SetActive(true);
 
         Cameras[cameraIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+
+        UpdateCameraButtons();
     }
 
     public void rightArrow()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Cameras[currentCamersIndex].SetActive(false);
+            Cameras[currentCameraIndex].SetActive(false);
 
-            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
+            Cameras[currentCameraIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
 
-            currentCamersIndex = (currentCamersIndex + 1) % Cameras.Length;
+            currentCameraIndex = (currentCameraIndex + 1) % Cameras.Length;
 
-            Cameras[currentCamersIndex].SetActive(true);
+            Cameras[currentCameraIndex].SetActive(true);
 
-            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+            Cameras[currentCameraIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+
+            UpdateCameraButtons();
         }
 
     }
@@ -62,15 +84,37 @@ public class CameraSwitch : MonoBehaviourPun
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Cameras[currentCamersIndex].SetActive(false);
 
-            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
+            Cameras[currentCameraIndex].SetActive(false);
 
-            currentCamersIndex = (currentCamersIndex - 1 + Cameras.Length) % Cameras.Length;
+            Cameras[currentCameraIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
 
-            Cameras[currentCamersIndex].SetActive(true);
+            currentCameraIndex = (currentCameraIndex - 1 + Cameras.Length) % Cameras.Length;
 
-            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+            Cameras[currentCameraIndex].SetActive(true);
+
+            Cameras[currentCameraIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+
+            UpdateCameraButtons();
+        }
+    }
+
+    [PunRPC]
+    private void EffectWorldRPC()
+    {
+        objectToTurnOff.SetActive(false);
+    }
+
+    private void UpdateCameraButtons()
+    {
+        foreach (CameraState cameraState in cameraState)
+        {
+            List<Button> buttons = cameraState.buttons;
+
+            foreach (Button button in buttons)
+            {
+                button.gameObject.SetActive(cameraState.CameraIndex == currentCameraIndex);
+            }
         }
     }
 
