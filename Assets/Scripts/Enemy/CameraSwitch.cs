@@ -1,4 +1,3 @@
-
 using Photon.Pun;
 using UnityEngine;
 
@@ -45,6 +44,7 @@ public class CameraSwitch : MonoBehaviourPun
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+
             Cameras[currentCamersIndex].SetActive(false);
 
             Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
