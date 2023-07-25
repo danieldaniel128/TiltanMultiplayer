@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Game Scene.unity
-    guid: 408be624ba358494686b7823cba0e4e4
+    path: Assets/Scenes/KremerGameScene.unity
+    guid: 156a125eeb1202b4b91b037e166c5b4e
   m_configObjects: {}
