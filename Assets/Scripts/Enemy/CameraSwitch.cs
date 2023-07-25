@@ -22,7 +22,13 @@ public class CameraSwitch : MonoBehaviourPun
         }
     }
 
-    public void ChangeCamera(int cameraIndex)
+    private void Update()
+    {
+        rightArrow();
+        leftArrow();
+    }
+
+    public void ChangeCameraWithButtons(int cameraIndex)
     {
         foreach (GameObject camera in Cameras)
         {
@@ -34,4 +40,38 @@ public class CameraSwitch : MonoBehaviourPun
 
         Cameras[cameraIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
     }
+
+    public void rightArrow()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Cameras[currentCamersIndex].SetActive(false);
+
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
+
+            currentCamersIndex = (currentCamersIndex + 1) % Cameras.Length;
+
+            Cameras[currentCamersIndex].SetActive(true);
+
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+        }
+
+    }
+
+    public void leftArrow()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Cameras[currentCamersIndex].SetActive(false);
+
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
+
+            currentCamersIndex = (currentCamersIndex - 1 + Cameras.Length) % Cameras.Length;
+
+            Cameras[currentCamersIndex].SetActive(true);
+
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+        }
+    }
+
 }
