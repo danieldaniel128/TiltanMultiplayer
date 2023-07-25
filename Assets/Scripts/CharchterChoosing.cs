@@ -7,7 +7,6 @@ public class CharchterChoosing : MonoBehaviourPun
 {
     private PlayerController localPlayerController;
 
-    [SerializeField] private OnlineGameManager onlineGameManager;
 
     [SerializeField] private SpawnPoint[] spawnPoint;
 
@@ -37,7 +36,7 @@ public class CharchterChoosing : MonoBehaviourPun
 
     private void Start()
     {
-        spawnPoint = onlineGameManager.spawnPoints;
+        spawnPoint = GameManager.Instance.OnlineGameManager.spawnPoints;
 
         foreach (Button button in MasteClientConfirmChioceButtons)
         {
