@@ -5,62 +5,73 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviourPun
 {
     [SerializeField] private GameObject[] Cameras;
-    private int currentCameraIndex = 0;
+    private int currentCamersIndex = 0;
 
     private void Start()
     {
-        for (int i = 0; i < Cameras.Length; i++)
+        foreach (GameObject camera in Cameras)
         {
-            Cameras[i].SetActive(i == 0);
+            camera.SetActive(false);
+            camera.GetComponent<AudioListener>().gameObject.SetActive(false);
+        }
+
+        if (currentCamersIndex == 0)
+        {
+            Cameras[currentCamersIndex].SetActive(true);
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
         }
     }
 
     private void Update()
     {
-        ChangeCamera();
+        rightArrow();
+        leftArrow();
     }
 
-    private void ChangeCamera()
+    public void ChangeCameraWithButtons(int cameraIndex)
+    {
+        foreach (GameObject camera in Cameras)
+        {
+            camera.SetActive(false);
+            camera.GetComponent<AudioListener>().gameObject.SetActive(false);
+        }
+
+        Cameras[cameraIndex].SetActive(true);
+
+        Cameras[cameraIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
+    }
+
+    public void rightArrow()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Cameras[currentCameraIndex].SetActive(false);
+            Cameras[currentCamersIndex].SetActive(false);
 
-            currentCameraIndex = (currentCameraIndex + 1) % Cameras.Length;
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
 
-            Cameras[currentCameraIndex].SetActive(true);
+            currentCamersIndex = (currentCamersIndex + 1) % Cameras.Length;
+
+            Cameras[currentCamersIndex].SetActive(true);
+
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+
+    }
+
+    public void leftArrow()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Cameras[currentCameraIndex].SetActive(false);
+            Cameras[currentCamersIndex].SetActive(false);
 
-            currentCameraIndex = (currentCameraIndex - 1 + Cameras.Length) % Cameras.Length;
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(false);
 
-            Cameras[currentCameraIndex].SetActive(true);
+            currentCamersIndex = (currentCamersIndex - 1 + Cameras.Length) % Cameras.Length;
+
+            Cameras[currentCamersIndex].SetActive(true);
+
+            Cameras[currentCamersIndex].GetComponent<AudioListener>().gameObject.SetActive(true);
         }
-    }
-    public void ChangeCamera(int cameraIndex)
-    {
-        
-    }
-
-    public void MoveCameraRight()
-    {
-        Cameras[currentCameraIndex].SetActive(false);
-
-        currentCameraIndex = (currentCameraIndex + 1) % Cameras.Length;
-
-        Cameras[currentCameraIndex].SetActive(true);
-        Debug.Log("move right");
-    }
-    public void MoveCameraLeft()
-    {
-        Cameras[currentCameraIndex].SetActive(false);
-
-        currentCameraIndex = (currentCameraIndex - 1 + Cameras.Length) % Cameras.Length;
-
-        Cameras[currentCameraIndex].SetActive(true);
-        Debug.Log("move left");
     }
 
 }
