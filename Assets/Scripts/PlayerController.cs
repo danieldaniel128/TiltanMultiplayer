@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
+public class PlayerController : MonoBehaviourPunCallbacks
 {
     public bool canControl = false;
     [SerializeField] private int speed;
@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunInstantiateMagicC
         }
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
-    {
-        if(info.photonView.IsMine)
-            OnlineGameManager.Instance.SetPlayerController(this);
-        OnlineGameManager.Instance.AddPlayerController(this);
-    }
+    //public void OnPhotonInstantiate(PhotonMessageInfo info)
+    //{
+    //    if(info.photonView.IsMine)
+    //        OnlineGameManager.Instance.SetPlayerController(this);
+    //    OnlineGameManager.Instance.AddPlayerController(this);
+    //}
 }
