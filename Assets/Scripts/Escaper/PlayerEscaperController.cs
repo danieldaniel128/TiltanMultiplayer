@@ -48,7 +48,7 @@ public class PlayerEscaperController : MonoBehaviourPunCallbacks, IPunInstantiat
         //Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         float directionZ = Input.GetAxis("Horizontal");
         float directionX = Input.GetAxis("Vertical");
-        Vector3 direction = Quaternion.Euler(0, transform.rotation.y, 0) * new Vector3(0,0,transform.localPosition.z).normalized * directionX;
+        Vector3 direction = Quaternion.Euler(0, 0, 0) * -new Vector3(transform.localPosition.x * directionX,0,transform.localPosition.z * directionZ).normalized ;
         rb.velocity = direction * movementSpeed;
 
     }
