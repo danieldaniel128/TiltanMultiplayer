@@ -52,6 +52,7 @@ MonoBehaviour:
   - PlayerButtonDisapperRPC
   - SpawnPlayerRPC
   - EffectWorldRPC
+  - PlayerAnimatorRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
