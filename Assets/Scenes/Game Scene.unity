@@ -11324,6 +11324,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4287059882278925842, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+      propertyPath: observableSearch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4287059882278925854, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
       propertyPath: m_Name
       value: Game Manager
