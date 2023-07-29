@@ -8733,6 +8733,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6022574490578594293, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1365248267}
+    - target: {fileID: 6022574490578594293, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGameCountdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022574490578594293, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NewOnlineGameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6022574491951714112, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -11382,6 +11394,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+--- !u!114 &1365248267 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+  m_PrefabInstance: {fileID: 1365248266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a867546a57375c48baa7ea9498feb8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1369724367
 PrefabInstance:
   m_ObjectHideFlags: 0
