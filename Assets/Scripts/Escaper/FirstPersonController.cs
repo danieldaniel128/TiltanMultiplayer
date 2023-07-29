@@ -16,13 +16,8 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      {
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
             canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
-         CursorController();
      }
-    private void CursorController()
-    {
-         Cursor.lockState = CursorLockMode.Locked;
-         Cursor.visible = false;
-    }
+    
      private void Update()
      {
         if (canControl && photonView.IsMine)

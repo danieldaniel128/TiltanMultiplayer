@@ -91,6 +91,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         isCountingForStartGame = true;
         timeLeftForStartGame = countdownTime;
         countdownText.gameObject.SetActive(true);
+        CursorController();
     }
 
     [PunRPC]
@@ -269,7 +270,13 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             int countdownRandomTime = Random.Range(3, 8);
             photonView.RPC(COUNTDOWN_STARTED_RPC, RpcTarget.AllViaServer, countdownRandomTime);
             startGameButtonUI.interactable = false;
+        
         }
+    }
+    private void CursorController()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     #endregion
