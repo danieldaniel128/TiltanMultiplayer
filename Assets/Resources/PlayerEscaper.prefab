@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa38da6666971e48a02dd3fd26f1534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canControl: 0
   moveSpeed: 5
   mouseSensitivity: 2
   playerCamera: {fileID: 6774547979398503784}
