@@ -8,15 +8,25 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      public bool canControl = false;
      [SerializeField] private float moveSpeed = 5f;
      [SerializeField] private float mouseSensitivity = 2f;
-     [SerializeField] private Transform playerCamera;
+     [SerializeField] private GameObject playerCamera;
      [SerializeField] private Rigidbody rb;
      private float verticalRotation = 0f;
- 
-     private void Start()
+
+     // Adjustable parameters for mouse smoothing
+     public float mouseSmoothingFactor = 0.1f;
+     public float maxVerticalAngle = 80f;
+     
+     // Private variables to store the accumulated mouse input
+     private float smoothMouseX = 0f;
+     private float smoothMouseY = 0f;
+
+    private void Start()
      {
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
             canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
-     }
+        if(photonView.IsMine)
+            playerCamera.SetActive(true);
+    }
     
      private void Update()
      {
@@ -30,8 +40,17 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
-        verticalRotation += mouseY;
-        transform.rotation *= Quaternion.Euler(0f, mouseX, 0f);
+
+        // Apply mouse smoothing
+        smoothMouseX = Mathf.Lerp(smoothMouseX, mouseX, mouseSmoothingFactor);
+        smoothMouseY = Mathf.Lerp(smoothMouseY, mouseY, mouseSmoothingFactor);
+
+        // Accumulate the smoothed mouse input for vertical rotation
+        verticalRotation += smoothMouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -maxVerticalAngle, maxVerticalAngle);
+
+        // Rotate the player's transform around the vertical axis (Y-axis) and apply the smoothed mouse input
+        transform.rotation *= Quaternion.Euler(0f, smoothMouseX, 0f);
     }
     private void HandleMoveInput()
     {

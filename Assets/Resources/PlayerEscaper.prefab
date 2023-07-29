@@ -168,7 +168,7 @@ MonoBehaviour:
   canControl: 0
   moveSpeed: 5
   mouseSensitivity: 2
-  playerCamera: {fileID: 6774547979398503784}
+  playerCamera: {fileID: 8565609073727764009}
   rb: {fileID: 3207312916915410053}
 --- !u!114 &7231775027544214109
 MonoBehaviour:
@@ -259,7 +259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6774547979398503784
 Transform:
   m_ObjectHideFlags: 0
