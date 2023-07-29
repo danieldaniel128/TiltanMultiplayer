@@ -1,7 +1,8 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class GateController : MonoBehaviour
+public class GateController : MonoBehaviourPunCallbacks
 {
     [FormerlySerializedAs("IsGateOpen")] public bool isGateOpen = true;
     [SerializeField] private Transform gateDoor;
@@ -9,11 +10,14 @@ public class GateController : MonoBehaviour
     [SerializeField] private Transform closedPosition;
     private float _latestTimer;
     private bool _canOpen = true;
-    // Start is called before the first frame update
-    
+
+
+    private const string Open_Gate = nameof(OpenGateRPC);
+    private const string Lock_Gate = nameof(LockDoorRPC);
+
     private void Awake()
     {
-        if (isGateOpen) OpenGate();
+        if (isGateOpen) OpenGateRPC();
         else CloseGate();
     }
 
@@ -30,18 +34,29 @@ public class GateController : MonoBehaviour
     }
     public void OpenGate()
     {
+        photonView.RPC(Open_Gate, RpcTarget.All);
+    }
+    public void LockDoor()
+    {
+        photonView.RPC(Lock_Gate, RpcTarget.All);
+    }
+    [PunRPC]
+    private void OpenGateRPC()
+    {
         if(!_canOpen) return;
         isGateOpen = true;
         gateDoor.transform.position = openedPosition.position;
         Debug.Log("gate open");
+        //photonView.RPC(Open_Gate, RpcTarget.All);
     }
-    
-    public void LockDoor(float timerDuration)
+    [PunRPC]
+    private void LockDoorRPC(float timerDuration)
     {
         CloseGate();
         _canOpen = false;
         _latestTimer = Time.time + timerDuration;
         Debug.Log("gate locked");
+        //photonView.RPC(Close_Gate, RpcTarget.All);
     }
     private void StartCoolDownTimer()
     {
