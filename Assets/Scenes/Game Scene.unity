@@ -9711,6 +9711,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4355927978413188230}
     m_Modifications:
+    - target: {fileID: 1910531010855333078, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3075986433089392494, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
       propertyPath: IsGateOpen
       value: 1
