@@ -30,9 +30,9 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button startGameButtonUI;
     public SpawnPoint[] spawnPoints;
 
-    private List<FirstPersonController> playerControllers = new List<FirstPersonController>();
-    //private playerAnimatorController localPlayerController;
-    private FirstPersonController localPlayerController;
+    private List<playerAnimatorController> playerControllers = new List<playerAnimatorController>();
+    private playerAnimatorController localPlayerController;
+    private FirstPersonController firstPersonController;
 
     private bool isCountingForStartGame;
     private float timeLeftForStartGame = 0;
@@ -100,7 +100,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void GameStarted(PhotonMessageInfo info)
     {
         hasGameStarted = true;
-        localPlayerController.canControl = true;
+        firstPersonController.canControl = true;
         isCountingForStartGame = false;
         Debug.Log("Game Started!!! WHOW");
     }
@@ -168,7 +168,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     void LogOldPlayerPositions(Player oldPlayer)
     {
-        foreach (FirstPersonController playerController in playerControllers)
+        foreach (playerAnimatorController playerController in playerControllers)
         {
             if (playerController.photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
             {
@@ -237,7 +237,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void SpawnPlayer(int spawnPointID, bool[] takenSpawnPoints)
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
-        localPlayerController = PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
+        firstPersonController = PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
                     spawnPoint.transform.position,
                     spawnPoint.transform.rotation)
                 .GetComponent<FirstPersonController>();
@@ -251,7 +251,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void SetPlayerController()
     {
-        foreach (FirstPersonController playerController in playerControllers)
+        foreach (playerAnimatorController playerController in playerControllers)
         {
             if (playerController.photonView.Controller.ActorNumber
                 == PhotonNetwork.LocalPlayer.ActorNumber)
