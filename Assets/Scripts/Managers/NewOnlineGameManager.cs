@@ -30,8 +30,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button startGameButtonUI;
     public SpawnPoint[] spawnPoints;
 
-    private List<playerAnimatorController> playerControllers = new List<playerAnimatorController>();
-    private playerAnimatorController localPlayerController;
+    private List<FirstPersonController> playerControllers = new List<FirstPersonController>();
+    private FirstPersonController localPlayerController;
     private FirstPersonController firstPersonController;
 
     private bool isCountingForStartGame;
@@ -168,7 +168,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     void LogOldPlayerPositions(Player oldPlayer)
     {
-        foreach (playerAnimatorController playerController in playerControllers)
+        foreach (FirstPersonController playerController in playerControllers)
         {
             if (playerController.photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
             {
@@ -251,7 +251,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void SetPlayerController()
     {
-        foreach (playerAnimatorController playerController in playerControllers)
+        foreach (FirstPersonController playerController in playerControllers)
         {
             if (playerController.photonView.Controller.ActorNumber
                 == PhotonNetwork.LocalPlayer.ActorNumber)

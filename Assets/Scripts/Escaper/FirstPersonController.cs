@@ -31,7 +31,6 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
         verticalRotation += mouseY;
-        //playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         transform.rotation *= Quaternion.Euler(0f, mouseX, 0f);
     }
     private void HandleMoveInput()
