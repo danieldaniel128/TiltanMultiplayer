@@ -32,9 +32,11 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     private List<playerAnimatorController> playerControllers = new List<playerAnimatorController>();
     private playerAnimatorController localPlayerController;
+    private FirstPersonController firstPersonController;
 
     private bool isCountingForStartGame;
     private float timeLeftForStartGame = 0;
+    [SerializeField] private int cooldownForStartGame = 3;
 
     #region Unity Callbacks
 
@@ -98,7 +100,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void GameStarted(PhotonMessageInfo info)
     {
         hasGameStarted = true;
-        localPlayerController.canControl = true;
+        firstPersonController.canControl = true;
         isCountingForStartGame = false;
         Debug.Log("Game Started!!! WHOW");
     }
@@ -235,11 +237,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void SpawnPlayer(int spawnPointID, bool[] takenSpawnPoints)
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
-        PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
+        firstPersonController = PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
                     spawnPoint.transform.position,
                     spawnPoint.transform.rotation)
                 .GetComponent<FirstPersonController>();
-
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
             spawnPoints[i].taken = takenSpawnPoints[i];
@@ -267,10 +268,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            int countdownRandomTime = Random.Range(3, 8);
-            photonView.RPC(COUNTDOWN_STARTED_RPC, RpcTarget.AllViaServer, countdownRandomTime);
+            photonView.RPC(COUNTDOWN_STARTED_RPC, RpcTarget.AllViaServer, cooldownForStartGame);
             startGameButtonUI.interactable = false;
-        
         }
     }
     private void CursorController()
