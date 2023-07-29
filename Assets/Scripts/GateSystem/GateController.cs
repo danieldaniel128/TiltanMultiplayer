@@ -25,14 +25,14 @@ public class GateController : MonoBehaviour
     private void CloseGate()
     {
         isGateOpen = false;
-        gateDoor.transform.localPosition = closedPosition.localPosition;
+        gateDoor.transform.position = closedPosition.position;
         Debug.Log("gate closed");
     }
     public void OpenGate()
     {
         if(!_canOpen) return;
         isGateOpen = true;
-        gateDoor.transform.localPosition = openedPosition.localPosition;
+        gateDoor.transform.position = openedPosition.position;
         Debug.Log("gate open");
     }
     
