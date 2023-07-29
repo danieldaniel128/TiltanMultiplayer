@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 public class GateController : MonoBehaviour
 {
     [FormerlySerializedAs("IsGateOpen")] public bool isGateOpen = true;
-    [SerializeField] private GameObject gateDoor;
+    [SerializeField] private Transform gateDoor;
     [SerializeField] private Transform openedPosition;
     [SerializeField] private Transform closedPosition;
     private float _latestTimer;
