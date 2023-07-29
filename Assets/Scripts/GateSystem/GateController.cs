@@ -1,24 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GateController : MonoBehaviour
 {
-    public bool IsGateOpen = true;
+    [FormerlySerializedAs("IsGateOpen")] public bool isGateOpen = true;
     [SerializeField] private GameObject gateDoor;
-    [SerializeField] Transform openedPosition;
+    [SerializeField] private Transform openedPosition;
     [SerializeField] private Transform closedPosition;
-    bool isDoorLocked = false;
-    private float latestTimer;
-    private bool canOpen = true;
+    private float _latestTimer;
+    private bool _canOpen = true;
     // Start is called before the first frame update
-
-
+    
     private void Awake()
     {
-     
-        if (IsGateOpen) OpenGate();
+        if (isGateOpen) OpenGate();
         else CloseGate();
     }
 
@@ -27,16 +22,16 @@ public class GateController : MonoBehaviour
         StartCoolDownTimer();
     }
 
-    public void CloseGate()
+    private void CloseGate()
     {
-        IsGateOpen = false;
+        isGateOpen = false;
         gateDoor.transform.localPosition = closedPosition.localPosition;
         Debug.Log("gate closed");
     }
     public void OpenGate()
     {
-        if(!canOpen) return;
-        IsGateOpen = true;
+        if(!_canOpen) return;
+        isGateOpen = true;
         gateDoor.transform.localPosition = openedPosition.localPosition;
         Debug.Log("gate open");
     }
@@ -44,15 +39,15 @@ public class GateController : MonoBehaviour
     public void LockDoor(float timerDuration)
     {
         CloseGate();
-        canOpen = false;
-        latestTimer = Time.time + timerDuration;
+        _canOpen = false;
+        _latestTimer = Time.time + timerDuration;
         Debug.Log("gate locked");
     }
     private void StartCoolDownTimer()
     {
-        if (Time.time >= latestTimer)
+        if (Time.time >= _latestTimer)
         {
-            canOpen = true;
+            _canOpen = true;
         }
     }
     

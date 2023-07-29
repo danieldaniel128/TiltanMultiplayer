@@ -9454,6 +9454,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 567472266}
     - target: {fileID: 3075986433089392494, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
+      propertyPath: isGateOpen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075986433089392494, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
       propertyPath: gateLiftValue
       value: 1
       objectReference: {fileID: 0}
@@ -59430,7 +59434,7 @@ PrefabInstance:
       objectReference: {fileID: 1254614194}
     - target: {fileID: 82368542258208079, guid: 3def705227d01484287d7a9c4c848cf4, type: 3}
       propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 82368542258208079, guid: 3def705227d01484287d7a9c4c848cf4, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -59454,7 +59458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 82368542258208079, guid: 3def705227d01484287d7a9c4c848cf4, type: 3}
       propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LockDoor
+      value: CloseGate
       objectReference: {fileID: 0}
     - target: {fileID: 82368542258208079, guid: 3def705227d01484287d7a9c4c848cf4, type: 3}
       propertyPath: OnEscaperClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
