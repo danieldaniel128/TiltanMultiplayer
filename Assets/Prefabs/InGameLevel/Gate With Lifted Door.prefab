@@ -234,7 +234,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6606969448482531022}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1364fc69f4d77054cadb6dc2c04cce16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGateOpen: 0
+  isGateOpen: 0
   gateDoor: {fileID: 7914007613505241462}
   openedPosition: {fileID: 3880710555871541782}
   closedPosition: {fileID: 1918037022052026447}
