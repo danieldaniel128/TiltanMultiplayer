@@ -9721,7 +9721,7 @@ PrefabInstance:
       objectReference: {fileID: 567472266}
     - target: {fileID: 3075986433089392494, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
       propertyPath: isGateOpen
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3075986433089392494, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
       propertyPath: gateLiftValue

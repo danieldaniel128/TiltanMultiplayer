@@ -170,6 +170,8 @@ MonoBehaviour:
   mouseSensitivity: 2
   playerCamera: {fileID: 8565609073727764009}
   rb: {fileID: 3207312916915410053}
+  mouseSmoothingFactor: 0.1
+  maxVerticalAngle: 80
 --- !u!114 &7231775027544214109
 MonoBehaviour:
   m_ObjectHideFlags: 0
