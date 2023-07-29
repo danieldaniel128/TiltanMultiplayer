@@ -11,7 +11,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
 public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 {
-    public static OnlineGameManager Instance { get; private set; }
+    public static NewOnlineGameManager Instance { get; private set; }
 
     public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";
 
@@ -47,6 +47,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         StartGameTimer();
         UpdateSpawnPointsInfoText();
     }
+    
     private void OnValidate()
     {
         int currentID = 0;
@@ -100,74 +101,130 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void PlayerInitialProcess(PhotonMessageInfo messageInfo)
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
         Player newPlayer = messageInfo.Sender;
-        if (PhotonNetwork.IsMasterClient)
+        HandlePlayerEnteredRoom(newPlayer);
+
+        if (IsReturningPlayer(newPlayer, out Player oldPlayer))
         {
-            base.OnPlayerEnteredRoom(newPlayer);
+            TransferOwnershipForReturningPlayer(newPlayer, oldPlayer);
+            LogOldPlayerPositions(oldPlayer);
+            SetPlayerControllerForReturningPlayer(newPlayer);
+        }
+        else
+        {
+            HandleNewPlayer(newPlayer);
+        }
+    }
 
-            bool isReturningPlayer = false;
-            Player oldPlayer = null;
+    #region PlayerInitialProcess Methods
+    void HandlePlayerEnteredRoom(Player player)
+    {
+        // Handle player entered room logic here
+        // (Assuming this function is implemented in the derived class)
+        base.OnPlayerEnteredRoom(player);
+    }
 
-            foreach (Player player in PhotonNetwork.PlayerList)
+    bool IsReturningPlayer(Player newPlayer, out Player oldPlayer)
+    {
+        oldPlayer = null;
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!player.CustomProperties.ContainsKey(Constants.PLAYER_INITIALIZED) ||
+                player.ActorNumber == newPlayer.ActorNumber || !player.IsInactive)
+                continue;
+
+            if (player.CustomProperties[Constants.USER_UNIQUE_ID]
+                .Equals(newPlayer.CustomProperties[Constants.USER_UNIQUE_ID]))
             {
-                if (!player.CustomProperties.ContainsKey(Constants.PLAYER_INITIALIZED) ||
-                    player.ActorNumber == newPlayer.ActorNumber || !player.IsInactive)
-                    continue;
-                if (player.CustomProperties[Constants.USER_UNIQUE_ID]
-                    .Equals(newPlayer.CustomProperties[Constants.USER_UNIQUE_ID]))
-                {
-                    oldPlayer = player;
-                    isReturningPlayer = true;
-                    break;
-                }
+                oldPlayer = player;
+                return true;
             }
+        }
 
-            Debug.Log("A player has joined, and he is " + isReturningPlayer + " for returning");
-            if (isReturningPlayer)
+        return false;
+    }
+
+    void TransferOwnershipForReturningPlayer(Player newPlayer, Player oldPlayer)
+    {
+        foreach (PhotonView photonView in PhotonNetwork.PhotonViewCollection)
+        {
+            if (photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
             {
-                foreach (PhotonView photonView in PhotonNetwork.PhotonViewCollection)
-                {
-                    if (photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
-                    {
-                        photonView.TransferOwnership(newPlayer);
-                    }
-                }
-
-                foreach (playerAnimatorController playerController in playerControllers)
-                {
-                    if (playerController.photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
-                    {
-                        Debug.Log("Old position is " + playerController.transform.position);
-                    }
-                }
-                photonView.RPC("SetPlayerController", newPlayer);
-            }
-            else
-            {
-                newPlayer.SetCustomProperties(new Hashtable { { Constants.PLAYER_INITIALIZED, true } });
-
-                List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
-                foreach (SpawnPoint spawnPoint in spawnPoints)
-                {
-                    if (!spawnPoint.taken)
-                        availableSpawnPoints.Add(spawnPoint);
-                }
-
-                SpawnPoint chosenSpawnPoint =
-                    availableSpawnPoints[Random.Range(0, availableSpawnPoints.Count)];
-                chosenSpawnPoint.taken = true;
-
-                bool[] takenSpawnPoints = new bool[spawnPoints.Length];
-                for (int i = 0; i < spawnPoints.Length; i++)
-                {
-                    takenSpawnPoints[i] = spawnPoints[i].taken;
-                }
-                photonView.RPC(SPAWN_PLAYER_CLIENT_RPC,
-                    messageInfo.Sender, chosenSpawnPoint.ID,
-                    takenSpawnPoints);
+                photonView.TransferOwnership(newPlayer);
             }
         }
     }
+
+    void LogOldPlayerPositions(Player oldPlayer)
+    {
+        foreach (playerAnimatorController playerController in playerControllers)
+        {
+            if (playerController.photonView.Owner.ActorNumber == oldPlayer.ActorNumber)
+            {
+                Debug.Log("Old position is " + playerController.transform.position);
+            }
+        }
+    }
+
+    void SetPlayerControllerForReturningPlayer(Player newPlayer)
+    {
+        photonView.RPC("SetPlayerController", newPlayer);
+    }
+
+    void HandleNewPlayer(Player newPlayer)
+    {
+        newPlayer.SetCustomProperties(new Hashtable { { Constants.PLAYER_INITIALIZED, true } });
+
+        List<SpawnPoint> availableSpawnPoints = GetAvailableSpawnPoints();
+
+        if (availableSpawnPoints.Count > 0)
+        {
+            SpawnPoint chosenSpawnPoint = GetRandomSpawnPoint(availableSpawnPoints);
+            MarkSpawnPointAsTaken(chosenSpawnPoint);
+            bool[] takenSpawnPoints = GetTakenSpawnPointsArray();
+            photonView.RPC(SPAWN_PLAYER_CLIENT_RPC, newPlayer, chosenSpawnPoint.ID, takenSpawnPoints);
+        }
+        else
+        {
+            Debug.Log("No available spawn points for the new player.");
+        }
+    }
+
+    List<SpawnPoint> GetAvailableSpawnPoints()
+    {
+        List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
+        foreach (SpawnPoint spawnPoint in spawnPoints)
+        {
+            if (!spawnPoint.taken)
+                availableSpawnPoints.Add(spawnPoint);
+        }
+        return availableSpawnPoints;
+    }
+
+    SpawnPoint GetRandomSpawnPoint(List<SpawnPoint> availableSpawnPoints)
+    {
+        return availableSpawnPoints[Random.Range(0, availableSpawnPoints.Count)];
+    }
+
+    void MarkSpawnPointAsTaken(SpawnPoint spawnPoint)
+    {
+        spawnPoint.taken = true;
+    }
+
+    bool[] GetTakenSpawnPointsArray()
+    {
+        bool[] takenSpawnPoints = new bool[spawnPoints.Length];
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            takenSpawnPoints[i] = spawnPoints[i].taken;
+        }
+        return takenSpawnPoints;
+    }
+    #endregion
 
     [PunRPC]
     void SpawnPlayer(int spawnPointID, bool[] takenSpawnPoints)
@@ -250,13 +307,33 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
+            // localPlayerController =
+            //     PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME, 
+            //             spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, 
+            //             spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].rotation)
+            //         .GetComponent<PlayerController>();
+            photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
             if (PhotonNetwork.IsMasterClient)
             {
+                Hashtable hashtable = new Hashtable();
+                hashtable.Add(Constants.MATCH_STARTED, false);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(
+                    hashtable);
                 startGameButtonUI.interactable = true;
             }
 
             gameModeText.text = PhotonNetwork.CurrentRoom.CustomProperties[Constants.GAME_MODE].ToString();
-            UpdatePlayerScoresText();
+            foreach (KeyValuePair<int, Player>
+                         player in PhotonNetwork.CurrentRoom.Players)
+            {
+                if (player.Value.CustomProperties
+                    .ContainsKey(Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY))
+                {
+                    playersScoreText.text +=
+                        player.Value.CustomProperties[Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY]
+                            += Environment.NewLine;
+                }
+            }
         }
     }
     private void StartGameTimer()
@@ -270,6 +347,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                 isCountingForStartGame = false;
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    Hashtable hashtable = new Hashtable();
+                    hashtable.Add(Constants.MATCH_STARTED, true);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(
+                        hashtable);
                     photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
                 }
             }
