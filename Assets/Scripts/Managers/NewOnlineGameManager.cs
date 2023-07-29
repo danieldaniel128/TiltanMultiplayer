@@ -13,7 +13,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 {
     public static NewOnlineGameManager Instance { get; private set; }
 
-    public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";
+    public const string NETWORK_PLAYER_PREFAB_NAME = "PlayerEscaper";//Liors: NetworkPlayerObject
 
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string COUNTDOWN_STARTED_RPC = nameof(CountdownStarted);
@@ -233,7 +233,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
                     spawnPoint.transform.position,
                     spawnPoint.transform.rotation)
-                .GetComponent<PlayerController>();
+                .GetComponent<FirstPersonController>();
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
@@ -307,11 +307,6 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            // localPlayerController =
-            //     PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME, 
-            //             spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, 
-            //             spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].rotation)
-            //         .GetComponent<PlayerController>();
             photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
             if (PhotonNetwork.IsMasterClient)
             {
