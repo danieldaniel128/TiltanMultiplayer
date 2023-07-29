@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class GateController : MonoBehaviour
 {
-    public bool IsGateOpen;
+    public bool IsGateOpen = true;
     [SerializeField] private GameObject gateDoor;
     [SerializeField] Transform openedPosition;
-    private Transform closedPosition;
+    [SerializeField] private Transform closedPosition;
     bool isDoorLocked = false;
     private float latestTimer;
     private bool canOpen = true;
     // Start is called before the first frame update
-    void Start()
+
+
+    private void Awake()
     {
-        closedPosition = gateDoor.transform;
+     
         if (IsGateOpen) OpenGate();
         else CloseGate();
     }
@@ -29,9 +31,11 @@ public class GateController : MonoBehaviour
     {
         IsGateOpen = false;
         gateDoor.transform.localPosition = closedPosition.localPosition;
+        Debug.Log("gate closed");
     }
     public void OpenGate()
     {
+        if(!canOpen) return;
         IsGateOpen = true;
         gateDoor.transform.localPosition = openedPosition.localPosition;
         Debug.Log("gate open");
@@ -42,6 +46,7 @@ public class GateController : MonoBehaviour
         CloseGate();
         canOpen = false;
         latestTimer = Time.time + timerDuration;
+        Debug.Log("gate locked");
     }
     private void StartCoolDownTimer()
     {
