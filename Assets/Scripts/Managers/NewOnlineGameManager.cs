@@ -38,6 +38,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     #region Unity Callbacks
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         GameInit();
@@ -305,6 +309,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     }
     private void GameInit()
     {
+        Debug.Log($"<color=blue>IsConnectedAndReady:{PhotonNetwork.IsConnectedAndReady}</color>");
+        Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
         if (PhotonNetwork.IsConnectedAndReady)
         {
             photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
