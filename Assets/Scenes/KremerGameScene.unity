@@ -3054,6 +3054,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1141400223}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: alienCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: cameraCollider
+      value: 
+      objectReference: {fileID: 1141400224}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: alienGateLockDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7690776652306717472, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
       propertyPath: CameraIndex
       value: 1
@@ -3076,6 +3092,16 @@ Transform:
 --- !u!1 &1141400222 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5600596754798374875, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+  m_PrefabInstance: {fileID: 1141400220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1141400223 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5600596754798374876, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+  m_PrefabInstance: {fileID: 1141400220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1141400224 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 5600596754798374877, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
   m_PrefabInstance: {fileID: 1141400220}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1167091419
@@ -3949,6 +3975,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1404374184}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: alienCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: cameraCollider
+      value: 
+      objectReference: {fileID: 1404374185}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: alienGateLockDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7690776652306717472, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
       propertyPath: CameraIndex
       value: 3
@@ -3971,6 +4013,16 @@ Transform:
 --- !u!1 &1404374183 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5600596754798374875, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+  m_PrefabInstance: {fileID: 1404374181}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1404374184 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5600596754798374876, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+  m_PrefabInstance: {fileID: 1404374181}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1404374185 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 5600596754798374877, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
   m_PrefabInstance: {fileID: 1404374181}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1410564856
@@ -5097,6 +5149,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1777230377}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: alienCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: cameraCollider
+      value: 
+      objectReference: {fileID: 1777230378}
+    - target: {fileID: 7671361907797225254, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+      propertyPath: alienGateLockDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7690776652306717472, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
       propertyPath: CameraIndex
       value: 2
@@ -5119,6 +5187,16 @@ Transform:
 --- !u!1 &1777230376 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5600596754798374875, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+  m_PrefabInstance: {fileID: 1777230374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1777230377 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5600596754798374876, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
+  m_PrefabInstance: {fileID: 1777230374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1777230378 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 5600596754798374877, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
   m_PrefabInstance: {fileID: 1777230374}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1796472482
@@ -84380,10 +84458,6 @@ PrefabInstance:
     - target: {fileID: 5600596754798374875, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
       propertyPath: m_Name
       value: Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 7690776652306717472, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
-      propertyPath: buttons.Array.size
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7690776652306717472, guid: c09d5d0a53d2d7d42bba5296567f5521, type: 3}
       propertyPath: buttons.Array.data[0]
