@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraButtonCatcher : MonoBehaviour
 {
-    [SerializeField] private BoxCollider cameraCollider;
     [SerializeField] private float alienGateLockDuration;
     [SerializeField] private float alienCooldown;
     private float latestTimer;

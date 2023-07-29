@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5600596754798374879}
   - component: {fileID: 5600596754798374878}
   - component: {fileID: 7671361907797225254}
-  - component: {fileID: 5600596754798374877}
   - component: {fileID: 5600596754798374876}
   - component: {fileID: 1721514437200000284}
   - component: {fileID: 7690776652306717472}
@@ -100,19 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7878896a71e532a4995fdcbc2a62e20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &5600596754798374877
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5600596754798374875}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  alienGateLockDuration: 10
+  alienCooldown: 5
+  camera: {fileID: 5600596754798374876}
 --- !u!20 &5600596754798374876
 Camera:
   m_ObjectHideFlags: 0

@@ -652,7 +652,13 @@ MonoBehaviour:
   currentSpawnPointsInfoText: {fileID: 568114615}
   countdownText: {fileID: 568114616}
   startGameButtonUI: {fileID: 568114617}
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 2379130013679483446}
+  - {fileID: 1622003160}
+  - {fileID: 1435937051}
+  - {fileID: 1819054889}
+  - {fileID: 235381613}
+  - {fileID: 347959936}
 --- !u!1 &314498199
 GameObject:
   m_ObjectHideFlags: 0
