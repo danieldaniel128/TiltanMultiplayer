@@ -98,19 +98,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     Button buttonToPress = roomToJoin.GetComponent<Button>();
                     buttonToPress.onClick.AddListener(JoinRoom);
                 }
-                else if (room.PlayerCount == 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count > 0)
-                {
-                    // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
-                    RoomToJoin buttonToRemove = roomsButtons.FirstOrDefault(button => button.GetRoomName() == room.Name);
-                    if (buttonToRemove != null)
-                    {
-                        Debug.Log("room and people empty");
-                        Debug.Log("removed btn");
-                        // Remove the button from the roomButtonsList and destroy the GameObject
-                        roomsButtons.Remove(buttonToRemove);
-                        Destroy(buttonToRemove.gameObject);
-                    }
-                }
+                
 
                 // If the room has no players and is in the existingRoom list
 
@@ -205,13 +193,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             startGameButton.interactable = false;
         }
 
-        if (PhotonNetwork.IsMasterClient)
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
+        //    if (buttonToRemove != null)
+        //    {
+        //        roomButtonsList.Remove(buttonToRemove);
+        //        Destroy(buttonToRemove.gameObject);
+        //    }
+        //}
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 0 && roomButtonsList.Where(c => c.GetRoomName().Equals(PhotonNetwork.CurrentRoom.Name)).ToList().Count > 0)
         {
-            RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
+            // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
+            RoomToJoin buttonToRemove = roomButtonsList.FirstOrDefault(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
             if (buttonToRemove != null)
             {
+                Debug.Log("room and people empty");
+                Debug.Log("removed btn");
+                // Remove the button from the roomButtonsList and destroy the GameObject
                 roomButtonsList.Remove(buttonToRemove);
                 Destroy(buttonToRemove.gameObject);
+            }
+            else
+            {
+                Debug.Log($"buttonToRemove is null: {buttonToRemove}");
             }
         }
     }
