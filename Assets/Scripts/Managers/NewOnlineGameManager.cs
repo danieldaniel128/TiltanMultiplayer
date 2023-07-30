@@ -119,7 +119,6 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             TransferOwnershipForReturningPlayer(newPlayer, oldPlayer);
             LogOldPlayerPositions(oldPlayer);
             SetPlayerControllerForReturningPlayer(newPlayer);
-            localPlayerController.PlayerCamera.SetActive(true);
         }
         else
         {
@@ -321,6 +320,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnectedAndReady)
         {
             photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
+            localPlayerController.PlayerCamera.SetActive(true);
+            Debug.Log("player Return");
             if (PhotonNetwork.IsMasterClient)
             {
                 Hashtable hashtable = new Hashtable();
