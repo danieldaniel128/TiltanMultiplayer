@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
         winCond = InvokeWinCond;
         loseCond = InvokeLoseCond;
+        AntiCheat = new ObfuscateAlgoritm();
     }
     private void InvokeWinCond()
     {
