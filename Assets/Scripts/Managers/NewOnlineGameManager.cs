@@ -92,12 +92,14 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void WinGame(PhotonMessageInfo info)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
         
         hasGameStarted = false;
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
-        PhotonNetwork.LoadLevel(0);
+        if (PhotonNetwork.IsMasterClient) // if the master client won the game
+        {
+           StartCoroutine(LeaveToMenu());
+        }
         Debug.Log("Game Ended!!! WHOW");
     }
     [PunRPC]
@@ -303,6 +305,12 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         }
 
         return null;
+    }
+    private IEnumerator LeaveToMenu()
+    {
+        yield return new WaitForSeconds(2);
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel(0);
     }
     private void UpdatePlayerScoresText()
     {
