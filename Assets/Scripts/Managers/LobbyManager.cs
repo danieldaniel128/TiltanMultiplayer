@@ -35,7 +35,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         //leaveRoomButton.interactable = false;
         roomButtonsList = new List<RoomToJoin>();
-      
+        createRoomButton.interactable = true;
+        createRoomButton.interactable = false;
+        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
+        0, 0);
+        startGameButton.interactable = false;
+        joinRoomButton.interactable = false;
+        PhotonNetwork.AutomaticallySyncScene = true;
+
     }
 
     private void Update()
@@ -53,13 +60,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
         Debug.Log("<color=#00ff00>We are connected!</color>");
-        createRoomButton.interactable = true;
-        createRoomButton.interactable = false;
-        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
-        0, 0);
-        startGameButton.interactable = false;
-        joinRoomButton.interactable = false;
-        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinLobby();
         SetUsersUniqueID();
     }
