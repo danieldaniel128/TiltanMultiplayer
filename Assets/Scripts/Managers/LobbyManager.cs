@@ -13,7 +13,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //[SerializeField] private TextMeshProUGUI isConnectedToRoomDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomNameDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
-    //[SerializeField] private Button leaveRoomButton;
     //[SerializeField] private TMP_InputField scoreInputField;
 
     private List<RoomToJoin> roomButtonsList;
@@ -24,6 +23,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button createRoomButton;
     [SerializeField] private Button joinRoomButton;
     [SerializeField] private Button startGameButton;
+    [SerializeField] private Button leaveRoomButton;
     [SerializeField] private Transform contentObject;
     [SerializeField] private TMP_InputField roomNameInputField;
 
@@ -33,7 +33,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI playerListText;
     private void Start()
     {
-        //leaveRoomButton.interactable = false;
+        leaveRoomButton.interactable = false;
         roomButtonsList = new List<RoomToJoin>();
         createRoomButton.interactable = true;
         currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
@@ -126,6 +126,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnLeftRoom();
         RefreshCurrentRoomInfoUI();
+        createRoomButton.interactable = true;
+        leaveRoomButton.interactable = false;
     }
 
     public void LeaveRoom()
@@ -145,7 +147,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         Debug.Log("Joined Room!");
         RefreshCurrentRoomInfoUI();
-        //leaveRoomButton.interactable = true;
+        leaveRoomButton.interactable = true;
+        createRoomButton.interactable = false;
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
