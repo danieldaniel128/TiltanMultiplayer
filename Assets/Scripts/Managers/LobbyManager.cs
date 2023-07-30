@@ -47,6 +47,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            joinRoomButton.interactable = true;
+        }
     }
 
     public void LoginToPhoton()
@@ -67,6 +72,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
+        RefreshCurrentRoomInfoUI();
+
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
             Destroy(roomButton.gameObject);
@@ -80,8 +87,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
             roomToJoin.SetRoomName(room.Name);
             roomButtonsList.Add(roomToJoin);
+
+            Button buttonToPress = roomToJoin.GetComponent<Button>();
+
+            buttonToPress.onClick.AddListener(JoinRoom);
         }
     }
+
 
     public void CreateRoom()
     {
@@ -97,7 +109,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 EmptyRoomTtl = 0,
                 PlayerTtl = 35000,
                 CustomRoomProperties = hashtable,
-                CleanupCacheOnLeave = false
+                CleanupCacheOnLeave = false,
+                
             };
         PhotonNetwork.CreateRoom(roomNameInputField.text.ToString(),
             roomOptions,
@@ -109,10 +122,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomNameInputField.text.ToString(), null);
     }
 
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        RefreshCurrentRoomInfoUI();
+    }
+
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        //leaveRoomButton.interactable = false;
     }
 
     public override void OnCreatedRoom()
@@ -192,7 +210,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             currentRoomPlayersCountTextUI.text = string.Empty;
         }
-
 
     }
 
