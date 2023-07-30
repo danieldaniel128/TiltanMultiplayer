@@ -439,6 +439,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         isCountingForStartGame = true;
         timeLeftForStartGame = countdownTime;
         countdownText.gameObject.SetActive(true);
+        CursorController();
     }
     [PunRPC]
     void GameStarted(PhotonMessageInfo info)
@@ -519,10 +520,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void SpawnPlayer(int spawnPointID, bool[] takenSpawnPoints)
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
-        PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
+        localPlayerController = PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
                     spawnPoint.transform.position,
                     spawnPoint.transform.rotation)
-                .GetComponent<PlayerController>();
+                .GetComponent<FirstPersonController>();
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
@@ -623,6 +624,12 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         }
         return null;
     }
+    private void CursorController()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     #endregion
 
 
