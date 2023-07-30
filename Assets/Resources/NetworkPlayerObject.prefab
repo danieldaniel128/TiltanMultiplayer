@@ -746,9 +746,9 @@ GameObject:
   - component: {fileID: 3986603299257533987}
   - component: {fileID: 8136094958395742887}
   - component: {fileID: 4317865572366952874}
-  - component: {fileID: 8995513315037432792}
   - component: {fileID: 1050727161169765528}
   - component: {fileID: -8048939172724855094}
+  - component: {fileID: 8253356811074128111}
   m_Layer: 0
   m_Name: NetworkPlayerObject
   m_TagString: Untagged
@@ -830,20 +830,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!136 &8995513315037432792
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2728670869534550612}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2.3237612
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.6618804, z: 0}
 --- !u!114 &1050727161169765528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,6 +866,19 @@ MonoBehaviour:
   mouseSmoothingFactor: 0.1
   maxVerticalAngle: 80
   playerAnimator: {fileID: 2468912610876758862}
+--- !u!65 &8253356811074128111
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2728670869534550612}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.70117, z: 0.37025172}
+  m_Center: {x: -2.3136058e-10, y: 0.8872986, z: 0.004090984}
 --- !u!1 &2754404770449941021
 GameObject:
   m_ObjectHideFlags: 0
