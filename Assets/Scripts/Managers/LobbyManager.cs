@@ -36,7 +36,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //leaveRoomButton.interactable = false;
         roomButtonsList = new List<RoomToJoin>();
         createRoomButton.interactable = true;
-        createRoomButton.interactable = false;
         currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
         0, 0);
         startGameButton.interactable = false;
@@ -67,8 +66,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
-
-        RefreshCurrentRoomInfoUI();
 
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
