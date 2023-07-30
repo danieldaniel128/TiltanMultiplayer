@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     }
     private void InvokeWinCond()
     {
+        OnlineGameManager.photonView.RPC("WinGame", Photon.Pun.RpcTarget.All);
         Debug.Log("Win invoked");
     }
     private void InvokeLoseCond()

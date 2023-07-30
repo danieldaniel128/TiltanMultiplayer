@@ -224,6 +224,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1857557792539681278, guid: b4cf5044d12fa99419a039e874435134, type: 3}
   m_PrefabInstance: {fileID: 15224066}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &41079740 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+  m_PrefabInstance: {fileID: 1050511183}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &46493842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8903,6 +8914,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1650652467430167999, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_text
+      value: You Win
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontSize
+      value: 216.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_margin.w
+      value: -96.060425
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_margin.x
+      value: -432.27155
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_margin.y
+      value: -163.30249
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_margin.z
+      value: -451.48376
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontStyle
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.06740234
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.21203066
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 216.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580763269550881428, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279318187
+      objectReference: {fileID: 0}
     - target: {fileID: 6022574490578594293, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -9002,6 +9065,14 @@ PrefabInstance:
     - target: {fileID: 6022574491951714116, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057652203048681421, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -930
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057652203048681421, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -523
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92f409dce4276b747b9fe7ce7e36c617, type: 3}
@@ -11606,6 +11677,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+      propertyPath: winText
+      value: 
+      objectReference: {fileID: 41079740}
     - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
       propertyPath: gameModeText
       value: 

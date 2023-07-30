@@ -15,7 +15,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     public static NewOnlineGameManager Instance { get; private set; }
 
     public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";//Liors: NetworkPlayerObject
-
+    private const string WIN_GAME_RPC = nameof(WinGame);
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string COUNTDOWN_STARTED_RPC = nameof(CountdownStarted);
     private const string ASK_FOR_RANDOM_SPAWN_POINT_RPC = nameof(PlayerInitialProcess);
@@ -24,6 +24,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     public bool hasGameStarted = false;
 
     //ui
+    [SerializeField] private TextMeshProUGUI winText;
     [SerializeField] private TextMeshProUGUI gameModeText;
     [SerializeField] private TextMeshProUGUI playersScoreText;
     [SerializeField] private TextMeshProUGUI currentSpawnPointsInfoText;
@@ -88,6 +89,17 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     #region RPCS
 
+    [PunRPC]
+    void WinGame(PhotonMessageInfo info)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        hasGameStarted = false;
+        firstPersonController.canControl = false;
+        winText.gameObject.SetActive(true);
+        PhotonNetwork.LoadLevel(0);
+        Debug.Log("Game Ended!!! WHOW");
+    }
     [PunRPC]
     void CountdownStarted(int countdownTime)
     {

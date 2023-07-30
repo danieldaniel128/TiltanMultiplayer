@@ -9,7 +9,7 @@ public class WinLandScript : MonoBehaviour
     {
         if (coll.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player has won");
+            GameManager.Instance.winCond?.Invoke();
         }
     }
 }
