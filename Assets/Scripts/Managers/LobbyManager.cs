@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
@@ -66,12 +67,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
-        HashSet<string> existingRoom = new HashSet<string>();
-
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
-            existingRoom.Add(roomButton.name);
+            Destroy(roomButton.gameObject);
         }
+
+        roomButtonsList.Clear();
 
         // Loop through the list of rooms in the roomList
         foreach (RoomInfo room in roomList)
@@ -81,7 +82,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log("not removed sadasd");
                 // Check if the room has players in it and is not already in the existingRoom list
-                if (room.PlayerCount > 0 && !existingRoom.Contains(room.Name))
+                if (room.PlayerCount > 0)
                 {
                     // Set the room name input field to the name of the room
                     roomNameInputField.text = room.Name;
@@ -95,7 +96,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     Button buttonToPress = roomToJoin.GetComponent<Button>();
                     buttonToPress.onClick.AddListener(JoinRoom);
                 }
-                else if (room.PlayerCount == 0 && existingRoom.Contains(room.Name))
+                else if (room.PlayerCount == 0)
                 {
                     // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
                     RoomToJoin buttonToRemove = roomButtonsList.FirstOrDefault(button => button.GetRoomName() == room.Name);
