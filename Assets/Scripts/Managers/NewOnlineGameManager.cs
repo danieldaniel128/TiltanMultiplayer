@@ -366,6 +366,11 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+    private void CursorController()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     #endregion
 
