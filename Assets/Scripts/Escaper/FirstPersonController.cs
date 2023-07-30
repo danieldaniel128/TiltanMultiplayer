@@ -21,7 +21,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      private float smoothMouseY = 0f;
 
     private void Start()
-     {
+    {
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
             canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
         if(photonView.IsMine)
@@ -32,10 +32,16 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      {
         if (canControl && photonView.IsMine)
         {
+            ActiveCamera();
             HandleMoveInput();
             HandleCameraRotation();
         }
      }
+
+    private void ActiveCamera()
+    {
+        PlayerCamera.SetActive(true);
+    }
     private void HandleCameraRotation()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
