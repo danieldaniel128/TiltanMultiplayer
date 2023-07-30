@@ -40,6 +40,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         0, 0);
         startGameButton.interactable = false;
         PhotonNetwork.AutomaticallySyncScene = true;
+        LoginToPhoton();
 
     }
 
