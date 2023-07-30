@@ -66,11 +66,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
-        HashSet<string> existingRoom = new HashSet<string>();
+        List<RoomToJoin> roomsButtons = new List<RoomToJoin>();
 
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
-            existingRoom.Add(roomButton.name);
+            roomsButtons.Add(roomButton);
         }
 
         // Loop through the list of rooms in the roomList
@@ -81,37 +81,41 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log("not removed sadasd");
                 // Check if the room has players in it and is not already in the existingRoom list
-                if (room.PlayerCount > 0 && !existingRoom.Contains(room.Name))
+                if (room.PlayerCount > 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)) == null)
                 {
+                    Debug.Log("room and people full");
                     // Set the room name input field to the name of the room
                     roomNameInputField.text = room.Name;
 
                     // Instantiate a new RoomToJoin prefab and set its room name
                     RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
                     roomToJoin.SetRoomName(room.Name);
-                    roomButtonsList.Add(roomToJoin);
+                    roomsButtons.Add(roomToJoin);
 
                     // Get the button component from the RoomToJoin prefab and add a click listener to it
                     Button buttonToPress = roomToJoin.GetComponent<Button>();
                     buttonToPress.onClick.AddListener(JoinRoom);
                 }
-                else if (room.PlayerCount == 0 && existingRoom.Contains(room.Name))
+                else if (room.PlayerCount == 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)) != null)
                 {
                     // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
-                    RoomToJoin buttonToRemove = roomButtonsList.FirstOrDefault(button => button.GetRoomName() == room.Name);
+                    RoomToJoin buttonToRemove = roomsButtons.FirstOrDefault(button => button.GetRoomName() == room.Name);
                     if (buttonToRemove != null)
                     {
+                        Debug.Log("room and people empty");
                         Debug.Log("removed btn");
                         // Remove the button from the roomButtonsList and destroy the GameObject
-                        roomButtonsList.Remove(buttonToRemove);
+                        roomsButtons.Remove(buttonToRemove);
                         Destroy(buttonToRemove.gameObject);
                     }
                 }
+
                 // If the room has no players and is in the existingRoom list
 
                 // Output the room name and player count in the console for debugging
                 Debug.Log("Room: " + room.Name + ", PlayerCount: " + room.PlayerCount);
             }
+            roomButtonsList = new List<RoomToJoin>(roomsButtons);
         }
     }
 
