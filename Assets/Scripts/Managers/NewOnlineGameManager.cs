@@ -319,7 +319,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
+            photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.AllViaServer);
             if(localPlayerController!=null)
             localPlayerController.PlayerCamera.SetActive(true);
             if (PhotonNetwork.IsMasterClient)
