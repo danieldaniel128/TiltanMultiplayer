@@ -257,6 +257,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                 == PhotonNetwork.LocalPlayer.ActorNumber)
             {
                 localPlayerController = playerController;
+                localPlayerController.PlayerCamera.SetActive(true);
                 break;
             }
         }

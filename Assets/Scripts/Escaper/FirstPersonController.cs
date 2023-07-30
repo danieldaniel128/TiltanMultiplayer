@@ -8,7 +8,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      public bool canControl = false;
      [SerializeField] private float moveSpeed = 5f;
      [SerializeField] private float mouseSensitivity = 2f;
-     [SerializeField] private GameObject playerCamera;
+     public GameObject PlayerCamera;
      [SerializeField] private Rigidbody rb;
      private float verticalRotation = 0f;
 
@@ -25,7 +25,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
             canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
         if(photonView.IsMine)
-            playerCamera.SetActive(true);
+            PlayerCamera.SetActive(true);
     }
     
      private void Update()
