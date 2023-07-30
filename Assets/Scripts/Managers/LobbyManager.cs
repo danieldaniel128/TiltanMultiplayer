@@ -15,25 +15,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
     //[SerializeField] private TextMeshProUGUI playerListText;
     //[SerializeField] private TextMeshProUGUI roomsListText;
-
-    private const string roomButtonString = "RoomButton";
-
-    private bool isRoomExist = false;
-
-    private RoomToJoin roomToJoin;
-
-    [SerializeField] private VerticalLayoutGroup roomGroup;
-
-    [Header("Room Buttons")]
-    private Button roomButton;
-    private List<Button> roomListButtons;
-    [SerializeField] private Button createRoomButton;
     //[SerializeField] private Button leaveRoomButton;
-    [SerializeField] private Button startGameButton;
-
-    [Header("Debug Texts")]
     //[SerializeField] private TMP_InputField scoreInputField;
+
+    private List<RoomToJoin> roomButtonsList;
+
+    [SerializeField] private RoomToJoin roomItemPrefab;
+
+    [Header("Lobby Buttons and others")]
+    [SerializeField] private Button createRoomButton;
+    [SerializeField] private Button joinRoomButton;
+    [SerializeField] private Button startGameButton;
+    [SerializeField] private Transform contentObject;
     [SerializeField] private TMP_InputField roomNameInputField;
+
+    [Header("Lobby Texts")]
+    [SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
+    [SerializeField] private TextMeshProUGUI serverDebugTextUI;
 
     public void LoginToPhoton()
     {
@@ -53,58 +51,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
-        RefreshCurrentRoomInfoUI();
-        Debug.Log("Got Room List");
-        isRoomExist = false;
 
-        foreach (RoomInfo roomInfo in roomList)
+        foreach (RoomToJoin roomButton in roomButtonsList)
         {
-            string currentRoomName = roomNameInputField.text;
-
-            Debug.Log("Entered Foreach");
-
-            if (!roomInfo.RemovedFromList)
-            {
-
-                foreach (Button roomJoinButton in roomListButtons)
-                {
-                    roomToJoin.RoomName = roomInfo.Name;
-
-                    GameObject InstanitedButton = PhotonNetwork.Instantiate(roomButtonString, roomGroup.transform.position, roomGroup.transform.rotation);
-                    roomButton = InstanitedButton.GetComponent<Button>();
-                    roomButton.transform.SetParent(roomGroup.transform);
-                    roomButton.interactable = true;
-                    roomButton.onClick.AddListener(roomToJoin.JoinRoom);
-
-                    TextMeshProUGUI roomText = roomButton.GetComponentInChildren<TextMeshProUGUI>();
-
-                    roomText.text = roomInfo.Name;
-
-                    roomListButtons.Add(roomButton);
-
-                }
-
-                roomNameInputField.text = currentRoomName;
-            }
-
-            else
-            {
-                Debug.Log("Room: " + roomInfo.Name + " Removed from list");
-                roomListButtons.Remove(roomButton);
-            }
-
-            if (!roomInfo.RemovedFromList && roomInfo.Name.Equals(roomNameInputField.text))
-            {
-                isRoomExist = true;
-                Debug.LogError("Room Exist");
-                break;
-            }
-
+            Destroy(roomButton.gameObject);
         }
 
+        roomButtonsList.Clear();
 
-        createRoomButton.interactable = !isRoomExist;
+        foreach (RoomInfo room in roomList)
+        {
+            roomNameInputField.text = room.Name;
+            RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
+            roomToJoin.SetRoomName(room.Name);
+            roomButtonsList.Add(roomToJoin);
+            joinRoomButton.interactable = true;
+        }
     }
+
+
+
+
+
+
 
     public void CreateRoom()
     {
@@ -201,22 +170,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        roomToJoin = GetComponent<RoomToJoin>();
         //isConnectedToRoomDebugTextUI.text = Constants.NO_STRING;
-        //currentRoomNameDebugTextUI.text = string.Empty;
+        roomButtonsList = new List<RoomToJoin>();
         createRoomButton.interactable = false;
-        //currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
-        //0, 0);
+        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
+        0, 0);
         //leaveRoomButton.interactable = false;
         startGameButton.interactable = false;
+        joinRoomButton.interactable = false;
         PhotonNetwork.AutomaticallySyncScene = true;
         LoginToPhoton();
     }
 
-    //private void Update()
-    //{
-    //    serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
-    //}
+    private void Update()
+    {
+        serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
+    }
 
     private void RefreshCurrentRoomInfoUI()
     {
@@ -224,8 +193,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom != null)
         {
             //currentRoomNameDebugTextUI.text = PhotonNetwork.CurrentRoom.Name;
-            //currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
-            //PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
+            currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
+            PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
             foreach (Player photonPlayer in PhotonNetwork.PlayerList)
             {
                 //playerListText.text += photonPlayer.NickName + Environment.NewLine;
