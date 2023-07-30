@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraButtonCatcher : MonoBehaviour
 {
-    [SerializeField] private SphereCollider cameraCollider;
     [SerializeField] private float alienGateLockDuration;
     [SerializeField] private float alienCooldown;
     private float latestTimer;
@@ -14,12 +13,13 @@ public class CameraButtonCatcher : MonoBehaviour
     
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         StartCoolDownTimer();
         RayCastButton();
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private void RayCastButton()
     {
         
@@ -28,19 +28,17 @@ public class CameraButtonCatcher : MonoBehaviour
         mousePos.z = 10f;
         mousePos = camera.ScreenToWorldPoint(mousePos);
        // Debug.DrawRay(transform.position, mousePos - transform.position, Color.red);
-        
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            //Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            //RaycastHit hit;
-            //if (!Physics.Raycast(ray, out hit)) return;
-            //if (!hit.collider.CompareTag("Button") || !canClick) return;
-            //hit.collider.gameObject.GetComponent<GateButtonScript>().OnAlienClick.Invoke(alienGateLockDuration);
-            //Debug.Log("hit button");
-            //canClick = false;
-            //latestTimer = Time.time + alienCooldown;
-        }
+
+       if (!Input.GetMouseButtonDown(0)) return;
+       Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (!Physics.Raycast(ray, out hit)) return;
+        if (!hit.collider.CompareTag("Button") || !canClick) return;
+        hit.collider.gameObject.GetComponent<GateButtonScript>().OnAlienClick.Invoke(alienGateLockDuration);
+        Debug.Log("hit button");
+        canClick = false;
+        latestTimer = Time.time + alienCooldown;
     }
     
     private void StartCoolDownTimer()
