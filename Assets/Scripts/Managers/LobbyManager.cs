@@ -94,20 +94,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     buttonToPress.onClick.AddListener(JoinRoom);
                 }
                 // If the room has no players and is in the existingRoom list
-                else if (room.PlayerCount == 0 && existingRoom.Contains(room.Name))
-                {
-                    // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
-                    RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == room.Name);
-                    if (buttonToRemove != null)
-                    {
-                        // Remove the button from the roomButtonsList and destroy the GameObject
-                        roomButtonsList.Remove(buttonToRemove);
-                        Destroy(buttonToRemove.gameObject);
-                    }
-                }
 
                 // Output the room name and player count in the console for debugging
                 Debug.Log("Room: " + room.Name + ", PlayerCount: " + room.PlayerCount);
+            }
+            else if (room.PlayerCount == 0 && existingRoom.Contains(room.Name))
+            {
+                // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
+                RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == room.Name);
+                if (buttonToRemove != null)
+                {
+                    Debug.Log("removed btn");
+                    // Remove the button from the roomButtonsList and destroy the GameObject
+                    roomButtonsList.Remove(buttonToRemove);
+                    Destroy(buttonToRemove.gameObject);
+                }
             }
         }
     }
