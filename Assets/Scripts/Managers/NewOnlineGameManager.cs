@@ -119,6 +119,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             TransferOwnershipForReturningPlayer(newPlayer, oldPlayer);
             LogOldPlayerPositions(oldPlayer);
             SetPlayerControllerForReturningPlayer(newPlayer);
+            localPlayerController.PlayerCamera.SetActive(true);
         }
         else
         {
@@ -257,7 +258,6 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                 == PhotonNetwork.LocalPlayer.ActorNumber)
             {
                 localPlayerController = playerController;
-                localPlayerController.PlayerCamera.SetActive(true);
                 break;
             }
         }
