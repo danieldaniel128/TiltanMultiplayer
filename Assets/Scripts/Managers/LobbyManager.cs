@@ -13,7 +13,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //[SerializeField] private TextMeshProUGUI isConnectedToRoomDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomNameDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
-    //[SerializeField] private TextMeshProUGUI playerListText;
     //[SerializeField] private TextMeshProUGUI roomsListText;
     //[SerializeField] private Button leaveRoomButton;
     //[SerializeField] private TMP_InputField scoreInputField;
@@ -32,6 +31,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [Header("Lobby Texts")]
     [SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
     [SerializeField] private TextMeshProUGUI serverDebugTextUI;
+    [SerializeField] private TextMeshProUGUI playerListText;
 
     public void LoginToPhoton()
     {
