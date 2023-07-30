@@ -119,10 +119,12 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             TransferOwnershipForReturningPlayer(newPlayer, oldPlayer);
             LogOldPlayerPositions(oldPlayer);
             SetPlayerControllerForReturningPlayer(newPlayer);
+            Debug.Log("player returned");
         }
         else
         {
             HandleNewPlayer(newPlayer);
+            Debug.Log("new player");
         }
     }
 
@@ -180,6 +182,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void SetPlayerControllerForReturningPlayer(Player newPlayer)
     {
         photonView.RPC("SetPlayerController", newPlayer);
+        Debug.Log("player returned");
     }
 
     void HandleNewPlayer(Player newPlayer)
@@ -257,6 +260,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                 == PhotonNetwork.LocalPlayer.ActorNumber)
             {
                 localPlayerController = playerController;
+                Debug.Log("player returned");
                 break;
             }
         }
@@ -319,7 +323,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.AllViaServer);
+            photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
             if(localPlayerController!=null)
             localPlayerController.PlayerCamera.SetActive(true);
             if (PhotonNetwork.IsMasterClient)
