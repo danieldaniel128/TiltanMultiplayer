@@ -105,7 +105,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 // Output the room name and player count in the console for debugging
                 Debug.Log("Room: " + room.Name + ", PlayerCount: " + room.PlayerCount);
             }
-            else if (room.PlayerCount == 1 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count > 0)
+            else if (room.PlayerCount == 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count > 0)
             {
                 // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
                 RoomToJoin buttonToRemove = roomsButtons.FirstOrDefault(button => button.GetRoomName() == room.Name);
@@ -135,7 +135,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 MaxPlayers = 4,
                 EmptyRoomTtl = 0,
-                PlayerTtl = 35000,
+                PlayerTtl = 0,
                 CustomRoomProperties = hashtable,
                 CleanupCacheOnLeave = false,
 
@@ -215,7 +215,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //        Destroy(buttonToRemove.gameObject);
         //    }
         //}
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && roomButtonsList.Where(c => c.GetRoomName().Equals(PhotonNetwork.CurrentRoom.Name)).ToList().Count > 0)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 0 && roomButtonsList.Where(c => c.GetRoomName().Equals(PhotonNetwork.CurrentRoom.Name)).ToList().Count > 0)
         {
             // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
             RoomToJoin buttonToRemove = roomButtonsList.FirstOrDefault(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
@@ -261,6 +261,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            PhotonNetwork.CurrentRoom.PlayerTtl = 60000;
             PhotonNetwork.LoadLevel(1);
         }
     }
