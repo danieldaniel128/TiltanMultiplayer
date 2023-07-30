@@ -81,7 +81,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log("not removed sadasd");
                 // Check if the room has players in it and is not already in the existingRoom list
-                if (room.PlayerCount > 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)) == null)
+                Debug.Log(roomsButtons.Count);
+                Debug.Log(roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count);
+                if (room.PlayerCount > 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count==0)
                 {
                     Debug.Log("room and people full");
                     // Set the room name input field to the name of the room
@@ -96,7 +98,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     Button buttonToPress = roomToJoin.GetComponent<Button>();
                     buttonToPress.onClick.AddListener(JoinRoom);
                 }
-                else if (room.PlayerCount == 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)) != null)
+                else if (room.PlayerCount == 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count > 0)
                 {
                     // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
                     RoomToJoin buttonToRemove = roomsButtons.FirstOrDefault(button => button.GetRoomName() == room.Name);
