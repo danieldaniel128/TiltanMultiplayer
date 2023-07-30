@@ -34,26 +34,25 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - ClickRpc
+  - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - RespawnSpaceship
+  - GameStarted
+  - CountdownStarted
+  - AskForRandomSpawnPoint
+  - SpawnPlayer
+  - PlayerInitialProcess
+  - SetPlayerController
   - AskForRandomSpawnPointRPC
   - BlockCharchterChoiceRPC
   - ChooseCharchterRPC
-  - ClickRpc
   - ConfirmCharchterRPC
-  - CountdownStarted
-  - DestroyRpc
-  - DestroySpaceship
-  - EffectWorldRPC
-  - Fire
-  - GameStarted
-  - PlayerAnimatorRPC
   - PlayerButtonDisapperRPC
-  - PlayerInitialProcess
-  - RespawnSpaceship
-  - SetPlayerController
-  - SpawnPlayer
   - SpawnPlayerRPC
-  - LockDoorRPC
-  - OpenGateRPC
+  - EffectWorldRPC
+  - PlayerAnimatorRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

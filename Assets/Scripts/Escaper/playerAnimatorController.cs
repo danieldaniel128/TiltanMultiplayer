@@ -44,8 +44,8 @@ public class playerAnimatorController : MonoBehaviourPun, IPunInstantiateMagicCa
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        //if (info.photonView.IsMine)
-        //    NewOnlineGameManager.Instance.SetPlayerController(this);
-        //    NewOnlineGameManager.Instance.AddPlayerController(this);
+        if (info.photonView.IsMine)
+            OnlineGameManager.Instance.SetPlayerController(this);
+        OnlineGameManager.Instance.AddPlayerController(this);
     }
 }

@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1401132320001690757
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3880710555871541782}
-  m_Layer: 0
-  m_Name: OpenTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3880710555871541782
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401132320001690757}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.311, y: 4.72, z: -1.333}
-  m_LocalScale: {x: 1.3333334, y: 1.3333334, z: 1.3333334}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6606969448482531017}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8745040488703640829
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1918037022052026447}
-  m_Layer: 0
-  m_Name: CloseTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1918037022052026447
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8745040488703640829}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.311, y: 2.3327544, z: -1.333}
-  m_LocalScale: {x: 1.3333334, y: 1.3333334, z: 1.3333334}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6606969448482531017}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6232566486661664065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,14 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6606969448482531017}
     m_Modifications:
-    - target: {fileID: 4299448683076684853, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299448683076684853, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4299448683076684854, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -137,77 +67,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
-    - target: {fileID: 4299448683076684855, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
---- !u!1 &7914007613505241462 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4299448683076684855, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
-  m_PrefabInstance: {fileID: 6232566486661664065}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &356414423216834486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914007613505241462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 6823120314761413889}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &6823120314761413889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914007613505241462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1
---- !u!114 &9006238637311651046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914007613505241462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1364fc69f4d77054cadb6dc2c04cce16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGateOpen: 0
-  gateDoor: {fileID: 7914007613505241463}
-  openedPosition: {fileID: 3880710555871541782}
-  closedPosition: {fileID: 1918037022052026447}
---- !u!4 &7914007613505241463 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4299448683076684854, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
-  m_PrefabInstance: {fileID: 6232566486661664065}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8697358452264769991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -215,21 +76,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2523021688652198877, guid: fa84f3d741c18dc49a172b69b08c6f22, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2523021688886831877, guid: fa84f3d741c18dc49a172b69b08c6f22, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2523021689006292745, guid: fa84f3d741c18dc49a172b69b08c6f22, type: 3}
       propertyPath: m_Name
       value: Gate With Lifted Door
-      objectReference: {fileID: 0}
-    - target: {fileID: 2523021689006292745, guid: fa84f3d741c18dc49a172b69b08c6f22, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2523021689006292750, guid: fa84f3d741c18dc49a172b69b08c6f22, type: 3}
       propertyPath: m_RootOrder
