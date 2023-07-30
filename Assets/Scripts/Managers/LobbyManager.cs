@@ -66,31 +66,44 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("<color=#00ff00>We are connected!</color>");
         PhotonNetwork.JoinLobby();
         SetUsersUniqueID();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
 
-        RefreshCurrentRoomInfoUI();
+        HashSet<string> existingRoom = new HashSet<string>();
 
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
-            Destroy(roomButton.gameObject);
+            existingRoom.Add(roomButton.name);
         }
-
-        roomButtonsList.Clear();
 
         foreach (RoomInfo room in roomList)
         {
-            roomNameInputField.text = room.Name;
-            RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
-            roomToJoin.SetRoomName(room.Name);
-            roomButtonsList.Add(roomToJoin);
+            if (!room.RemovedFromList && room.PlayerCount > 0)
+            {
 
-            Button buttonToPress = roomToJoin.GetComponent<Button>();
+                roomNameInputField.text = room.Name;
+                RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
+                roomToJoin.SetRoomName(room.Name);
+                roomButtonsList.Add(roomToJoin);
 
-            buttonToPress.onClick.AddListener(JoinRoom);
+                Button buttonToPress = roomToJoin.GetComponent<Button>();
+
+                buttonToPress.onClick.AddListener(JoinRoom);
+            }
+
+            else
+            {
+                RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == room.Name);
+                if (buttonToRemove != null)
+                {
+                    roomButtonsList.Remove(buttonToRemove);
+                    Destroy(buttonToRemove.gameObject);
+                }
+            }
         }
     }
 
@@ -98,6 +111,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         createRoomButton.interactable = false;
+        PhotonNetwork.AutomaticallySyncScene = false;
         Hashtable hashtable = new Hashtable();
         hashtable.Add(Constants.MIN_LEVEL, 6);
         hashtable.Add(Constants.MAX_LEVEL, 666);
@@ -110,7 +124,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 PlayerTtl = 35000,
                 CustomRoomProperties = hashtable,
                 CleanupCacheOnLeave = false,
-                
+
             };
         PhotonNetwork.CreateRoom(roomNameInputField.text.ToString(),
             roomOptions,
@@ -119,12 +133,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
+        PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.JoinRoom(roomNameInputField.text.ToString(), null);
     }
 
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
+        PhotonNetwork.AutomaticallySyncScene = true;
         RefreshCurrentRoomInfoUI();
         createRoomButton.interactable = true;
         leaveRoomButton.interactable = false;
@@ -138,6 +154,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
+        PhotonNetwork.AutomaticallySyncScene = false;
         Debug.Log("We are in a room!");
 
     }
@@ -145,6 +162,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        PhotonNetwork.AutomaticallySyncScene = true;
         Debug.Log("Joined Room!");
         RefreshCurrentRoomInfoUI();
         leaveRoomButton.interactable = true;
@@ -153,6 +171,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         RefreshCurrentRoomInfoUI();
 
         if (PhotonNetwork.IsMasterClient)
@@ -202,6 +223,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         playerListText.text = string.Empty;
         if (PhotonNetwork.CurrentRoom != null)
         {
+            PhotonNetwork.AutomaticallySyncScene = true;
             currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
             PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
             foreach (Player photonPlayer in PhotonNetwork.PlayerList)
@@ -223,4 +245,3 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SetPlayerCustomProperties(hashtable);
     }
 }
-
