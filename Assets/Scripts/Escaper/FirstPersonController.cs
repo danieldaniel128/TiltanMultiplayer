@@ -36,8 +36,13 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
             HandleMoveInput();
             HandleCameraRotation();
         }
+        else if (!photonView.IsMine)
+                DisableCamera();
      }
-
+    void DisableCamera()
+    {
+        PlayerCamera.SetActive(false);
+    }
     private void ActiveCamera()
     {
         PlayerCamera.SetActive(true);
