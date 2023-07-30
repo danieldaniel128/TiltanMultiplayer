@@ -10,6 +10,7 @@ public class SignUpManager : MonoBehaviourPun
     [SerializeField] private TMP_InputField passWordInput;
     [SerializeField] private GameObject enterGameCanvas;
     [SerializeField] private GameObject loginCanvas;
+    [SerializeField] private GameObject signUpCanvas;
 
     public void SignUpButtonClick()
     {
@@ -46,6 +47,8 @@ public class SignUpManager : MonoBehaviourPun
     {
         string username = userNameInput.text;
         PhotonNetwork.NickName = username;
+        loginCanvas.SetActive(true);
+        signUpCanvas.SetActive(false);
     }
     private void onSignUpFaliure(PlayFabError error)
     {
@@ -55,7 +58,6 @@ public class SignUpManager : MonoBehaviourPun
     {
         string username = userNameInput.text;
         PhotonNetwork.NickName = username;
-        PhotonNetwork.ConnectUsingSettings();
         enterGameCanvas.SetActive(true);
         loginCanvas.SetActive(false);
         

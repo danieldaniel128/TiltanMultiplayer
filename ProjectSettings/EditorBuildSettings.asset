@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Scenes/KremerGameScene.unity
-    guid: 156a125eeb1202b4b91b037e166c5b4e
-  - enabled: 1
-    path: Assets/Scenes/Game Scene.unity
-    guid: 408be624ba358494686b7823cba0e4e4
+    path: Assets/Scenes/KremerMainMenu.unity
+    guid: 8c4c90d648b67ca4a8485bcb4b03fc93
   m_configObjects: {}

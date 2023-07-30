@@ -6,13 +6,20 @@ using UnityEngine;
 
 public class RoomToJoin : MonoBehaviourPun
 {
-    //private string roomName;
-    //public string RoomName { get => roomName; set => roomName = value; }
-
     [SerializeField] private TextMeshProUGUI ButtonText;
+
+    private string roomName;
 
     public void SetRoomName(string roomName)
     {
+        this.roomName = roomName;
         ButtonText.text = roomName;
     }
+
+    public string GetRoomName()
+    {
+        return roomName;
+    }
+
+
 }

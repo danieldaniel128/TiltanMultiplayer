@@ -13,9 +13,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //[SerializeField] private TextMeshProUGUI isConnectedToRoomDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomNameDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
-    //[SerializeField] private TextMeshProUGUI playerListText;
-    //[SerializeField] private TextMeshProUGUI roomsListText;
-    //[SerializeField] private Button leaveRoomButton;
     //[SerializeField] private TMP_InputField scoreInputField;
 
     private List<RoomToJoin> roomButtonsList;
@@ -24,14 +21,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("Lobby Buttons and others")]
     [SerializeField] private Button createRoomButton;
-    [SerializeField] private Button joinRoomButton;
     [SerializeField] private Button startGameButton;
+    [SerializeField] private Button leaveRoomButton;
     [SerializeField] private Transform contentObject;
     [SerializeField] private TMP_InputField roomNameInputField;
 
     [Header("Lobby Texts")]
     [SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
     [SerializeField] private TextMeshProUGUI serverDebugTextUI;
+    [SerializeField] private TextMeshProUGUI playerListText;
+    private void Start()
+    {
+        leaveRoomButton.interactable = false;
+        roomButtonsList = new List<RoomToJoin>();
+        createRoomButton.interactable = true;
+        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
+        0, 0);
+        startGameButton.interactable = false;
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+    }
+
+    private void Update()
+    {
+        serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
+    }
 
     public void LoginToPhoton()
     {
@@ -43,41 +57,57 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
         Debug.Log("<color=#00ff00>We are connected!</color>");
-        createRoomButton.interactable = true;
         PhotonNetwork.JoinLobby();
         SetUsersUniqueID();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
 
+        HashSet<string> existingRoom = new HashSet<string>();
+
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
-            Destroy(roomButton.gameObject);
+            existingRoom.Add(roomButton.name);
         }
-
-        roomButtonsList.Clear();
 
         foreach (RoomInfo room in roomList)
         {
-            roomNameInputField.text = room.Name;
-            RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
-            roomToJoin.SetRoomName(room.Name);
-            roomButtonsList.Add(roomToJoin);
-            joinRoomButton.interactable = true;
+            if (!room.RemovedFromList)
+            {
+                if (room.PlayerCount > 0 && !existingRoom.Contains(room.Name))
+                {
+                    roomNameInputField.text = room.Name;
+                    RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
+                    roomToJoin.SetRoomName(room.Name);
+                    roomButtonsList.Add(roomToJoin);
+
+                    Button buttonToPress = roomToJoin.GetComponent<Button>();
+                    buttonToPress.onClick.AddListener(JoinRoom);
+                }
+
+                else if (room.PlayerCount == 0 && existingRoom.Contains(room.Name))
+                {
+                    RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == room.Name);
+                    if (buttonToRemove != null)
+                    {
+                        roomButtonsList.Remove(buttonToRemove);
+                        Destroy(buttonToRemove.gameObject);
+                    }
+                }
+
+                Debug.Log("Room: " + room.Name + ", PlayerCount: " + room.PlayerCount);
+            }
         }
     }
-
-
-
-
-
 
 
     public void CreateRoom()
     {
         createRoomButton.interactable = false;
+        PhotonNetwork.AutomaticallySyncScene = false;
         Hashtable hashtable = new Hashtable();
         hashtable.Add(Constants.MIN_LEVEL, 6);
         hashtable.Add(Constants.MAX_LEVEL, 666);
@@ -89,7 +119,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 EmptyRoomTtl = 0,
                 PlayerTtl = 35000,
                 CustomRoomProperties = hashtable,
-                CleanupCacheOnLeave = false
+                CleanupCacheOnLeave = false,
+
             };
         PhotonNetwork.CreateRoom(roomNameInputField.text.ToString(),
             roomOptions,
@@ -98,18 +129,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
+        PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.JoinRoom(roomNameInputField.text.ToString(), null);
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        RefreshCurrentRoomInfoUI();
+        createRoomButton.interactable = true;
+        leaveRoomButton.interactable = false;
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        //leaveRoomButton.interactable = false;
     }
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
+        PhotonNetwork.AutomaticallySyncScene = false;
         Debug.Log("We are in a room!");
 
     }
@@ -117,14 +158,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        PhotonNetwork.AutomaticallySyncScene = true;
         Debug.Log("Joined Room!");
-        //isConnectedToRoomDebugTextUI.text = Constants.YES_STRING;
         RefreshCurrentRoomInfoUI();
-        //leaveRoomButton.interactable = true;
+        leaveRoomButton.interactable = true;
+        createRoomButton.interactable = false;
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         RefreshCurrentRoomInfoUI();
 
         if (PhotonNetwork.IsMasterClient)
@@ -132,6 +177,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
             {
                 startGameButton.interactable = true;
+            }
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        RefreshCurrentRoomInfoUI();
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        {
+            startGameButton.interactable = false;
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
+            if (buttonToRemove != null)
+            {
+                roomButtonsList.Remove(buttonToRemove);
+                Destroy(buttonToRemove.gameObject);
             }
         }
     }
@@ -168,44 +237,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Start()
-    {
-        //isConnectedToRoomDebugTextUI.text = Constants.NO_STRING;
-        roomButtonsList = new List<RoomToJoin>();
-        createRoomButton.interactable = false;
-        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
-        0, 0);
-        //leaveRoomButton.interactable = false;
-        startGameButton.interactable = false;
-        joinRoomButton.interactable = false;
-        PhotonNetwork.AutomaticallySyncScene = true;
-        LoginToPhoton();
-    }
-
-    private void Update()
-    {
-        serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
-    }
 
     private void RefreshCurrentRoomInfoUI()
     {
-        //playerListText.text = string.Empty;
+        playerListText.text = string.Empty;
         if (PhotonNetwork.CurrentRoom != null)
         {
-            //currentRoomNameDebugTextUI.text = PhotonNetwork.CurrentRoom.Name;
+            PhotonNetwork.AutomaticallySyncScene = true;
             currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
             PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
             foreach (Player photonPlayer in PhotonNetwork.PlayerList)
             {
-                //playerListText.text += photonPlayer.NickName + Environment.NewLine;
+                playerListText.text += photonPlayer.NickName + Environment.NewLine;
             }
         }
         else
         {
-            //currentRoomNameDebugTextUI.text = string.Empty;
-            //currentRoomPlayersCountTextUI.text = string.Empty;
+            currentRoomPlayersCountTextUI.text = string.Empty;
         }
-
 
     }
 
@@ -216,4 +265,3 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SetPlayerCustomProperties(hashtable);
     }
 }
-
