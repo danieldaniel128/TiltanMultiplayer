@@ -96,7 +96,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         hasGameStarted = false;
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
-        if (PhotonNetwork.IsMasterClient) // if the master client won the game
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if (PhotonNetwork.IsMasterClient) 
         {
            StartCoroutine(LeaveToMenu());
         }
