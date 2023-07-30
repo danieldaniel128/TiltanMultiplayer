@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FirstPersonController : MonoBehaviourPunCallbacks
 {
+    /// </summary>
      public bool canControl = false;
      [SerializeField] private float moveSpeed = 5f;
      [SerializeField] private float mouseSensitivity = 2f;
@@ -37,7 +38,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
             HandleCameraRotation();
         }
         else if (!photonView.IsMine)
-                DisableCamera();
+            DisableCamera();
      }
     void DisableCamera()
     {
