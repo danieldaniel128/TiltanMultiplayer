@@ -49,6 +49,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         GameInit();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
     private void Update()
     {
@@ -92,11 +93,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void WinGame(PhotonMessageInfo info)
     {
-        
         hasGameStarted = false;
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
-        PhotonNetwork.AutomaticallySyncScene = true;
+       
         if (PhotonNetwork.IsMasterClient) 
         {
            StartCoroutine(LeaveToMenu());
@@ -310,6 +310,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private IEnumerator LeaveToMenu()
     {
         yield return new WaitForSeconds(2);
+        CursorControllerOff();
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.LoadLevel(0);
     }
@@ -393,6 +394,11 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         Cursor.visible = false;
     }
 
+    private void CursorControllerOff()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     #endregion
 
 
