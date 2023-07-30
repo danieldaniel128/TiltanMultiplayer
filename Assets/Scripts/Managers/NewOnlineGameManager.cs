@@ -311,7 +311,6 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(2);
         CursorControllerOff();
-        PhotonNetwork.LeaveRoom();
         PhotonNetwork.LoadLevel(0);
     }
     private void UpdatePlayerScoresText()
