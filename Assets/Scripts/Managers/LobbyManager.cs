@@ -13,7 +13,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //[SerializeField] private TextMeshProUGUI isConnectedToRoomDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomNameDebugTextUI;
     //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
-    //[SerializeField] private TextMeshProUGUI roomsListText;
     //[SerializeField] private Button leaveRoomButton;
     //[SerializeField] private TMP_InputField scoreInputField;
 
@@ -32,6 +31,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
     [SerializeField] private TextMeshProUGUI serverDebugTextUI;
     [SerializeField] private TextMeshProUGUI playerListText;
+    private void Start()
+    {
+        //leaveRoomButton.interactable = false;
+        roomButtonsList = new List<RoomToJoin>();
+      
+    }
+
+    private void Update()
+    {
+        serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
+    }
 
     public void LoginToPhoton()
     {
@@ -44,6 +54,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         Debug.Log("<color=#00ff00>We are connected!</color>");
         createRoomButton.interactable = true;
+        createRoomButton.interactable = false;
+        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
+        0, 0);
+        startGameButton.interactable = false;
+        joinRoomButton.interactable = false;
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinLobby();
         SetUsersUniqueID();
     }
@@ -51,6 +67,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
+
+        RefreshCurrentRoomInfoUI();
 
         foreach (RoomToJoin roomButton in roomButtonsList)
         {
@@ -65,15 +83,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             RoomToJoin roomToJoin = Instantiate(roomItemPrefab, contentObject);
             roomToJoin.SetRoomName(room.Name);
             roomButtonsList.Add(roomToJoin);
-            joinRoomButton.interactable = true;
         }
     }
-
-
-
-
-
-
 
     public void CreateRoom()
     {
@@ -118,7 +129,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("Joined Room!");
-        //isConnectedToRoomDebugTextUI.text = Constants.YES_STRING;
         RefreshCurrentRoomInfoUI();
         //leaveRoomButton.interactable = true;
     }
@@ -168,42 +178,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Start()
-    {
-        //isConnectedToRoomDebugTextUI.text = Constants.NO_STRING;
-        roomButtonsList = new List<RoomToJoin>();
-        createRoomButton.interactable = false;
-        currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
-        0, 0);
-        //leaveRoomButton.interactable = false;
-        startGameButton.interactable = false;
-        joinRoomButton.interactable = false;
-        PhotonNetwork.AutomaticallySyncScene = true;
-        LoginToPhoton();
-    }
-
-    private void Update()
-    {
-        serverDebugTextUI.text = PhotonNetwork.NetworkClientState.ToString();
-    }
 
     private void RefreshCurrentRoomInfoUI()
     {
-        //playerListText.text = string.Empty;
+        playerListText.text = string.Empty;
         if (PhotonNetwork.CurrentRoom != null)
         {
-            //currentRoomNameDebugTextUI.text = PhotonNetwork.CurrentRoom.Name;
             currentRoomPlayersCountTextUI.text = string.Format(Constants.CURRENT_ROOM_PLAYERS_PATTERN,
             PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
             foreach (Player photonPlayer in PhotonNetwork.PlayerList)
             {
-                //playerListText.text += photonPlayer.NickName + Environment.NewLine;
+                playerListText.text += photonPlayer.NickName + Environment.NewLine;
             }
         }
         else
         {
-            //currentRoomNameDebugTextUI.text = string.Empty;
-            //currentRoomPlayersCountTextUI.text = string.Empty;
+            currentRoomPlayersCountTextUI.text = string.Empty;
         }
 
 
