@@ -14,7 +14,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     #region OurGamemanager
     public static NewOnlineGameManager Instance { get; private set; }
 
-    public const string NETWORK_PLAYER_PREFAB_NAME = "PlayerEscaper";//Liors: NetworkPlayerObject
+    public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";//Liors: NetworkPlayerObject
 
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string COUNTDOWN_STARTED_RPC = nameof(CountdownStarted);

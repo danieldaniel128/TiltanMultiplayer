@@ -20,7 +20,8 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      // Private variables to store the accumulated mouse input
      private float smoothMouseX = 0f;
      private float smoothMouseY = 0f;
-
+    [SerializeField] private Animator playerAnimator;
+    private const string PLAYER_ANIMATOR_RPC = nameof(PlayerAnimatorRPC);
     private void Start()
     {
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
@@ -33,13 +34,23 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
      {
         if (canControl && photonView.IsMine)
         {
-            ActiveCamera();
-            HandleMoveInput();
-            HandleCameraRotation();
+            PlayerAnimator();
         }
         else if (!photonView.IsMine)
             DisableCamera();
      }
+    [PunRPC]
+    private void PlayerAnimatorRPC()
+    {
+        ActiveCamera();
+        HandleMoveInput();
+        HandleCameraRotation();
+    }
+    private void PlayerAnimator()
+    {
+        PlayerAnimatorRPC();
+        //photonView.RPC(PLAYER_ANIMATOR_RPC, RpcTarget.AllViaServer);
+    }
     void DisableCamera()
     {
         PlayerCamera.SetActive(false);
@@ -69,8 +80,18 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 vectorDirection = new Vector3(horizontal,0,vertical);
+        if (vectorDirection == Vector3.zero)
+        {
+            playerAnimator.SetBool("IsIdle 0", true);
+            playerAnimator.SetBool("IsWalking 0", false);
+        }
+        else
+        {
+            playerAnimator.SetBool("IsWalking 0", true);
+            playerAnimator.SetBool("IsIdle 0", false);
+        }
         Vector3 movement = transform.TransformDirection(vectorDirection);
-        transform.position += movement * moveSpeed * Time.deltaTime * (-1);
+        transform.position += movement * moveSpeed * Time.deltaTime;
     }
  }
 
