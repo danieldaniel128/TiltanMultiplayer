@@ -2290,7 +2290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomItemPrefab: {fileID: 3747554041485651751, guid: e6a9086b595b10741801cde3989e1d2d, type: 3}
   createRoomButton: {fileID: 1388442000}
-  joinRoomButton: {fileID: 1769576610}
   startGameButton: {fileID: 1672068681}
   leaveRoomButton: {fileID: 966288960}
   contentObject: {fileID: 538367061}
@@ -4578,7 +4577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1630249087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5426,7 +5425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1897987242
 MonoBehaviour:
   m_ObjectHideFlags: 0
