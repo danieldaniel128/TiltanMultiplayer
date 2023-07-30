@@ -396,8 +396,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     private void CursorControllerOff()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     #endregion
 

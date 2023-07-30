@@ -6,11 +6,18 @@ using UnityEngine;
 public class CameraButtonCatcher : MonoBehaviour
 {
     [SerializeField] private float alienGateLockDuration;
+    private float HiddenAlienGateLockDuration;
     [SerializeField] private float alienCooldown;
+    private float HiddenAlienCooldown;
     private float latestTimer;
     private bool canClick = true;
     [SerializeField] private Camera camera;
-    
+
+    private void Start()
+    {
+        HiddenAlienCooldown = GameManager.Instance.AntiCheat.VisibleToObfuscatedFloat(alienCooldown);
+        HiddenAlienGateLockDuration = GameManager.Instance.AntiCheat.VisibleToObfuscatedFloat(alienGateLockDuration);
+    }
 
     // Update is called once per frame
     private void Update()
@@ -22,7 +29,8 @@ public class CameraButtonCatcher : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private void RayCastButton()
     {
-        
+        alienCooldown = GameManager.Instance.AntiCheat.ObfuscatedToVisibleFloat(HiddenAlienCooldown);
+        alienGateLockDuration = GameManager.Instance.AntiCheat.ObfuscatedToVisibleFloat(HiddenAlienGateLockDuration);
         // Draw Ray
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;

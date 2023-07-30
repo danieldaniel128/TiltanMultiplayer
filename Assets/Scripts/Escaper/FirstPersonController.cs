@@ -8,7 +8,9 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
     /// </summary>
      public bool canControl = false;
      [SerializeField] private float moveSpeed = 5f;
+     private float HiddenSpeed;
      [SerializeField] private float mouseSensitivity = 2f;
+     private float HiddenMouseSensitivity;
      public GameObject PlayerCamera;
      [SerializeField] private Rigidbody rb;
      private float verticalRotation = 0f;
@@ -24,6 +26,8 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
     private const string PLAYER_ANIMATOR_RPC = nameof(PlayerAnimatorRPC);
     private void Start()
     {
+        HiddenSpeed = GameManager.Instance.AntiCheat.VisibleToObfuscatedFloat(moveSpeed);
+        HiddenMouseSensitivity = GameManager.Instance.AntiCheat.VisibleToObfuscatedFloat(mouseSensitivity);
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(Constants.MATCH_STARTED))
             canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
         if(photonView.IsMine)
@@ -61,6 +65,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
     }
     private void HandleCameraRotation()
     {
+        mouseSensitivity = GameManager.Instance.AntiCheat.ObfuscatedToVisibleFloat(HiddenMouseSensitivity);
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
 
@@ -77,6 +82,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
     }
     private void HandleMoveInput()
     {
+        moveSpeed = GameManager.Instance.AntiCheat.ObfuscatedToVisibleFloat(HiddenSpeed);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 vectorDirection = new Vector3(horizontal,0,vertical);

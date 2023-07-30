@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance;
-
+    public ObfuscateAlgoritm AntiCheat;
     public NewOnlineGameManager OnlineGameManager;
 
     public delegate void WinCond();
