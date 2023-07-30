@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 1940342071943312595}
   - component: {fileID: 3207312916915410053}
   - component: {fileID: 1493738575939673603}
-  - component: {fileID: -161353631048997661}
   m_Layer: 0
   m_Name: PlayerEscaper
   m_TagString: Untagged
@@ -242,7 +241,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7231949742625315430}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e8cab02dd7eb6749a6ed2b1eb237cb8, type: 3}
   m_Name: 
@@ -323,25 +322,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &-161353631048997661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7231949742625315430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baa38da6666971e48a02dd3fd26f1534, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canControl: 0
-  moveSpeed: 5
-  mouseSensitivity: 2
-  playerCamera: {fileID: 8565609073727764009}
-  rb: {fileID: 3207312916915410053}
-  mouseSmoothingFactor: 0.1
-  maxVerticalAngle: 80
 --- !u!1 &8565609073727764009
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,13 +333,14 @@ GameObject:
   - component: {fileID: 6774547979398503784}
   - component: {fileID: 279120866519766126}
   - component: {fileID: 1041302268293811132}
+  - component: {fileID: 2537717486189861256}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6774547979398503784
 Transform:
   m_ObjectHideFlags: 0
@@ -431,3 +412,11 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!81 &2537717486189861256
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8565609073727764009}
+  m_Enabled: 1
