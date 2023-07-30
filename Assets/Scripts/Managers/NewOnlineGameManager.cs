@@ -322,7 +322,6 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
             if(localPlayerController!=null)
             localPlayerController.PlayerCamera.SetActive(true);
-            Debug.Log("player Return");
             if (PhotonNetwork.IsMasterClient)
             {
                 Hashtable hashtable = new Hashtable();
