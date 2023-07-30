@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,6 +79,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // Check if the room has not been removed from the list
             if (!room.RemovedFromList)
             {
+                Debug.Log("not removed sadasd");
                 // Check if the room has players in it and is not already in the existingRoom list
                 if (room.PlayerCount > 0 && !existingRoom.Contains(room.Name))
                 {
@@ -96,7 +98,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 else if (room.PlayerCount == 0 && existingRoom.Contains(room.Name))
                 {
                     // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
-                    RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == room.Name);
+                    RoomToJoin buttonToRemove = roomButtonsList.FirstOrDefault(button => button.GetRoomName() == room.Name);
                     if (buttonToRemove != null)
                     {
                         Debug.Log("removed btn");
@@ -120,7 +122,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Hashtable hashtable = new Hashtable();
         hashtable.Add(Constants.MIN_LEVEL, 6);
         hashtable.Add(Constants.MAX_LEVEL, 666);
-        hashtable.Add(Constants.GAME_MODE, "FreeForAll");
+        hashtable.Add(Constants.GAME_MODE, "EscapreRoom");
         RoomOptions roomOptions =
             new RoomOptions
             {
