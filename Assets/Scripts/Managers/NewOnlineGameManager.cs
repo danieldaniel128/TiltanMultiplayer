@@ -96,7 +96,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         hasGameStarted = false;
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
-       
+        CursorControllerOff();
         if (PhotonNetwork.IsMasterClient) 
         {
            StartCoroutine(LeaveToMenu());
@@ -310,7 +310,6 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private IEnumerator LeaveToMenu()
     {
         yield return new WaitForSeconds(2);
-        CursorControllerOff();
         PhotonNetwork.LoadLevel(0);
     }
     private void UpdatePlayerScoresText()
