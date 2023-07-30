@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-    public OnlineGameManager OnlineGameManager;
+    public NewOnlineGameManager OnlineGameManager;
 
     public delegate void WinCond();
     public WinCond winCond;
