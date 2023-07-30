@@ -17,7 +17,7 @@ using UnityEngine.Events;
         if (coll.gameObject.CompareTag("Player") && Input.GetButtonDown("Interact"))
         {
             // Invoke the OnEscaperClick event
-            
+            Debug.Log("Clicked");
             OnEscaperClick.Invoke();
         }
     }
