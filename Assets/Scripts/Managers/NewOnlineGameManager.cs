@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -336,35 +337,57 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     }
     private void GameInit()
     {
+        string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];//change to master only 
+        List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
+        bool isEscaper = false;
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            if (escapersPlayers.FirstOrDefault(c=>c.Equals(player.Value.NickName)) != null)//do that only my player will be searched. if you dont, it will be easily bugs and not good
+            {
+                isEscaper = true;
+                Debug.Log("IM Escaper");
+                break;
+            }
+        }
+
+
         Debug.Log($"<color=blue>IsConnectedAndReady:{PhotonNetwork.IsConnectedAndReady}</color>");
         Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
-        if (PhotonNetwork.IsConnectedAndReady)
+        if (isEscaper)
         {
-            photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
-            if (localPlayerController != null)
-                localPlayerController.PlayerCamera.SetActive(true);
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsConnectedAndReady)
             {
-                Hashtable hashtable = new Hashtable();
-                hashtable.Add(Constants.MATCH_STARTED, false);
-                PhotonNetwork.CurrentRoom.SetCustomProperties(
-                    hashtable);
-                startGameButtonUI.interactable = true;
-            }
-
-            gameModeText.text = PhotonNetwork.CurrentRoom.CustomProperties[Constants.GAME_MODE].ToString();
-            foreach (KeyValuePair<int, Player>
-                         player in PhotonNetwork.CurrentRoom.Players)
-            {
-                if (player.Value.CustomProperties
-                    .ContainsKey(Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY))
+                photonView.RPC(ASK_FOR_RANDOM_SPAWN_POINT_RPC, RpcTarget.MasterClient);
+                if (localPlayerController != null)
+                    localPlayerController.PlayerCamera.SetActive(true);
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    playersScoreText.text +=
-                        player.Value.CustomProperties[Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY]
-                            += Environment.NewLine;
+                    Hashtable hashtable = new Hashtable();
+                    hashtable.Add(Constants.MATCH_STARTED, false);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(
+                        hashtable);
+                    startGameButtonUI.interactable = true;
+                }
+
+                gameModeText.text = PhotonNetwork.CurrentRoom.CustomProperties[Constants.GAME_MODE].ToString();
+                foreach (KeyValuePair<int, Player>
+                             player in PhotonNetwork.CurrentRoom.Players)
+                {
+                    if (player.Value.CustomProperties
+                        .ContainsKey(Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY))
+                    {
+                        playersScoreText.text +=
+                            player.Value.CustomProperties[Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY]
+                                += Environment.NewLine;
+                    }
                 }
             }
         }
+        else
+        {
+            Debug.Log("Do Alien Logic");
+        }
+
     }
     private void StartGameTimer()
     {
