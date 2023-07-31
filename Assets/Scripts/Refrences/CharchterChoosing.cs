@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CharchterChoosing : MonoBehaviourPun
 {
-    private PlayerController localPlayerController;
+    //private PlayerController localPlayerController;
 
 
     [SerializeField] private SpawnPoint[] spawnPoint;
@@ -138,11 +138,11 @@ public class CharchterChoosing : MonoBehaviourPun
                 break;
         }
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
-        localPlayerController =
-            PhotonNetwork.Instantiate(CharchterName,
-                    spawnPoint.transform.position,
-                    spawnPoint.transform.rotation)
-                .GetComponent<PlayerController>();
+        //localPlayerController =
+        //    PhotonNetwork.Instantiate(CharchterName,
+        //            spawnPoint.transform.position,
+        //            spawnPoint.transform.rotation)
+        //        .GetComponent<PlayerController>();
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {

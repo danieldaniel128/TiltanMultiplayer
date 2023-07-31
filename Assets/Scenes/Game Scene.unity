@@ -6923,6 +6923,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4355927978413188230}
     m_Modifications:
+    - target: {fileID: 1857557790736597431, guid: b4cf5044d12fa99419a039e874435134, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1857557792539681273, guid: b4cf5044d12fa99419a039e874435134, type: 3}
       propertyPath: m_Name
       value: Widnow (5)

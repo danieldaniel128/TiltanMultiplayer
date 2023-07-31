@@ -12,7 +12,6 @@ using UnityEngine.Events;
      // Called when a collision is ongoing
     private void OnCollisionStay(Collision coll)
     {
-        Debug.Log("collision ongoing");
         // Check if the colliding object is a player and the interact button is pressed
         if (coll.gameObject.CompareTag("Player") && Input.GetButtonDown("Interact"))
         {

@@ -19,8 +19,6 @@ public class SignUpManager : MonoBehaviourPun
     {
         if (Instance == null)
             Instance = this;
-        else
-            Destroy(gameObject);
     }
     public void SignUpButtonClick()
     {
@@ -71,7 +69,7 @@ public class SignUpManager : MonoBehaviourPun
         enterGameCanvas.SetActive(true);
         loginCanvas.SetActive(false);
         PlayerNickname = username;
-        
+
     }
     private void onLoginFaliure(PlayFabError error)
     {

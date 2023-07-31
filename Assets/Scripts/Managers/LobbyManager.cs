@@ -10,10 +10,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    //[SerializeField] private TextMeshProUGUI serverDebugTextUI;
-    //[SerializeField] private TextMeshProUGUI isConnectedToRoomDebugTextUI;
-    //[SerializeField] private TextMeshProUGUI currentRoomNameDebugTextUI;
-    //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
+
     //[SerializeField] private TMP_InputField scoreInputField;
 
     private List<RoomToJoin> roomButtonsList;
@@ -96,7 +93,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 // Check if the room has players in it and is not already in the existingRoom list
                 Debug.Log(roomsButtons.Count);
                 Debug.Log(roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count);
-                if (room.PlayerCount > 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count==0)
+                if (room.PlayerCount > 0 && roomsButtons.Where(c => c.GetRoomName().Equals(room.Name)).ToList().Count == 0)
                 {
                     Debug.Log("room and people full");
                     // Set the room name input field to the name of the room
@@ -111,7 +108,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     Button buttonToPress = roomToJoin.GetComponent<Button>();
                     buttonToPress.onClick.AddListener(JoinRoom);
                 }
-                
+
 
                 // If the room has no players and is in the existingRoom list
 
@@ -144,7 +141,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         hashtable.Add(Constants.MAX_LEVEL, 666);
         hashtable.Add(Constants.GAME_MODE, "EscaperRoom");
         hashtable.Add(Constants.Alien_List, "");
-        hashtable.Add(Constants.Escapers_List,"");
+        hashtable.Add(Constants.Escapers_List, "");
         hashtable.Add(Constants.Can_Join_Alien_List, true);
         hashtable.Add(Constants.Can_Join_Escapers_List, true);
         RoomOptions roomOptions =
@@ -184,7 +181,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void JoinEscapers()
     {
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
-        EscapersPlayers += "," +(SignUpManager.Instance.PlayerNickname);
+        EscapersPlayers += "," + (SignUpManager.Instance.PlayerNickname);
         PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         escapersPlayers.Remove("");
@@ -210,7 +207,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomButton.interactable = true;
         leaveRoomButton.interactable = false;
 
-        
+
     }
     private void RemovePlayerFromATeam()
     {
@@ -294,21 +291,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(otherPlayer);
         RefreshCurrentRoomInfoUI();
-        
+
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount < 2)
         {
             startGameButton.interactable = false;
         }
 
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
-        //    if (buttonToRemove != null)
-        //    {
-        //        roomButtonsList.Remove(buttonToRemove);
-        //        Destroy(buttonToRemove.gameObject);
-        //    }
-        //}
         if (PhotonNetwork.CurrentRoom.PlayerCount == 0 && roomButtonsList.Where(c => c.GetRoomName().Equals(PhotonNetwork.CurrentRoom.Name)).ToList().Count > 0)
         {
             // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
