@@ -6,12 +6,22 @@ using UnityEngine;
 
 public class SignUpManager : MonoBehaviourPun
 {
+    public static SignUpManager Instance;
+
     [SerializeField] private TMP_InputField userNameInput;
     [SerializeField] private TMP_InputField passWordInput;
     [SerializeField] private GameObject enterGameCanvas;
     [SerializeField] private GameObject loginCanvas;
     [SerializeField] private GameObject signUpCanvas;
 
+    public string PlayerNickname;
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
     public void SignUpButtonClick()
     {
         string username = userNameInput.text;
@@ -40,7 +50,7 @@ public class SignUpManager : MonoBehaviourPun
 
         PlayFabClientAPI.LoginWithPlayFab(request, onLoginSucces, onLoginFaliure);
 
-       
+
     }
 
     private void onSignUpSucces(RegisterPlayFabUserResult result)
@@ -60,6 +70,7 @@ public class SignUpManager : MonoBehaviourPun
         PhotonNetwork.NickName = username;
         enterGameCanvas.SetActive(true);
         loginCanvas.SetActive(false);
+        PlayerNickname = username;
         
     }
     private void onLoginFaliure(PlayFabError error)

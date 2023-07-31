@@ -19,4 +19,9 @@ public static class Constants
     public const string DESTROYABLE_TAG = "Destroyable";
 
     public const string ROOM_DISPLAYED_PROPERTY_KEY = "IsRoomDisplayed";
+
+    public const string Escapers_List = "EscapersList";
+    public const string Alien_List = "AlienList";
+    public const string Can_Join_Escapers_List = "CanJoinEscapersList";
+    public const string Can_Join_Alien_List = "CanJoinAlienList";
 }

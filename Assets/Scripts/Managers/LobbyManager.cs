@@ -21,18 +21,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private RoomToJoin roomItemPrefab;
 
     [Header("Lobby Buttons and others")]
+    [Header("Manage Rooms Btns")]
     [SerializeField] private Button createRoomButton;
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button leaveRoomButton;
-    [SerializeField] private Transform contentObject;
+    [Header("Manage CharacterSelection Btns")]
+    [SerializeField] private Button selectAlienButton;
+    [SerializeField] private Button selectEscaperButton;
     [SerializeField] private TMP_InputField roomNameInputField;
+
+    [SerializeField] private Transform contentObject;
 
     [Header("Lobby Texts")]
     [SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
     [SerializeField] private TextMeshProUGUI serverDebugTextUI;
     [SerializeField] private TextMeshProUGUI playerListText;
+
+    [Header("Character Selection Texts")]
+    [SerializeField] private TextMeshProUGUI playerAlienListText;
+    [SerializeField] private TextMeshProUGUI playerEscaperListText;
+
     private void Start()
     {
+        selectAlienButton.interactable = false;
+        selectEscaperButton.interactable = false;
         leaveRoomButton.interactable = false;
         roomButtonsList = new List<RoomToJoin>();
         createRoomButton.interactable = true;
@@ -130,7 +142,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Hashtable hashtable = new Hashtable();
         hashtable.Add(Constants.MIN_LEVEL, 6);
         hashtable.Add(Constants.MAX_LEVEL, 666);
-        hashtable.Add(Constants.GAME_MODE, "EscapreRoom");
+        hashtable.Add(Constants.GAME_MODE, "EscaperRoom");
+        hashtable.Add(Constants.Alien_List, "");
+        hashtable.Add(Constants.Escapers_List,"");
+        hashtable.Add(Constants.Can_Join_Alien_List, true);
+        hashtable.Add(Constants.Can_Join_Escapers_List, true);
         RoomOptions roomOptions =
             new RoomOptions
             {
@@ -144,8 +160,44 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(roomNameInputField.text.ToString(),
             roomOptions,
             null);
-    }
 
+    }
+    public void JoinAlien()
+    {
+        string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
+        AliensPlayers += "," + (SignUpManager.Instance.PlayerNickname);
+        PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = AliensPlayers;
+        List<string> aliensPlayers = AliensPlayers.Split(',').ToList();
+        aliensPlayers.Remove("");
+        playerAlienListText.text = "";
+        foreach (string alienPlayer in aliensPlayers)
+        {
+            playerAlienListText.text += alienPlayer + "\n";
+            Debug.Log(alienPlayer);
+        }
+        Debug.Log(aliensPlayers.Count);
+        if (aliensPlayers.Count == 1)//only one in our game
+        {
+            selectAlienButton.interactable = false;
+        }
+    }
+    public void JoinEscapers()
+    {
+        string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
+        EscapersPlayers += "," +(SignUpManager.Instance.PlayerNickname);
+        PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
+        List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
+        escapersPlayers.Remove("");
+        playerEscaperListText.text = "";
+        foreach (string escaperPlayer in escapersPlayers)
+        {
+            playerEscaperListText.text += escaperPlayer + "\n";
+        }
+        if (escapersPlayers.Count == 3)//only 3 in our game
+        {
+            selectEscaperButton.interactable = false;
+        }
+    }
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(roomNameInputField.text.ToString(), null);
@@ -157,11 +209,53 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RefreshCurrentRoomInfoUI();
         createRoomButton.interactable = true;
         leaveRoomButton.interactable = false;
-    }
 
+        
+    }
+    private void RemovePlayerFromATeam()
+    {
+        Debug.Log("moved here 1");
+        string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
+        List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
+        Debug.Log("moved here 2");
+        escapersPlayers.Remove("");
+        escapersPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        if (escapersPlayers.Count == 0)
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = "";
+        else
+        {
+            EscapersPlayers = escapersPlayers[0];
+            for (int i = 1; i < escapersPlayers.Count; i++)
+            {
+                EscapersPlayers += "," + escapersPlayers[i];
+            }
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
+        }
+
+        string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
+        List<string> aliensPPlayers = AliensPlayers.Split(',').ToList();
+        aliensPPlayers.Remove("");
+        aliensPPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        if (aliensPPlayers.Count == 0)
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = "";
+        else
+        {
+            AliensPlayers = aliensPPlayers[0];
+            for (int i = 1; i < aliensPPlayers.Count; i++)
+            {
+                AliensPlayers += "," + aliensPPlayers[i];
+            }
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = aliensPPlayers;
+        }
+    }
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        playerEscaperListText.text = "";
+        playerAlienListText.text = "";
+        selectAlienButton.interactable = false;
+        selectEscaperButton.interactable = false;
+        RemovePlayerFromATeam();
     }
 
     public override void OnCreatedRoom()
@@ -178,11 +272,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RefreshCurrentRoomInfoUI();
         leaveRoomButton.interactable = true;
         createRoomButton.interactable = false;
+        selectAlienButton.interactable = true;
+        selectEscaperButton.interactable = true;
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-
 
         RefreshCurrentRoomInfoUI();
 
@@ -198,10 +293,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-
         RefreshCurrentRoomInfoUI();
-
-
+        
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount < 2)
         {
             startGameButton.interactable = false;
