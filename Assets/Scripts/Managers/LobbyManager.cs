@@ -306,15 +306,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             hashtable.Add(Constants.Alien_List, aliensPPlayers);
             hashtable.Add(Constants.Escapers_List, escapersPlayers);
             PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
+        Debug.Log(escapersPlayers);
+        Debug.Log(aliensPPlayers);
     }
     public void LeaveRoom()
     {
+        RemovePlayerFromATeam();
         PhotonNetwork.LeaveRoom();
         playerEscaperListText.text = "";
         playerAlienListText.text = "";
         selectAlienButton.interactable = false;
         selectEscaperButton.interactable = false;
-        RemovePlayerFromATeam();
     }
 
     public override void OnCreatedRoom()
