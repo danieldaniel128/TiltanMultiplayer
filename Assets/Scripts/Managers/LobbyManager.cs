@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Pun.Demo.Cockpit.Forms;
 using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -312,11 +313,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         RemovePlayerFromATeam();
-        PhotonNetwork.LeaveRoom();
+        StartCoroutine(LeaveRoomCoro());
         playerEscaperListText.text = "";
         playerAlienListText.text = "";
         selectAlienButton.interactable = false;
         selectEscaperButton.interactable = false;
+    }
+    IEnumerator LeaveRoomCoro()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PhotonNetwork.LeaveRoom();
     }
 
     public override void OnCreatedRoom()
