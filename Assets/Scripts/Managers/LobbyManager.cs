@@ -238,11 +238,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RefreshCurrentRoomInfoUI();
         createRoomButton.interactable = true;
         leaveRoomButton.interactable = false;
-
-        
     }
+    [PunRPC]
     private void RemovePlayerFromATeam()
     {
+        if (PhotonNetwork.CurrentRoom == null)
+            return;
             Hashtable hashtable
             = new Hashtable();
         bool RemovedFromAliens = false;
@@ -304,25 +305,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 hashtable.Add(Constants.Can_Join_Alien_List, true);
             }
         }
-            hashtable.Add(Constants.Alien_List, aliensPPlayers);
-            hashtable.Add(Constants.Escapers_List, escapersPlayers);
+            hashtable.Add(Constants.Alien_List, AliensPlayers);
+            hashtable.Add(Constants.Escapers_List, EscapersPlayers);
             PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         Debug.Log(escapersPlayers);
         Debug.Log(aliensPPlayers);
     }
-    public void LeaveRoom()
+    private void LeaveRoom()
     {
-        RemovePlayerFromATeam();
-        StartCoroutine(LeaveRoomCoro());
+        PhotonNetwork.LeaveRoom();
         playerEscaperListText.text = "";
         playerAlienListText.text = "";
         selectAlienButton.interactable = false;
         selectEscaperButton.interactable = false;
     }
-    IEnumerator LeaveRoomCoro()
+    public void GetOutOfRoom()
     {
-        yield return new WaitForSeconds(0.5f);
-        PhotonNetwork.LeaveRoom();
+        photonView.RPC(nameof(RemovePlayerFromATeam), RpcTarget.MasterClient);
+        LeaveRoom();
+
     }
 
     public override void OnCreatedRoom()
