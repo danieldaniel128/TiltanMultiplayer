@@ -263,9 +263,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             //if the list after the player got removed is not empty, make a string of all current escaper players in the room. each player string has ',' that seperates it from the others.
             EscapersPlayers = escapersPlayers[0];
+            Debug.Log(escapersPlayers[0]);
             for (int i = 1; i < escapersPlayers.Count; i++)
             {
                 EscapersPlayers += "," + escapersPlayers[i];
+                Debug.Log(escapersPlayers[i]);
             }
             //set the custom property of the room of the escapers to the new string of current escaper players
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
@@ -306,8 +308,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             hashtable.Add(Constants.Alien_List, AliensPlayers);
             hashtable.Add(Constants.Escapers_List, EscapersPlayers);
             PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
-        Debug.Log(escapersPlayers);
-        Debug.Log(aliensPPlayers);
     }
     private void LeaveRoom()
     {
