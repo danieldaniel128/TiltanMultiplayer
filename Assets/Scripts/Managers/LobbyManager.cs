@@ -218,7 +218,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void UpdateChooseAliensTeamList(string alienList)
     {
-        playerEscaperListText.text = alienList;
+        playerAlienListText.text = alienList;
     }
     [PunRPC]
     void UpdateChooseEscapersTeamList(string escaperList)
