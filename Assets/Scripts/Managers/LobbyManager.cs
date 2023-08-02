@@ -229,7 +229,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(roomNameInputField.text.ToString(), null);
+        PhotonNetwork.JoinRoom(roomNameInputField.text, null);
     }
 
     public override void OnLeftRoom()
@@ -342,12 +342,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomButton.interactable = false;
         selectAlienButton.interactable = true;
         selectEscaperButton.interactable = true;
-    }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        RefreshCurrentRoomInfoUI();
         if(!(bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List])
             selectAlienButton.interactable = false;
         if(!(bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List])
@@ -358,6 +352,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("Escapers:");
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List]);
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        RefreshCurrentRoomInfoUI();
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
