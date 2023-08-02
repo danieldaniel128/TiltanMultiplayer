@@ -176,7 +176,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         if (aliensPlayers.Count == 1)//only one in our game
         {
-            selectAlienButton.interactable = false;
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List] = false;
         }
     }
     public void JoinEscapers()
@@ -193,8 +193,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         if (escapersPlayers.Count == 3)//only 3 in our game
         {
-            selectEscaperButton.interactable = false;
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List] = false;
         }
+        selectEscaperButton.interactable = false;
     }
     public void JoinRoom()
     {
@@ -212,15 +213,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     private void RemovePlayerFromATeam()
     {
+        bool RemovedFromAliens = false;
+        bool RemovedFromEscapers = false;
         //daniel wrote it, promise its not ai.
         //get the custom property of the room. the player escaper list as a long string.
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
+        //Debug.Log(EscapersPlayers);
         //make a list of strings to use instead of a long string.
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         //removing the empty string in case there is one in the list.
         escapersPlayers.Remove("");
         //remove the player that is loged in that left the room.
-        escapersPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        RemovedFromEscapers = escapersPlayers.Remove(SignUpManager.Instance.PlayerNickname);
         //if the list after the player got removed is empty, make the property empty too.
         if (escapersPlayers.Count == 0)
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = "";
@@ -235,12 +239,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             //set the custom property of the room of the escapers to the new string of current escaper players
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
         }
+        //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
 
-        //same logic of escapers for the aliens. even tho there is only oone alien in a game, we did the same logic for future extention since its the same.
+
+        //same logic of escapers for the aliens. even tho there is only one alien in a game, we did the same logic for future extention since it works the same.
         string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
+        //Debug.Log(AliensPlayers);
         List<string> aliensPPlayers = AliensPlayers.Split(',').ToList();
         aliensPPlayers.Remove("");
-        aliensPPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        RemovedFromAliens = aliensPPlayers.Remove(SignUpManager.Instance.PlayerNickname);
         if (aliensPPlayers.Count == 0)
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = "";
         else
@@ -251,6 +258,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 AliensPlayers += "," + aliensPPlayers[i];
             }
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = aliensPPlayers;
+        }
+        //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
+
+        if(RemovedFromEscapers || RemovedFromAliens)
+        {
+            if(RemovedFromEscapers)
+                PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List] = true;
+            else
+                PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List] = true;
         }
     }
     public void LeaveRoom()
@@ -285,7 +301,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         RefreshCurrentRoomInfoUI();
-
+        if(!(bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List])
+            selectAlienButton.interactable = false;
+        if(!(bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List])
+            selectEscaperButton.interactable = false;
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
@@ -305,15 +324,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             startGameButton.interactable = false;
         }
 
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    RoomToJoin buttonToRemove = roomButtonsList.Find(button => button.GetRoomName() == PhotonNetwork.CurrentRoom.Name);
-        //    if (buttonToRemove != null)
-        //    {
-        //        roomButtonsList.Remove(buttonToRemove);
-        //        Destroy(buttonToRemove.gameObject);
-        //    }
-        //}
         if (PhotonNetwork.CurrentRoom.PlayerCount == 0 && roomButtonsList.Where(c => c.GetRoomName().Equals(PhotonNetwork.CurrentRoom.Name)).ToList().Count > 0)
         {
             // Find the RoomToJoin prefab in the roomButtonsList that matches the room name
