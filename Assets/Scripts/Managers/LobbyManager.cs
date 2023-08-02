@@ -43,6 +43,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI playerAlienListText;
     [SerializeField] private TextMeshProUGUI playerEscaperListText;
 
+    private const string Update_Alien_List = nameof(UpdateChooseAliensTeamList);
+    private const string Update_Escapers_List = nameof(UpdateChooseEscapersTeamList);
     private void Start()
     {
         selectAlienButton.interactable = false;
@@ -186,6 +188,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            = new Hashtable();
         hashtable.Add(Constants.Alien_List, AliensPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
+        photonView.RPC(Update_Alien_List, RpcTarget.AllViaServer);
     }
     public void JoinEscapers()
     {
@@ -209,8 +212,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            = new Hashtable();
         hashtable.Add(Constants.Escapers_List, EscapersPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
+        photonView.RPC(Update_Escapers_List, RpcTarget.AllViaServer);
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
     }
+    [PunRPC]
+    void UpdateChooseAliensTeamList(string alienList)
+    {
+        playerEscaperListText.text = alienList;
+    }
+    [PunRPC]
+    void UpdateChooseEscapersTeamList(string escaperList)
+    {
+        playerEscaperListText.text = escaperList;
+    }
+
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(roomNameInputField.text.ToString(), null);
