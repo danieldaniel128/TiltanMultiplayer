@@ -242,8 +242,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RemovePlayerFromATeam()
     {
-        if (PhotonNetwork.CurrentRoom == null)
-            return;
             Hashtable hashtable
             = new Hashtable();
         bool RemovedFromAliens = false;
