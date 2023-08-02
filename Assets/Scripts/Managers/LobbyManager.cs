@@ -182,7 +182,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         if (aliensPlayers.Count == 1)//only one in our game
         {
-            hashtable.Add(Constants.Can_Join_Escapers_List, false);
+            hashtable.Add(Constants.Can_Join_Alien_List, false);
         }
         selectEscaperButton.interactable = false;
         selectAlienButton.interactable = false;
