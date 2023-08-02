@@ -346,6 +346,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             selectAlienButton.interactable = false;
         if(!(bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List])
             selectEscaperButton.interactable = false;
+
+        photonView.RPC(Update_Escapers_List, RpcTarget.All, PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
+        photonView.RPC(Update_Alien_List, RpcTarget.All, PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
+
         Debug.Log("Aliens:");
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List]);
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
