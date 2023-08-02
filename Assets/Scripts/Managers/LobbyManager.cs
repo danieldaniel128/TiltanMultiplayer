@@ -1,10 +1,12 @@
 using Photon.Pun;
+using Photon.Pun.Demo.Cockpit.Forms;
 using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -157,10 +159,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 CleanupCacheOnLeave = false,
 
             };
-        PhotonNetwork.CreateRoom(roomNameInputField.text.ToString(),
+        PhotonNetwork.CreateRoom(roomNameInputField.text,
             roomOptions,
             null);
-
+        
     }
     public void JoinAlien()
     {
@@ -180,6 +182,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         selectEscaperButton.interactable = false;
         selectAlienButton.interactable = false;
+        Hashtable hashtable
+           = new Hashtable();
+        hashtable.Add(Constants.Alien_List, AliensPlayers);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
     }
     public void JoinEscapers()
     {
@@ -199,6 +205,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         selectEscaperButton.interactable = false;
         selectAlienButton.interactable = false;
+        Hashtable hashtable
+           = new Hashtable();
+        hashtable.Add(Constants.Escapers_List, EscapersPlayers);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
     }
     public void JoinRoom()
@@ -267,10 +277,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if(RemovedFromEscapers || RemovedFromAliens)
         {
-            if(RemovedFromEscapers)
+            if (RemovedFromEscapers)
                 PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List] = true;
             else
+            {
                 PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List] = true;
+            }
+            Hashtable hashtable
+            = new Hashtable();
+            hashtable.Add(Constants.Alien_List, aliensPPlayers);
+            hashtable.Add(Constants.Escapers_List, escapersPlayers);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         }
     }
     public void LeaveRoom()
@@ -309,6 +326,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             selectAlienButton.interactable = false;
         if(!(bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List])
             selectEscaperButton.interactable = false;
+        Debug.Log("Aliens:");
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List]);
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
+        Debug.Log("Escapers:");
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List]);
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
@@ -317,15 +340,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
     }
-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
-    {
-        Debug.Log("Aliens:");
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List]);
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
-        Debug.Log("Escapers:");
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List]);
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
-    }
+    
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
