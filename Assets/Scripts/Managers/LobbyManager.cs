@@ -188,7 +188,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            = new Hashtable();
         hashtable.Add(Constants.Alien_List, AliensPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
-        photonView.RPC(Update_Alien_List, RpcTarget.AllViaServer);
+        photonView.RPC(Update_Alien_List, RpcTarget.AllViaServer, AliensPlayers);
     }
     public void JoinEscapers()
     {
@@ -212,7 +212,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            = new Hashtable();
         hashtable.Add(Constants.Escapers_List, EscapersPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
-        photonView.RPC(Update_Escapers_List, RpcTarget.AllViaServer);
+        photonView.RPC(Update_Escapers_List, RpcTarget.AllViaServer, EscapersPlayers);
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
     }
     [PunRPC]
