@@ -173,9 +173,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach (string alienPlayer in aliensPlayers)
         {
             playerAlienListText.text += alienPlayer + "\n";
-            Debug.Log(alienPlayer);
         }
-        Debug.Log(aliensPlayers.Count);
         if (aliensPlayers.Count == 1)//only one in our game
         {
             selectAlienButton.interactable = false;
@@ -214,24 +212,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     private void RemovePlayerFromATeam()
     {
-        Debug.Log("moved here 1");
+        //daniel wrote it, promise its not ai.
+        //get the custom property of the room. the player escaper list as a long string.
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
+        //make a list of strings to use instead of a long string.
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
-        Debug.Log("moved here 2");
+        //removing the empty string in case there is one in the list.
         escapersPlayers.Remove("");
+        //remove the player that is loged in that left the room.
         escapersPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        //if the list after the player got removed is empty, make the property empty too.
         if (escapersPlayers.Count == 0)
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = "";
         else
         {
+            //if the list after the player got removed is not empty, make a string of all current escaper players in the room. each player string has ',' that seperates it from the others.
             EscapersPlayers = escapersPlayers[0];
             for (int i = 1; i < escapersPlayers.Count; i++)
             {
                 EscapersPlayers += "," + escapersPlayers[i];
             }
+            //set the custom property of the room of the escapers to the new string of current escaper players
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
         }
 
+        //same logic of escapers for the aliens. even tho there is only oone alien in a game, we did the same logic for future extention since its the same.
         string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
         List<string> aliensPPlayers = AliensPlayers.Split(',').ToList();
         aliensPPlayers.Remove("");

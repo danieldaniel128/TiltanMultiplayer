@@ -19,8 +19,6 @@ public class SignUpManager : MonoBehaviourPun
     {
         if (Instance == null)
             Instance = this;
-        else
-            Destroy(gameObject);
     }
     public void SignUpButtonClick()
     {
