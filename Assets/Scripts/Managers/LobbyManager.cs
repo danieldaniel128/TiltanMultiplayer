@@ -199,6 +199,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         selectEscaperButton.interactable = false;
         selectAlienButton.interactable = false;
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
     }
     public void JoinRoom()
     {
@@ -316,7 +317,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        Debug.Log("Aliens:");
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List]);
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
+        Debug.Log("Escapers:");
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List]);
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
+    }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
