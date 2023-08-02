@@ -178,6 +178,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List] = false;
         }
+        selectEscaperButton.interactable = false;
+        selectAlienButton.interactable = false;
     }
     public void JoinEscapers()
     {
@@ -196,6 +198,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List] = false;
         }
         selectEscaperButton.interactable = false;
+        selectAlienButton.interactable = false;
     }
     public void JoinRoom()
     {
