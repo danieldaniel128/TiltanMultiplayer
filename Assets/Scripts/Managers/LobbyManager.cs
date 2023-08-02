@@ -168,6 +168,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void JoinAlien()
     {
+        Hashtable hashtable
+           = new Hashtable();
         string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
         AliensPlayers += "," + (SignUpManager.Instance.PlayerNickname);
         PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = AliensPlayers;
@@ -180,18 +182,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         if (aliensPlayers.Count == 1)//only one in our game
         {
-            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List] = false;
+            hashtable.Add(Constants.Can_Join_Escapers_List, false);
         }
         selectEscaperButton.interactable = false;
         selectAlienButton.interactable = false;
-        Hashtable hashtable
-           = new Hashtable();
         hashtable.Add(Constants.Alien_List, AliensPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         photonView.RPC(Update_Alien_List, RpcTarget.All, AliensPlayers);
     }
     public void JoinEscapers()
     {
+        Hashtable hashtable
+           = new Hashtable();
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
         EscapersPlayers += "," +(SignUpManager.Instance.PlayerNickname);
         PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
@@ -204,12 +206,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         if (escapersPlayers.Count == 3)//only 3 in our game
         {
-            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List] = false;
+            hashtable.Add(Constants.Can_Join_Escapers_List, false);
         }
         selectEscaperButton.interactable = false;
         selectAlienButton.interactable = false;
-        Hashtable hashtable
-           = new Hashtable();
         hashtable.Add(Constants.Escapers_List, EscapersPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         photonView.RPC(Update_Escapers_List,RpcTarget.All, EscapersPlayers);
@@ -242,6 +242,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     private void RemovePlayerFromATeam()
     {
+            Hashtable hashtable
+            = new Hashtable();
         bool RemovedFromAliens = false;
         bool RemovedFromEscapers = false;
         //daniel wrote it, promise its not ai.
@@ -293,17 +295,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if(RemovedFromEscapers || RemovedFromAliens)
         {
             if (RemovedFromEscapers)
-                PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Escapers_List] = true;
+            {
+                hashtable.Add(Constants.Can_Join_Escapers_List, true);
+            }
             else
             {
-                PhotonNetwork.CurrentRoom.CustomProperties[Constants.Can_Join_Alien_List] = true;
+                hashtable.Add(Constants.Can_Join_Alien_List, true);
             }
-            Hashtable hashtable
-            = new Hashtable();
+        }
             hashtable.Add(Constants.Alien_List, aliensPPlayers);
             hashtable.Add(Constants.Escapers_List, escapersPlayers);
             PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
-        }
     }
     public void LeaveRoom()
     {
