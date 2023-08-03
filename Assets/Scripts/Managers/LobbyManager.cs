@@ -240,7 +240,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         leaveRoomButton.interactable = false;
     }
     [PunRPC]
-    private void RemovePlayerFromATeam()
+    private void RemovePlayerFromATeam(string removedPlayerNickName)
     {
             Hashtable hashtable
             = new Hashtable();
@@ -255,7 +255,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //removing the empty string in case there is one in the list.
         escapersPlayers.Remove("");
         //remove the player that is loged in that left the room.
-        RemovedFromEscapers = escapersPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        RemovedFromEscapers = escapersPlayers.Remove(removedPlayerNickName);
         //if the list after the player got removed is empty, make the property empty too.
         if (escapersPlayers.Count == 0)
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = "";
@@ -280,7 +280,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //Debug.Log(AliensPlayers);
         List<string> aliensPPlayers = AliensPlayers.Split(',').ToList();
         aliensPPlayers.Remove("");
-        RemovedFromAliens = aliensPPlayers.Remove(SignUpManager.Instance.PlayerNickname);
+        RemovedFromAliens = aliensPPlayers.Remove(removedPlayerNickName);
         if (aliensPPlayers.Count == 0)
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = "";
         else
@@ -304,8 +304,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 hashtable.Add(Constants.Can_Join_Alien_List, true);
             }
+            Debug.Log("RemovedFromEscapers:" + RemovedFromEscapers);
+            Debug.Log("RemovedFromAliens:" + RemovedFromAliens);
         }
-            hashtable.Add(Constants.Alien_List, AliensPlayers);
+        hashtable.Add(Constants.Alien_List, AliensPlayers);
             hashtable.Add(Constants.Escapers_List, EscapersPlayers);
             PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
     }
@@ -319,9 +321,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void GetOutOfRoom()
     {
-        photonView.RPC(nameof(RemovePlayerFromATeam), RpcTarget.MasterClient);
+        photonView.RPC(nameof(RemovePlayerFromATeam), RpcTarget.MasterClient,PhotonNetwork.LocalPlayer.NickName);
         LeaveRoom();
-
     }
 
     public override void OnCreatedRoom()
