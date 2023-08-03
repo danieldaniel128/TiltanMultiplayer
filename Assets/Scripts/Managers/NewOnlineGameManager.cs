@@ -343,17 +343,11 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         Debug.Log(AlienPlayers);
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         bool isEscaper = false;
-        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        if (escapersPlayers.FirstOrDefault(c=>c.Equals(PhotonNetwork.LocalPlayer.NickName)) != null)//do that only my player will be searched. if you dont, it will be easily bugs and not good
         {
-            if (escapersPlayers.FirstOrDefault(c=>c.Equals(player.Value.NickName)) != null)//do that only my player will be searched. if you dont, it will be easily bugs and not good
-            {
-                isEscaper = true;
-                Debug.Log("IM Escaper");
-                break;
-            }
+            isEscaper = true;
+            Debug.Log("IM Escaper");
         }
-
-
         Debug.Log($"<color=blue>IsConnectedAndReady:{PhotonNetwork.IsConnectedAndReady}</color>");
         Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
         if (isEscaper)
