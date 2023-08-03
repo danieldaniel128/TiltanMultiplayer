@@ -338,6 +338,9 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private void GameInit()
     {
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];//change to master only 
+        Debug.Log(EscapersPlayers);
+        string AlienPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];//change to master only 
+        Debug.Log(AlienPlayers);
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         bool isEscaper = false;
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
