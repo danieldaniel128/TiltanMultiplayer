@@ -6807,6 +6807,11 @@ PrefabInstance:
     - {fileID: 894112460056109159, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
     - {fileID: 4742808934007080619, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
+--- !u!1 &728647086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 894112461072081067, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
+  m_PrefabInstance: {fileID: 728647085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &746270162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11681,6 +11686,10 @@ PrefabInstance:
       propertyPath: winText
       value: 
       objectReference: {fileID: 41079740}
+    - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+      propertyPath: AlienPrefab
+      value: 
+      objectReference: {fileID: 728647086}
     - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
       propertyPath: gameModeText
       value: 
