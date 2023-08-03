@@ -290,7 +290,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 AliensPlayers += "," + aliensPPlayers[i];
             }
-            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = aliensPPlayers;
+            PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = AliensPlayers;
         }
         //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
 
