@@ -41,6 +41,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private float timeLeftForStartGame = 0;
     [SerializeField] private int cooldownForStartGame = 3;
 
+    [SerializeField] private GameObject AlienPrefab;
+
     #region Unity Callbacks
 
     private void Awake()
@@ -382,6 +384,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            AlienPrefab.SetActive(true);
             Debug.Log("Do Alien Logic");
         }
 
