@@ -6775,6 +6775,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 894112461407335724, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3145747410578579612, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
       propertyPath: camera
       value: 

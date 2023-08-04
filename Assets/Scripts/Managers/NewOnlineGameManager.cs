@@ -5,17 +5,20 @@ using System.Linq;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using PlayFab.ServerModels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
+
 public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 {
     #region OurGamemanager
+
     public static NewOnlineGameManager Instance { get; private set; }
 
-    public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject";//Liors: NetworkPlayerObject
+    public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject"; //Liors: NetworkPlayerObject
     private const string WIN_GAME_RPC = nameof(WinGame);
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string COUNTDOWN_STARTED_RPC = nameof(CountdownStarted);
@@ -37,6 +40,9 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private FirstPersonController localPlayerController;
     private FirstPersonController firstPersonController;
 
+    private CharacterEnum chosenCharacter;
+    private bool choseEscaper = false;
+    private bool choseAlien = false;
     private bool isCountingForStartGame;
     private float timeLeftForStartGame = 0;
     [SerializeField] private int cooldownForStartGame = 3;
@@ -49,11 +55,13 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         Instance = this;
     }
+
     private void Start()
     {
         GameInit();
         PhotonNetwork.AutomaticallySyncScene = true;
     }
+
     private void Update()
     {
         StartGameTimer();
@@ -77,8 +85,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         base.OnMasterClientSwitched(newMasterClient);
         Debug.Log("Master client has been switched!" + Environment.NewLine
-                  + "Master client is now actor number " + newMasterClient.ActorNumber);
+                                                     + "Master client is now actor number " +
+                                                     newMasterClient.ActorNumber);
     }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
@@ -89,6 +99,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             Debug.Log("Player " + otherPlayer.NickName + " Will not comeback");
         }
     }
+
     #endregion
 
     #region RPCS
@@ -100,12 +111,14 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
         CursorControllerOff();
-        if (PhotonNetwork.IsMasterClient) 
+        if (PhotonNetwork.IsMasterClient)
         {
-           StartCoroutine(LeaveToMenu());
+            StartCoroutine(LeaveToMenu());
         }
+
         Debug.Log("Game Ended!!! WHOW");
     }
+
     [PunRPC]
     void CountdownStarted(int countdownTime)
     {
@@ -119,7 +132,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void GameStarted(PhotonMessageInfo info)
     {
         hasGameStarted = true;
-        firstPersonController.canControl = true;
+        startGameCharacterActions(chosenCharacter);
         isCountingForStartGame = false;
         Debug.Log("Game Started!!! WHOW");
     }
@@ -148,6 +161,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     }
 
     #region PlayerInitialProcess Methods
+
     void HandlePlayerEnteredRoom(Player player)
     {
         // Handle player entered room logic here
@@ -231,6 +245,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             if (!spawnPoint.taken)
                 availableSpawnPoints.Add(spawnPoint);
         }
+
         return availableSpawnPoints;
     }
 
@@ -251,8 +266,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         {
             takenSpawnPoints[i] = spawnPoints[i].taken;
         }
+
         return takenSpawnPoints;
     }
+
     #endregion
 
     [PunRPC]
@@ -260,14 +277,13 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
         firstPersonController = PhotonNetwork.Instantiate(NETWORK_PLAYER_PREFAB_NAME,
-                    spawnPoint.transform.position,
-                    spawnPoint.transform.rotation)
-                .GetComponent<FirstPersonController>();
+                spawnPoint.transform.position,
+                spawnPoint.transform.rotation)
+            .GetComponent<FirstPersonController>();
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
             spawnPoints[i].taken = takenSpawnPoints[i];
         }
-
     }
 
     [PunRPC]
@@ -284,8 +300,23 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
     #endregion
+
     #region Public Methods
+
+    public void SetChosenCharacter(Enum character) // will set the chosen character Locally 
+    {
+        switch (character)
+        {
+            case CharacterEnum.Alien:
+                chosenCharacter = CharacterEnum.Alien;
+                break;
+            case CharacterEnum.Escaper:
+                chosenCharacter = CharacterEnum.Escaper;
+                break;
+        }
+    }
 
     public void StartGameCountdown()
     {
@@ -296,10 +327,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-
     #endregion
 
     #region Private Methods
+
     private SpawnPoint GetSpawnPointByID(int targetID)
     {
         foreach (SpawnPoint spawnPoint in spawnPoints)
@@ -310,18 +341,33 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
         return null;
     }
+
+    private void startGameCharacterActions(Enum character)
+    {
+        switch (character)
+        {
+            case CharacterEnum.Alien:
+                break;
+            case CharacterEnum.Escaper:
+                firstPersonController.canControl = true;
+                break;
+        }
+    }
+
     private IEnumerator LeaveToMenu()
     {
         yield return new WaitForSeconds(2);
         PhotonNetwork.LoadLevel(0);
     }
+
     private void UpdatePlayerScoresText()
     {
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
             if (player.Value.CustomProperties.ContainsKey(Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY))
             {
-                playersScoreText.text += player.Value.CustomProperties[Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY] + Environment.NewLine;
+                playersScoreText.text += player.Value.CustomProperties[Constants.PLAYER_STRENGTH_SCORE_PROPERTY_KEY] +
+                                         Environment.NewLine;
             }
         }
     }
@@ -337,19 +383,24 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
         currentSpawnPointsInfoText.text = spawnPointsText;
     }
+
     private void GameInit()
     {
-        string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];//change to master only 
+        string EscapersPlayers =
+            (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]; //change to master only 
         Debug.Log(EscapersPlayers);
-        string AlienPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];//change to master only 
+        string AlienPlayers =
+            (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]; //change to master only 
         Debug.Log(AlienPlayers);
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         bool isEscaper = false;
-        if (escapersPlayers.FirstOrDefault(c=>c.Equals(PhotonNetwork.LocalPlayer.NickName)) != null)//do that only my player will be searched. if you dont, it will be easily bugs and not good
+        if (escapersPlayers.FirstOrDefault(c => c.Equals(PhotonNetwork.LocalPlayer.NickName)) !=
+            null) //do that only my player will be searched. if you dont, it will be easily bugs and not good
         {
             isEscaper = true;
             Debug.Log("IM Escaper");
         }
+
         Debug.Log($"<color=blue>IsConnectedAndReady:{PhotonNetwork.IsConnectedAndReady}</color>");
         Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
         if (isEscaper)
@@ -387,8 +438,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             AlienPrefab.SetActive(true);
             Debug.Log("Do Alien Logic");
         }
-
     }
+
     private void StartGameTimer()
     {
         if (isCountingForStartGame)
@@ -409,6 +460,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
     private void CursorController()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -420,12 +472,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-    #endregion
-
 
     #endregion
 
-
-
-
+    #endregion
 }
