@@ -83,7 +83,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 82368542258208079, guid: 3def705227d01484287d7a9c4c848cf4, type: 3}
       propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 82368542258208079, guid: 3def705227d01484287d7a9c4c848cf4, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -291,8 +291,40 @@ PrefabInstance:
       value: Door
       objectReference: {fileID: 0}
     - target: {fileID: 4299448683076684855, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: m_TagString
+      value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299448683076684855, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9006238637311651046}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LockDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GateController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106146985556668411, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
+      propertyPath: OnAlienClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
@@ -301,6 +333,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4299448683076684855, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}
   m_PrefabInstance: {fileID: 6232566486661664065}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9006238637311651046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7914007613505241462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1364fc69f4d77054cadb6dc2c04cce16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGateOpen: 0
+  gateDoor: {fileID: 7914007613505241463}
+  openedPosition: {fileID: 3880710555871541782}
+  closedPosition: {fileID: 1918037022052026447}
 --- !u!114 &356414423216834486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,22 +388,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
---- !u!114 &9006238637311651046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914007613505241462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1364fc69f4d77054cadb6dc2c04cce16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGateOpen: 0
-  gateDoor: {fileID: 7914007613505241463}
-  openedPosition: {fileID: 3880710555871541782}
-  closedPosition: {fileID: 1918037022052026447}
 --- !u!4 &7914007613505241463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4299448683076684854, guid: 31468c4fac84a7e43a2e5ca545359a96, type: 3}

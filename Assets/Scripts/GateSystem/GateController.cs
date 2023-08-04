@@ -36,9 +36,9 @@ public class GateController : MonoBehaviourPunCallbacks
     {
         photonView.RPC(Open_Gate, RpcTarget.All);
     }
-    public void LockDoor()
+    public void LockDoor(float timerDuration)
     {
-        photonView.RPC(Lock_Gate, RpcTarget.All);
+        photonView.RPC(Lock_Gate, RpcTarget.All, timerDuration );
     }
     [PunRPC]
     private void OpenGateRPC()
@@ -50,7 +50,7 @@ public class GateController : MonoBehaviourPunCallbacks
         //photonView.RPC(Open_Gate, RpcTarget.All);
     }
     [PunRPC]
-    private void LockDoorRPC(float timerDuration)
+    public void LockDoorRPC(float timerDuration)
     {
         CloseGate();
         _canOpen = false;

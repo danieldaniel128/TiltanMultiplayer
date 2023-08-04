@@ -10115,6 +10115,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate With Lifted Door (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 9006238637311651046, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
+      propertyPath: isGateOpen
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4311f13af7ebb641a614273f523f59e, type: 3}
 --- !u!4 &1217546318 stripped

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Destroyable
   - Button
+  - Door
   layers:
   - Default
   - TransparentFX
