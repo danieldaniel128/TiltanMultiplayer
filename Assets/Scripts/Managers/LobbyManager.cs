@@ -190,7 +190,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         hashtable.Add(Constants.Alien_List, AliensPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         photonView.RPC(Update_Alien_List, RpcTarget.All, AliensPlayers);
-        GameManager.Instance.OnlineGameManager.SetChosenCharacter(CharacterEnum.Alien);
+        //GameManager.Instance.OnlineGameManager.SetChosenCharacter(CharacterEnum.Alien);
 
     }
     public void JoinEscapers()

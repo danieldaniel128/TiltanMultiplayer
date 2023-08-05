@@ -6772,7 +6772,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 689758932}
     - target: {fileID: 894112461407335714, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 894112461407335714, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
       propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 894112461407335721, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 894112461407335724, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
@@ -6894,6 +6902,11 @@ PrefabInstance:
 --- !u!1 &728647086 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 894112461072081067, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
+  m_PrefabInstance: {fileID: 728647085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &728647087 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 894112461407335721, guid: b22cfa03a0b8cfd499913e46f8555368, type: 3}
   m_PrefabInstance: {fileID: 728647085}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &746270162
@@ -11774,6 +11787,10 @@ PrefabInstance:
       propertyPath: winText
       value: 
       objectReference: {fileID: 41079740}
+    - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+      propertyPath: AlienCanvas
+      value: 
+      objectReference: {fileID: 728647087}
     - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
       propertyPath: AlienPrefab
       value: 

@@ -34,6 +34,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI currentSpawnPointsInfoText;
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private Button startGameButtonUI;
+    [SerializeField] private GameObject AlienCanvas;
+
     public SpawnPoint[] spawnPoints;
 
     private List<FirstPersonController> playerControllers = new List<FirstPersonController>();
@@ -132,7 +134,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void GameStarted(PhotonMessageInfo info)
     {
         hasGameStarted = true;
-        startGameCharacterActions(chosenCharacter);
+        startGameCharacterActions(/*chosenCharacter*/);
         isCountingForStartGame = false;
         Debug.Log("Game Started!!! WHOW");
     }
@@ -342,16 +344,18 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         return null;
     }
 
-    private void startGameCharacterActions(Enum character)
+    private void startGameCharacterActions(/*Enum character*/)
     {
-        switch (character)
-        {
-            case CharacterEnum.Alien:
-                break;
-            case CharacterEnum.Escaper:
-                firstPersonController.canControl = true;
-                break;
-        }
+        //switch (character)
+        //{
+        //    case CharacterEnum.Alien:
+        //        break;
+        //    case CharacterEnum.Escaper:
+        //        firstPersonController.canControl = true;
+        //        break;
+        //}
+        if((bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Is_Player_Escaper])
+            firstPersonController.canControl = true;
     }
 
     private IEnumerator LeaveToMenu()
@@ -386,6 +390,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     private void GameInit()
     {
+        Hashtable hashtable = new Hashtable();
         string EscapersPlayers =
             (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]; //change to master only 
         Debug.Log(EscapersPlayers);
@@ -398,6 +403,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
             null) //do that only my player will be searched. if you dont, it will be easily bugs and not good
         {
             isEscaper = true;
+            hashtable.Add(Constants.Is_Player_Escaper, isEscaper);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
             Debug.Log("IM Escaper");
         }
 
@@ -412,11 +419,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                     localPlayerController.PlayerCamera.SetActive(true);
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    Hashtable hashtable = new Hashtable();
                     hashtable.Add(Constants.MATCH_STARTED, false);
+                    startGameButtonUI.interactable = true;
                     PhotonNetwork.CurrentRoom.SetCustomProperties(
                         hashtable);
-                    startGameButtonUI.interactable = true;
                 }
 
                 gameModeText.text = PhotonNetwork.CurrentRoom.CustomProperties[Constants.GAME_MODE].ToString();

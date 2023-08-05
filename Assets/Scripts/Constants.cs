@@ -24,4 +24,5 @@ public static class Constants
     public const string Alien_List = "AlienList";
     public const string Can_Join_Escapers_List = "CanJoinEscapersList";
     public const string Can_Join_Alien_List = "CanJoinAlienList";
+    public const string Is_Player_Escaper = "IsPlayerEscaper";
 }
