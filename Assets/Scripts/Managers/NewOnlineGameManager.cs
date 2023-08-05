@@ -192,6 +192,22 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
+    private Player GetMyLocalPlayer()
+    {
+        Player myPlayer = null;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.IsLocal)
+            {
+                myPlayer = player;
+                Debug.Log("my player: " + myPlayer.NickName);
+            }
+        }
+        if (myPlayer == null)
+            Debug.LogError("something wroung");
+        return myPlayer;
+    }
+
     void TransferOwnershipForReturningPlayer(Player newPlayer, Player oldPlayer)
     {
         foreach (PhotonView photonView in PhotonNetwork.PhotonViewCollection)
@@ -354,8 +370,15 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         //        firstPersonController.canControl = true;
         //        break;
         //}
-        if((bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Is_Player_Escaper])
+        if ((bool)GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
+        {
             firstPersonController.canControl = true;
+        }
+        else
+        {
+            AlienCanvas.SetActive(true);
+            CursorControllerOff();
+        }
     }
 
     private IEnumerator LeaveToMenu()
@@ -390,7 +413,8 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     private void GameInit()
     {
-        Hashtable hashtable = new Hashtable();
+        Hashtable roomHashtable = new Hashtable();
+        //Hashtable playerHashTable = new Hashtable();
         string EscapersPlayers =
             (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]; //change to master only 
         Debug.Log(EscapersPlayers);
@@ -399,14 +423,15 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         Debug.Log(AlienPlayers);
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         bool isEscaper = false;
-        if (escapersPlayers.FirstOrDefault(c => c.Equals(PhotonNetwork.LocalPlayer.NickName)) !=
-            null) //do that only my player will be searched. if you dont, it will be easily bugs and not good
+
+
+
+        if (escapersPlayers.FirstOrDefault(c => c.Equals(PhotonNetwork.LocalPlayer.NickName)) != null) //do that only my player will be searched. if you dont, it will be easily bugs and not good
         {
             isEscaper = true;
-            hashtable.Add(Constants.Is_Player_Escaper, isEscaper);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
             Debug.Log("IM Escaper");
         }
+            GetMyLocalPlayer().SetCustomProperties(new Hashtable { { Constants.Is_Player_Escaper, isEscaper } });
 
         Debug.Log($"<color=blue>IsConnectedAndReady:{PhotonNetwork.IsConnectedAndReady}</color>");
         Debug.Log($"<color=red>IsMasterClient: master{PhotonNetwork.IsMasterClient}</color>");
@@ -419,10 +444,9 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                     localPlayerController.PlayerCamera.SetActive(true);
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    hashtable.Add(Constants.MATCH_STARTED, false);
+                    roomHashtable.Add(Constants.MATCH_STARTED, false);
                     startGameButtonUI.interactable = true;
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(
-                        hashtable);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomHashtable);
                 }
 
                 gameModeText.text = PhotonNetwork.CurrentRoom.CustomProperties[Constants.GAME_MODE].ToString();
