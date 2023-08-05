@@ -19,7 +19,7 @@ public class LosingScreenData
     {
         public int alienNumber;
         public int escapersNumber;
-        public CharchterChoosing team;
+        public string team;
         public string objective;
         public bool succeded;
         public float gameTimeMinutes;
