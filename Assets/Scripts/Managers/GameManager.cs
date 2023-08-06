@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static EndingScreenDataManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public ObfuscateAlgoritm AntiCheat;
     public NewOnlineGameManager OnlineGameManager;
+
+    public GameData MyGameData;
 
     public delegate void WinCond();
     public WinCond winCond;
@@ -25,6 +28,7 @@ public class GameManager : MonoBehaviour
         winCond = InvokeWinCond;
         loseCond = InvokeLoseCond;
         AntiCheat = new ObfuscateAlgoritm();
+        MyGameData = new GameData();
     }
     private void InvokeWinCond()
     {

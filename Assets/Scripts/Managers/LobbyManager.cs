@@ -217,7 +217,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         photonView.RPC(Update_Escapers_List,RpcTarget.All, EscapersPlayers);
         Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
-        GameManager.Instance.OnlineGameManager.SetChosenCharacter(CharacterEnum.Escaper);
     }
     [PunRPC]
     void UpdateChooseAliensTeamList(string alienList)

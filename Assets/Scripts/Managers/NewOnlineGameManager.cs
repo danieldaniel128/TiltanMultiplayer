@@ -68,6 +68,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     {
         StartGameTimer();
         UpdateSpawnPointsInfoText();
+        GamePassedTimeTimerSeconds();
     }
 
     private void OnValidate()
@@ -109,13 +110,17 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void WinGame(PhotonMessageInfo info)
     {
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add(Constants.Game_Timer, gamePassedSeconds);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         hasGameStarted = false;
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
         CursorControllerOff();
+        
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(LeaveToMenu());
+            StartCoroutine(LeaveToEndingScreen());
         }
 
         Debug.Log("Game Ended!!! WHOW");
@@ -192,7 +197,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
-    private Player GetMyLocalPlayer()
+    public static Player GetMyLocalPlayer()
     {
         Player myPlayer = null;
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -381,10 +386,10 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private IEnumerator LeaveToMenu()
+    private IEnumerator LeaveToEndingScreen()
     {
         yield return new WaitForSeconds(2);
-        PhotonNetwork.LoadLevel(0);
+        PhotonNetwork.LoadLevel(2);
     }
 
     private void UpdatePlayerScoresText()
@@ -489,6 +494,14 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    float gamePassedSeconds = 0;
+    private void GamePassedTimeTimerSeconds()//when master switched, to notify the timer data
+    {
+        if(hasGameStarted)
+        if (PhotonNetwork.IsMasterClient)
+            gamePassedSeconds +=Time.deltaTime;
     }
 
     private void CursorController()
