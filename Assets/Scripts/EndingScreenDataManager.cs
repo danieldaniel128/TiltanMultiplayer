@@ -10,7 +10,33 @@ public enum CharacterEnum
 }
 public class EndingScreenDataManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI AlienNumber;
+    [SerializeField] TextMeshProUGUI AlienNumber_TMP;
+    [SerializeField] TextMeshProUGUI NumberOfEscapers_TMP;
+    [SerializeField] TextMeshProUGUI Team_TMP;
+    [SerializeField] TextMeshProUGUI Objective_TMP;
+    [SerializeField] TextMeshProUGUI Succeded_TMP;
+    [SerializeField] TextMeshProUGUI Seconds_TMP;
+    [SerializeField] TextMeshProUGUI Minutes_TMP;
+    [SerializeField]  Button ReturnToLobby;
+    public void CaculateTimePassedToFormatText(float timePassedInSeconds)
+    {
+        float seconds = timePassedInSeconds % 60;
+        float minutes = timePassedInSeconds / 60;
+        Seconds_TMP.text = seconds.ToString();
+        Minutes_TMP.text = minutes.ToString();
+    }
+    public void SetTexts(GameData gameData)
+    {
+        Objective_TMP.text = gameData.Objective;
+        if (gameData.Succeded)
+            Succeded_TMP.text = "Yes";
+        else
+            Succeded_TMP.text = "No";
+        Team_TMP.text = gameData.Team.ToString();
+        NumberOfEscapers_TMP.text = gameData.NumberOfEscapers.ToString();
+        AlienNumber_TMP.text = gameData.NumberOfAliens.ToString();
+        CaculateTimePassedToFormatText(gameData.TimePassedInSeconds);
+    }
     public static string ConvertToJson(GameData gameData)
     {
         string JsonString = JsonUtility.ToJson(gameData);
