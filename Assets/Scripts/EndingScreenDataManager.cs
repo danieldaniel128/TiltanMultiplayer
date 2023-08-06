@@ -29,12 +29,9 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        Debug.Log(PhotonNetwork.CurrentRoom);
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
         photonView.RPC(nameof(GatherGameData), RpcTarget.AllViaServer);
     }
-    private void GatherGameData()
+    private GameData GatherGameData()
     {
         GameData loacalGameData = new GameData();
         List<string> escapersList = PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List].ToString().Split(',').ToList();
@@ -47,7 +44,15 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
             loacalGameData.Team = CharacterEnum.Escaper;
          else
             loacalGameData.Team = CharacterEnum.Alien;
-        
+
+        if (loacalGameData.Team == CharacterEnum.Escaper)
+            loacalGameData.Objective = "Get Out Of Maze";
+        else
+            loacalGameData.Objective = "dont let escapers get out of maze";
+        loacalGameData.TimePassedInSeconds = (float)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Game_Timer];
+        //loacalGameData.Succeded = true; dont have something to tell that yet
+
+        return loacalGameData;
     }
 
     public void BackToLobby()
