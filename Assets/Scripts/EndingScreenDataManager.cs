@@ -58,8 +58,8 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
 
     public void CaculateTimePassedToFormatText(float timePassedInSeconds)
     {
-        float seconds = timePassedInSeconds % 60;
-        float minutes = timePassedInSeconds / 60;
+        float seconds = (int)timePassedInSeconds % 60;
+        float minutes = (int)timePassedInSeconds / 60;
         Seconds_TMP.text = seconds.ToString();
         Minutes_TMP.text = minutes.ToString();
     }
