@@ -26,7 +26,6 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI Minutes_TMP;
 
     [SerializeField] TextMeshProUGUI _backToLobbyTimer_TMP;
-    [SerializeField] Button ReturnToLobby;
 
 
     private void Start()

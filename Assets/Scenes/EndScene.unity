@@ -328,7 +328,8 @@ MonoBehaviour:
   Succeded_TMP: {fileID: 1271221519}
   Seconds_TMP: {fileID: 393191469}
   Minutes_TMP: {fileID: 1393873070}
-  ReturnToLobby: {fileID: 0}
+  _backToLobbyTimer_TMP: {fileID: 454480637}
+  maximumTimeInEndingScene: 10
 --- !u!114 &194409634
 MonoBehaviour:
   m_ObjectHideFlags: 0
