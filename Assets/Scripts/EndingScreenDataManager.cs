@@ -83,8 +83,8 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     {
         float seconds = timePassedInSeconds % 60;
         float minutes = timePassedInSeconds / 60;
-        Seconds_TMP.text = $"{Mathf.Ceil(seconds)}";
-        Minutes_TMP.text = $"{Mathf.Ceil(minutes)}";
+        Seconds_TMP.text = $"{Mathf.Floor(seconds)}";
+        Minutes_TMP.text = $"{Mathf.Floor(minutes)}";
     }
     public void SetTexts(GameRoomData gameData)
     {
@@ -95,6 +95,7 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
          else
             loacalPlayerData.Team = CharacterEnum.Alien;
         bool DidEscaperWon = (bool)NewOnlineGameManager.GetMyLocalPlayer().CustomProperties[Constants.Did_Escaper_Won];
+        Debug.Log(DidEscaperWon);
         if (isEscaper)
             if (DidEscaperWon)
                 Succeded_TMP.text = "Yes";
@@ -110,10 +111,7 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
         else
             loacalPlayerData.Objective = "dont let escapers get out of maze";
         Objective_TMP.text = loacalPlayerData.Objective;
-        if (loacalPlayerData.Succeded)
-            Succeded_TMP.text = "Yes";
-        else
-            Succeded_TMP.text = "No";
+        
         Team_TMP.text = loacalPlayerData.Team.ToString();
         NumberOfEscapers_TMP.text = gameData.NumberOfEscapers.ToString();
         AlienNumber_TMP.text = gameData.NumberOfAliens.ToString();

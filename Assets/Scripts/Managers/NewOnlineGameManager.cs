@@ -107,11 +107,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     #region RPCS
     
-    [PunRPC]
-    void UpdateEscaperWonToFalse()
-    {
-        escaperWon = false;
-    }
+    
 
     [PunRPC]
     void WinGame(PhotonMessageInfo info)
@@ -524,7 +520,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         if (gamePassedSeconds >= maximumEscaperTimeToRun)
         {
             isPassedMaximum = true;
-            photonView.RPC(nameof(UpdateEscaperWonToFalse), RpcTarget.All);
+            escaperWon = false;
             photonView.RPC(nameof(WinGame), RpcTarget.All);
         }
     }
