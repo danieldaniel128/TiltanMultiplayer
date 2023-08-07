@@ -24,6 +24,8 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI Succeded_TMP;
     [SerializeField] TextMeshProUGUI Seconds_TMP;
     [SerializeField] TextMeshProUGUI Minutes_TMP;
+
+    [SerializeField] TextMeshProUGUI _backToLobbyTimer_TMP;
     [SerializeField] Button ReturnToLobby;
 
 
@@ -32,7 +34,10 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
         string gameData = ConvertToJson(GatherGameData());
         photonView.RPC(nameof(DoStuff), RpcTarget.AllViaServer, gameData);
     }
-
+    private void Update()
+    {
+        GamePassedTimeTimerSeconds();
+    }
     [PunRPC]
     private void DoStuff(string gameDataJsonAsString)
     {
@@ -55,7 +60,18 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LoadLevel(0);//local on porpuse.
     }
+    float timePassedInEndingScene = 0;
+    [SerializeField] float maximumTimeInEndingScene;
 
+    private void GamePassedTimeTimerSeconds()//when master switched, to notify the timer data
+    {
+        timePassedInEndingScene += Time.deltaTime;
+        _backToLobbyTimer_TMP.text = Mathf.Ceil(timePassedInEndingScene).ToString();
+        if (timePassedInEndingScene >= maximumTimeInEndingScene)
+            if(PhotonNetwork.IsMasterClient)    
+                BackToLobby();
+        //leave room?
+    }
     public void CaculateTimePassedToFormatText(float timePassedInSeconds)
     {
         float seconds = (int)timePassedInSeconds % 60;
