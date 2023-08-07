@@ -33,6 +33,7 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         string gameData = ConvertToJson(GatherGameData());
+        PhotonNetwork.AutomaticallySyncScene = true;
         photonView.RPC(nameof(DoStuff), RpcTarget.AllViaServer, gameData);
     }
     private void Update()
