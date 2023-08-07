@@ -29,29 +29,25 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        photonView.RPC(nameof(GatherGameData), RpcTarget.AllViaServer);
+        string gameData = ConvertToJson(GatherGameData());
+        photonView.RPC(nameof(DoStuff), RpcTarget.AllViaServer, gameData);
     }
-    private GameData GatherGameData()
+
+    [PunRPC]
+    private void DoStuff(string gameDataJsonAsString)
     {
-        GameData loacalGameData = new GameData();
+        SetTexts(ReadFromJson(gameDataJsonAsString));
+    }
+    private GameRoomData GatherGameData()
+    {
+        GameRoomData loacalGameData = new GameRoomData();
         List<string> escapersList = PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List].ToString().Split(',').ToList();
         escapersList.Remove("");
         loacalGameData.NumberOfEscapers = escapersList.Count;
         List<string> aliensList = PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List].ToString().Split(',').ToList();
         aliensList.Remove("");
         loacalGameData.NumberOfAliens = aliensList.Count;
-        if ((bool)NewOnlineGameManager.GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
-            loacalGameData.Team = CharacterEnum.Escaper;
-         else
-            loacalGameData.Team = CharacterEnum.Alien;
-
-        if (loacalGameData.Team == CharacterEnum.Escaper)
-            loacalGameData.Objective = "Get Out Of Maze";
-        else
-            loacalGameData.Objective = "dont let escapers get out of maze";
         loacalGameData.TimePassedInSeconds = (float)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Game_Timer];
-        //loacalGameData.Succeded = true; dont have something to tell that yet
-
         return loacalGameData;
     }
 
@@ -67,38 +63,51 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
         Seconds_TMP.text = seconds.ToString();
         Minutes_TMP.text = minutes.ToString();
     }
-    public void SetTexts(GameData gameData)
+    public void SetTexts(GameRoomData gameData)
     {
-        Objective_TMP.text = gameData.Objective;
-        if (gameData.Succeded)
+        GamePlayerData loacalPlayerData =new GamePlayerData();
+        if ((bool)NewOnlineGameManager.GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
+            loacalPlayerData.Team = CharacterEnum.Escaper;
+         else
+            loacalPlayerData.Team = CharacterEnum.Alien;
+
+        if (loacalPlayerData.Team == CharacterEnum.Escaper)
+            loacalPlayerData.Objective = "Get Out Of Maze";
+        else
+            loacalPlayerData.Objective = "dont let escapers get out of maze";
+        Objective_TMP.text = loacalPlayerData.Objective;
+        if (loacalPlayerData.Succeded)
             Succeded_TMP.text = "Yes";
         else
             Succeded_TMP.text = "No";
-        Team_TMP.text = gameData.Team.ToString();
+        Team_TMP.text = loacalPlayerData.Team.ToString();
         NumberOfEscapers_TMP.text = gameData.NumberOfEscapers.ToString();
         AlienNumber_TMP.text = gameData.NumberOfAliens.ToString();
         CaculateTimePassedToFormatText(gameData.TimePassedInSeconds);
     }
-    public static string ConvertToJson(GameData gameData)
+    public static string ConvertToJson(GameRoomData gameData)
     {
         string JsonString = JsonUtility.ToJson(gameData);
         return JsonString;
     }
 
-    public GameData ReadFromJson(string gameDataStringFromJson)
+    public GameRoomData ReadFromJson(string gameDataStringFromJson)
     {
-        GameData gamedata = JsonUtility.FromJson<GameData>(gameDataStringFromJson);
+        GameRoomData gamedata = JsonUtility.FromJson<GameRoomData>(gameDataStringFromJson);
         return gamedata;
     }
     [System.Serializable]
-    public class GameData
+    public class GameRoomData
     {
         public int NumberOfAliens;
         public int NumberOfEscapers;
+        public float TimePassedInSeconds;
+    }
+    public class GamePlayerData
+    {
         public CharacterEnum Team;
         public string Objective;
         public bool Succeded;
-        public float TimePassedInSeconds;
     }
 
 }

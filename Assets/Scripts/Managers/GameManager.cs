@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public ObfuscateAlgoritm AntiCheat;
     public NewOnlineGameManager OnlineGameManager;
 
-    public GameData MyGameData;
+    public GameRoomData MyGameData;
 
     public delegate void WinCond();
     public WinCond winCond;
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         winCond = InvokeWinCond;
         loseCond = InvokeLoseCond;
         AntiCheat = new ObfuscateAlgoritm();
-        MyGameData = new GameData();
+        MyGameData = new GameRoomData();
     }
     private void InvokeWinCond()
     {
