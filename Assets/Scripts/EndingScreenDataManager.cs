@@ -81,10 +81,10 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     }
     public void CaculateTimePassedToFormatText(float timePassedInSeconds)
     {
-        float seconds = (int)timePassedInSeconds % 60;
-        float minutes = (int)timePassedInSeconds / 60;
-        Seconds_TMP.text = seconds.ToString();
-        Minutes_TMP.text = minutes.ToString();
+        float seconds = timePassedInSeconds % 60;
+        float minutes = timePassedInSeconds / 60;
+        Seconds_TMP.text = $"{Mathf.Ceil(seconds)}";
+        Minutes_TMP.text = $"{Mathf.Ceil(minutes)}";
     }
     public void SetTexts(GameRoomData gameData)
     {

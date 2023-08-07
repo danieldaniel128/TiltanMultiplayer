@@ -471,6 +471,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            Debug.Log("is master client?: " + PhotonNetwork.IsMasterClient);
             AlienPrefab.SetActive(true);
             Debug.Log("Do Alien Logic");
         }
