@@ -11816,6 +11816,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
+      propertyPath: maximumEscaperTimeToRun
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3158665817914713294, guid: 50eb23d264bb5f549ae61c4c269fc4b7, type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 2379130013679483446}

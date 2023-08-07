@@ -59,6 +59,7 @@ MonoBehaviour:
   - UpdateChooseEscapersTeamList
   - RemovePlayerFromATeam
   - DoStuff
+  - UpdateEscaperWonToFalse
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
