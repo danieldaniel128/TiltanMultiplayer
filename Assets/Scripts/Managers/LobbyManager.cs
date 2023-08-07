@@ -157,7 +157,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 MaxPlayers = 4,
                 EmptyRoomTtl = 0,
-                PlayerTtl = 0,
+                PlayerTtl = 60000,
                 CustomRoomProperties = hashtable,
                 CleanupCacheOnLeave = false,
 
@@ -429,7 +429,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.CurrentRoom.PlayerTtl = 60000;
+            //PhotonNetwork.CurrentRoom.PlayerTtl = 60000;
             PhotonNetwork.LoadLevel(1);
         }
     }
