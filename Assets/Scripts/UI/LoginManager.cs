@@ -33,6 +33,8 @@ public class LoginManager : MonoBehaviourPun
     }
     private void Start()
     {
+        if (string.IsNullOrEmpty(UserDetails.PlayerNickname))
+            return;
         if(PlayerNickname.Equals(UserDetails.PlayerNickname))
             gameObject.SetActive(false);
     }
