@@ -114,6 +114,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         hashtable.Add(Constants.Game_Timer, gamePassedSeconds);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         hasGameStarted = false;
+        if ((bool)GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
         firstPersonController.canControl = false;
         winText.gameObject.SetActive(true);
         CursorControllerOff();
