@@ -53,7 +53,7 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
 
     public void BackToLobby()
     {
-        SceneManager.LoadScene(0);//local on porpuse.
+        PhotonNetwork.LoadLevel(0);//local on porpuse.
     }
 
     public void CaculateTimePassedToFormatText(float timePassedInSeconds)
