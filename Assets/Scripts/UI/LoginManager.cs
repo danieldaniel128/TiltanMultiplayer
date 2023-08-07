@@ -34,7 +34,10 @@ public class LoginManager : MonoBehaviourPun
     private void Start()
     {
         if (!string.IsNullOrEmpty(UserDetails.PlayerNickname))
+        {
             gameObject.SetActive(false);
+            PhotonNetwork.LeaveRoom();
+        }
     }
     public void SignUpButtonClick()
     {
