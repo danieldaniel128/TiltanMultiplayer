@@ -140,7 +140,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-
+    RoomOptions RoomOptions;
     public void CreateRoom()
     {
         createRoomButton.interactable = false;
@@ -162,6 +162,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 CleanupCacheOnLeave = false,
 
             };
+        this.RoomOptions = roomOptions;
         PhotonNetwork.CreateRoom(roomNameInputField.text,
             roomOptions,
             null);
