@@ -89,11 +89,22 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
     public void SetTexts(GameRoomData gameData)
     {
         GamePlayerData loacalPlayerData =new GamePlayerData();
-        if ((bool)NewOnlineGameManager.GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
+        bool isEscaper = (bool)NewOnlineGameManager.GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper];
+        if (isEscaper)
             loacalPlayerData.Team = CharacterEnum.Escaper;
          else
             loacalPlayerData.Team = CharacterEnum.Alien;
-
+        bool DidEscaperWon = (bool)NewOnlineGameManager.GetMyLocalPlayer().CustomProperties[Constants.Did_Escaper_Won];
+        if (isEscaper)
+            if (DidEscaperWon)
+                Succeded_TMP.text = "Yes";
+            else
+                Succeded_TMP.text = "No";
+        else
+            if (DidEscaperWon)
+                Succeded_TMP.text = "No";
+            else
+                Succeded_TMP.text = "Yes";
         if (loacalPlayerData.Team == CharacterEnum.Escaper)
             loacalPlayerData.Objective = "Get Out Of Maze";
         else

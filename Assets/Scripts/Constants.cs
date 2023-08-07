@@ -26,5 +26,7 @@ public static class Constants
     public const string Can_Join_Alien_List = "CanJoinAlienList";
     public const string Is_Player_Escaper = "IsPlayerEscaper";
 
+    public const string Did_Escaper_Won = "DidEscaperWon";
+
     public const string Game_Timer = "GameTimer";
 }

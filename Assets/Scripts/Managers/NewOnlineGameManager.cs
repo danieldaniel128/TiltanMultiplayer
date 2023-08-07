@@ -106,16 +106,29 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region RPCS
+    
+    [PunRPC]
+    void UpdateEscaperWonToFalse()
+    {
+        escaperWon = false;
+    }
 
     [PunRPC]
     void WinGame(PhotonMessageInfo info)
     {
-        Hashtable hashtable = new Hashtable();
-        hashtable.Add(Constants.Game_Timer, gamePassedSeconds);
-        PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
+        Hashtable roomHashtable = new Hashtable();
+        roomHashtable.Add(Constants.Game_Timer, gamePassedSeconds);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomHashtable);
+        bool isPlayerEscaper = (bool)GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper];
         hasGameStarted = false;
-        if ((bool)GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
-        firstPersonController.canControl = false;
+        Hashtable playerHashtable = new Hashtable();
+        if (isPlayerEscaper)
+        {
+            firstPersonController.canControl = false;
+            playerHashtable.Add(Constants.Did_Escaper_Won, escaperWon);
+        }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(playerHashtable);
+
         winText.gameObject.SetActive(true);
         CursorControllerOff();
         
@@ -490,8 +503,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
                 {
                     Hashtable hashtable = new Hashtable();
                     hashtable.Add(Constants.MATCH_STARTED, true);
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(
-                        hashtable);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
                     photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
                 }
             }
@@ -499,11 +511,18 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     }
 
     float gamePassedSeconds = 0;
+    [SerializeField] float maximumEscaperTimeToRun = 20;
+    bool escaperWon = true;
     private void GamePassedTimeTimerSeconds()//when master switched, to notify the timer data
     {
         if(hasGameStarted)
         if (PhotonNetwork.IsMasterClient)
             gamePassedSeconds +=Time.deltaTime;
+        if (gamePassedSeconds >= maximumEscaperTimeToRun)
+        {
+            photonView.RPC(nameof(UpdateEscaperWonToFalse), RpcTarget.All);
+            photonView.RPC(nameof(WinGame), RpcTarget.All);
+        }
     }
 
     private void CursorController()
