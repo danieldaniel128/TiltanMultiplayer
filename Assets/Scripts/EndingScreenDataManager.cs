@@ -65,7 +65,8 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
 
     private void GamePassedTimeTimerSeconds()//when master switched, to notify the timer data
     {
-        if (!isPassedMaximum)
+        if (isPassedMaximum)
+            return;
         timePassedInEndingScene += Time.deltaTime;
         _backToLobbyTimer_TMP.text = Mathf.Ceil(timePassedInEndingScene).ToString();
             if (timePassedInEndingScene >= maximumTimeInEndingScene)
