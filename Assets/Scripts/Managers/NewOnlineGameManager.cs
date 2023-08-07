@@ -125,9 +125,9 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         if (isPlayerEscaper)
         {
             firstPersonController.canControl = false;
-            playerHashtable.Add(Constants.Did_Escaper_Won, escaperWon);
         }
-        PhotonNetwork.CurrentRoom.SetCustomProperties(playerHashtable);
+        playerHashtable.Add(Constants.Did_Escaper_Won, escaperWon);
+        GetMyLocalPlayer().SetCustomProperties(playerHashtable);
 
         winText.gameObject.SetActive(true);
         CursorControllerOff();
@@ -513,13 +513,17 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     float gamePassedSeconds = 0;
     [SerializeField] float maximumEscaperTimeToRun = 20;
     bool escaperWon = true;
+    bool isPassedMaximum = false;
     private void GamePassedTimeTimerSeconds()//when master switched, to notify the timer data
     {
-        if(hasGameStarted)
+        if (isPassedMaximum)
+            return;
+        if (hasGameStarted)
         if (PhotonNetwork.IsMasterClient)
             gamePassedSeconds +=Time.deltaTime;
         if (gamePassedSeconds >= maximumEscaperTimeToRun)
         {
+            isPassedMaximum = true;
             photonView.RPC(nameof(UpdateEscaperWonToFalse), RpcTarget.All);
             photonView.RPC(nameof(WinGame), RpcTarget.All);
         }
