@@ -4,9 +4,9 @@ using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 
-public class SignUpManager : MonoBehaviourPun
+public class LoginManager : MonoBehaviourPun
 {
-    public static SignUpManager Instance;
+    public static LoginManager Instance;
 
     [SerializeField] private TMP_InputField userNameInput;
     [SerializeField] private TMP_InputField passWordInput;
@@ -14,11 +14,24 @@ public class SignUpManager : MonoBehaviourPun
     [SerializeField] private GameObject loginCanvas;
     [SerializeField] private GameObject signUpCanvas;
 
-    public string PlayerNickname;
+    string _playerNickname;
+    public string PlayerNickname 
+    { 
+        get 
+        {
+            return _playerNickname; 
+        } 
+        set 
+        {
+            _playerNickname = value; UserDetails.PlayerNickname = _playerNickname; 
+        }
+    }
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
+        if(PlayerNickname.Equals(UserDetails.PlayerNickname))
+            gameObject.SetActive(false);
     }
     public void SignUpButtonClick()
     {

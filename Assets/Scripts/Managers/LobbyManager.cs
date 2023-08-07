@@ -172,7 +172,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Hashtable hashtable
            = new Hashtable();
         string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
-        AliensPlayers += "," + (SignUpManager.Instance.PlayerNickname);
+        AliensPlayers += "," + (LoginManager.Instance.PlayerNickname);
         PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = AliensPlayers;
         List<string> aliensPlayers = AliensPlayers.Split(',').ToList();
         aliensPlayers.Remove("");
@@ -198,7 +198,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Hashtable hashtable
            = new Hashtable();
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
-        EscapersPlayers += "," +(SignUpManager.Instance.PlayerNickname);
+        EscapersPlayers += "," +(LoginManager.Instance.PlayerNickname);
         PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         escapersPlayers.Remove("");
