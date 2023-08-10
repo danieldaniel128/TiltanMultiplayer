@@ -18,7 +18,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
     public static NewOnlineGameManager Instance { get; private set; }
 
-    public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject"; 
+    public const string NETWORK_PLAYER_PREFAB_NAME = "NetworkPlayerObject"; //Liors: NetworkPlayerObject
     private const string WIN_GAME_RPC = nameof(WinGame);
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string COUNTDOWN_STARTED_RPC = nameof(CountdownStarted);
@@ -149,7 +149,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     void GameStarted(PhotonMessageInfo info)
     {
         hasGameStarted = true;
-        startGameCharacterActions();
+        startGameCharacterActions(/*chosenCharacter*/);
         isCountingForStartGame = false;
         Debug.Log("Game Started!!! WHOW");
     }
@@ -375,9 +375,16 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
         return null;
     }
 
-    private void startGameCharacterActions()
+    private void startGameCharacterActions(/*Enum character*/)
     {
-        
+        //switch (character)
+        //{
+        //    case CharacterEnum.Alien:
+        //        break;
+        //    case CharacterEnum.Escaper:
+        //        firstPersonController.canControl = true;
+        //        break;
+        //}
         if ((bool)GetMyLocalPlayer().CustomProperties[Constants.Is_Player_Escaper])
         {
             firstPersonController.canControl = true;
@@ -422,6 +429,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
     private void GameInit()
     {
         Hashtable roomHashtable = new Hashtable();
+        //Hashtable playerHashTable = new Hashtable();
         string EscapersPlayers =
             (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]; //change to master only 
         Debug.Log(EscapersPlayers);
@@ -433,7 +441,7 @@ public class NewOnlineGameManager : MonoBehaviourPunCallbacks
 
 
 
-        if (escapersPlayers.FirstOrDefault(c => c.Equals(PhotonNetwork.LocalPlayer.NickName)) != null)
+        if (escapersPlayers.FirstOrDefault(c => c.Equals(PhotonNetwork.LocalPlayer.NickName)) != null) //do that only my player will be searched. if you dont, it will be easily bugs and not good
         {
             isEscaper = true;
             Debug.Log("IM Escaper");

@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             canControl = (bool)PhotonNetwork.CurrentRoom.CustomProperties[Constants.MATCH_STARTED];
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (canControl && photonView.IsMine)
@@ -29,4 +30,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
     }
+
+    //public void OnPhotonInstantiate(PhotonMessageInfo info)
+    //{
+    //    if(info.photonView.IsMine)
+    //        OnlineGameManager.Instance.SetPlayerController(this);
+    //    OnlineGameManager.Instance.AddPlayerController(this);
+    //}
 }

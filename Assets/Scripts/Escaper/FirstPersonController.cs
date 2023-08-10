@@ -43,6 +43,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
         else if (!photonView.IsMine)
             DisableCamera();
      }
+    //[PunRPC]
     private void PlayerAnimatorRPC()
     {
         ActiveCamera();
@@ -52,6 +53,7 @@ public class FirstPersonController : MonoBehaviourPunCallbacks
     private void PlayerAnimator()
     {
         PlayerAnimatorRPC();
+        //photonView.RPC(PLAYER_ANIMATOR_RPC, RpcTarget.AllViaServer);
     }
     void DisableCamera()
     {

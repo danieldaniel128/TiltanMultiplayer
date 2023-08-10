@@ -13,6 +13,11 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    //[SerializeField] private TextMeshProUGUI serverDebugTextUI;
+    //[SerializeField] private TextMeshProUGUI isConnectedToRoomDebugTextUI;
+    //[SerializeField] private TextMeshProUGUI currentRoomNameDebugTextUI;
+    //[SerializeField] private TextMeshProUGUI currentRoomPlayersCountTextUI;
+    //[SerializeField] private TMP_InputField scoreInputField;
 
     private List<RoomToJoin> roomButtonsList;
 
@@ -186,6 +191,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         hashtable.Add(Constants.Alien_List, AliensPlayers);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         photonView.RPC(Update_Alien_List, RpcTarget.All, AliensPlayers);
+        //GameManager.Instance.OnlineGameManager.SetChosenCharacter(CharacterEnum.Alien);
 
     }
     public void JoinEscapers()
@@ -246,6 +252,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //daniel wrote it, promise its not ai.
         //get the custom property of the room. the player escaper list as a long string.
         string EscapersPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List];
+        //Debug.Log(EscapersPlayers);
         //make a list of strings to use instead of a long string.
         List<string> escapersPlayers = EscapersPlayers.Split(',').ToList();
         //removing the empty string in case there is one in the list.
@@ -268,10 +275,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             //set the custom property of the room of the escapers to the new string of current escaper players
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List] = EscapersPlayers;
         }
+        //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Escapers_List]);
 
 
         //same logic of escapers for the aliens. even tho there is only one alien in a game, we did the same logic for future extention since it works the same.
         string AliensPlayers = (string)PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List];
+        //Debug.Log(AliensPlayers);
         List<string> aliensPPlayers = AliensPlayers.Split(',').ToList();
         aliensPPlayers.Remove("");
         RemovedFromAliens = aliensPPlayers.Remove(removedPlayerNickName);
@@ -286,6 +295,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List] = AliensPlayers;
         }
+        //Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties[Constants.Alien_List]);
 
         if(RemovedFromEscapers || RemovedFromAliens)
         {
@@ -419,6 +429,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            //PhotonNetwork.CurrentRoom.PlayerTtl = 60000;
             PhotonNetwork.LoadLevel(1);
         }
     }
