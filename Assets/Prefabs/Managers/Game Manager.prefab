@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4287059882278925855}
   - component: {fileID: 4287059882278925842}
   - component: {fileID: 3158665817914713294}
+  - component: {fileID: 4287059882278925841}
   - component: {fileID: 1538420669368862660}
   m_Layer: 0
   m_Name: Game Manager
@@ -69,17 +70,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasGameStarted: 0
-  winText: {fileID: 0}
   gameModeText: {fileID: 0}
   playersScoreText: {fileID: 0}
   currentSpawnPointsInfoText: {fileID: 0}
   countdownText: {fileID: 0}
   startGameButtonUI: {fileID: 0}
-  AlienCanvas: {fileID: 0}
   spawnPoints: []
   cooldownForStartGame: 3
-  AlienPrefab: {fileID: 0}
-  maximumEscaperTimeToRun: 20
+--- !u!114 &4287059882278925841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4287059882278925854}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659b6a4a8e9efa942a4126d49f1bfdf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1538420669368862660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +102,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnlineGameManager: {fileID: 3158665817914713294}
-  MyGameData:
-    NumberOfAliens: 0
-    NumberOfEscapers: 0
-    TimePassedInSeconds: 0
