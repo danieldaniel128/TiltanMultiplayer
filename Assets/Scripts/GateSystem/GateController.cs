@@ -47,7 +47,6 @@ public class GateController : MonoBehaviourPunCallbacks
         isGateOpen = true;
         gateDoor.transform.position = openedPosition.position;
         Debug.Log("gate open");
-        //photonView.RPC(Open_Gate, RpcTarget.All);
     }
     [PunRPC]
     public void LockDoorRPC(float timerDuration)
@@ -56,7 +55,6 @@ public class GateController : MonoBehaviourPunCallbacks
         _canOpen = false;
         _latestTimer = Time.time + timerDuration;
         Debug.Log("gate locked");
-        //photonView.RPC(Close_Gate, RpcTarget.All);
     }
     private void StartCoolDownTimer()
     {

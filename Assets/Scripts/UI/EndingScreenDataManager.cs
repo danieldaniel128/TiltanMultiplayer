@@ -77,7 +77,6 @@ public class EndingScreenDataManager : MonoBehaviourPunCallbacks
                     BackToLobby();
                 }       
             }
-        //leave room?
     }
     public void CaculateTimePassedToFormatText(float timePassedInSeconds)
     {

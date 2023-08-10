@@ -41,7 +41,7 @@ public class CameraButtonCatcher : MonoBehaviourPunCallbacks
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;
         mousePos = camera.ScreenToWorldPoint(mousePos);
-       // Debug.DrawRay(transform.position, mousePos - transform.position, Color.red);
+
        if (!Input.GetMouseButtonDown(0)) return;
        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
